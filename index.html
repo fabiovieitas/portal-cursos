@@ -501,7 +501,8 @@
         .video-wrapper {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 */
+            aspect-ratio: 16 / 9;
+            max-height: 56vh;
             background: #000;
         }
 
@@ -711,6 +712,20 @@
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
             padding: 24px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .curriculum-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .curriculum-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        .curriculum-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
         }
 
         .curriculum-header {

@@ -1,16 +1,6 @@
-const CACHE_NAME = 'portal-cursos-v1';
-const ASSETS = [
-    './',
-    './index.html',
-    './manifest.json',
-    './icon-192.png',
-    './icon-512.png'
-];
+const CACHE_NAME = 'portal-cursos-v2';
 
 self.addEventListener('install', (e) => {
-    e.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-    );
     self.skipWaiting();
 });
 
@@ -19,7 +9,10 @@ self.addEventListener('activate', (e) => {
         caches.keys().then((keys) => {
             return Promise.all(
                 keys.map((key) => {
-                    if (key !== CACHE_NAME) return caches.delete(key);
+                    if (key !== CACHE_NAME) {
+                        console.log('Removendo cache antigo:', key);
+                        return caches.delete(key);
+                    }
                 })
             );
         })
@@ -27,8 +20,19 @@ self.addEventListener('activate', (e) => {
     self.clients.claim();
 });
 
+// Network-First: sempre busca a versão mais recente na rede!
 self.addEventListener('fetch', (e) => {
     e.respondWith(
-        caches.match(e.request).then((res) => res || fetch(e.request))
+        fetch(e.request)
+            .then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseClone = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(e.request, responseClone);
+                    });
+                }
+                return networkResponse;
+            })
+            .catch(() => caches.match(e.request))
     );
 });

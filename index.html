@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Estudos - Espanhol, Grego & Hebraico</title>
+    <title>Portal de Estudos - Cursos ITK & Fluency</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,18 +16,20 @@
             --bg-body: #070a12;
             --bg-surface: rgba(15, 23, 42, 0.85);
             --bg-card: rgba(30, 41, 59, 0.7);
-            --bg-card-hover: rgba(51, 65, 85, 0.85);
+            --bg-card-hover: rgba(51, 65, 85, 0.9);
             --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-active: rgba(99, 102, 241, 0.6);
+            --border-active: rgba(99, 102, 241, 0.7);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent-indigo: #6366f1;
             --accent-purple: #a855f7;
             --accent-green: #10b981;
             --accent-amber: #f59e0b;
+            --accent-cyan: #06b6d4;
             --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --glow: 0 0 25px rgba(99, 102, 241, 0.35);
-            --radius-lg: 18px;
+            --glow: 0 0 25px rgba(99, 102, 241, 0.4);
+            --radius-xl: 22px;
+            --radius-lg: 16px;
             --radius-md: 12px;
             --radius-sm: 8px;
         }
@@ -38,39 +44,40 @@
         body {
             background-color: var(--bg-body);
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.12) 0%, transparent 45%);
             background-attachment: fixed;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: var(--text-main);
             min-height: 100vh;
-            padding: 24px 32px;
+            padding: 24px 36px;
             overflow-x: hidden;
         }
 
-        /* Suporte ao Controle Remoto da TV (D-Pad Focus Ring) */
-        button:focus-visible, a:focus-visible, .nav-item:focus-visible, .lesson-item:focus-visible {
-            box-shadow: 0 0 0 3px var(--accent-indigo), 0 0 20px rgba(99, 102, 241, 0.8) !important;
-            border-color: #818cf8 !important;
+        /* Foco para Controle Remoto da TV Box */
+        button:focus-visible, a:focus-visible, .course-col-card:focus-visible, .lesson-item:focus-visible {
+            box-shadow: 0 0 0 3px var(--accent-indigo), 0 0 25px rgba(99, 102, 241, 0.9) !important;
+            border-color: #a5b4fc !important;
             transform: scale(1.02);
             transition: transform 0.15s ease, box-shadow 0.15s ease;
             z-index: 10;
         }
 
-        /* Header / Brand */
+        /* Header TV */
         header.tv-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border-subtle);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .brand-container {
             display: flex;
             align-items: center;
             gap: 16px;
+            cursor: pointer;
         }
 
         .brand-logo {
@@ -86,7 +93,7 @@
         }
 
         .brand-titles h1 {
-            font-size: 1.5rem;
+            font-size: 1.55rem;
             font-weight: 800;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
@@ -100,57 +107,326 @@
             font-weight: 500;
         }
 
-        /* Course Selector Tabs */
-        .course-tabs {
+        /* Seletor de Perfil no Header */
+        .header-right {
             display: flex;
-            gap: 12px;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 6px;
-            border-radius: 16px;
-            border: 1px solid var(--border-subtle);
+            align-items: center;
+            gap: 16px;
         }
 
-        .tab-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-muted);
-            padding: 10px 22px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
+        .profile-badge {
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: all 0.2s ease;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .tab-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.05);
+        .profile-badge:hover {
+            border-color: var(--accent-indigo);
+            background: rgba(99, 102, 241, 0.15);
         }
 
-        .tab-btn.active {
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             background: var(--accent-gradient);
-            color: #fff;
-            box-shadow: var(--glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
         }
 
-        /* Grid Layout */
+        .profile-name {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profile-tag {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        /* View: Área Principal (Hub 3 Colunas) */
+        #view-hub {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .hub-welcome {
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .hub-welcome h2 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .hub-welcome p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* As 3 Colunas Principais */
+        .courses-grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+
+        @media (max-width: 1080px) {
+            .courses-grid-3col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .course-col-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .course-col-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-active);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .course-col-card.card-espanhol::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #ef4444);
+        }
+
+        .course-col-card.card-grego::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+        }
+
+        .course-col-card.card-hebraico::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+        }
+
+        .card-header-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon-badge {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .card-titles h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+        .card-titles span {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: 24px;
+            min-height: 44px;
+        }
+
+        /* Métricas internas do card */
+        .card-stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 22px;
+        }
+
+        .stat-item-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-item-col .lbl {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-item-col .val {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* Barra de Progresso no Card */
+        .card-progress-wrap {
+            margin-bottom: 24px;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .card-btn-enter {
+            width: 100%;
+            background: var(--accent-gradient);
+            border: none;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .card-btn-enter:hover {
+            filter: brightness(1.1);
+        }
+
+        /* View: Área do Curso (Cinema Player + Aulas) */
+        #view-course {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .course-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .course-active-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Grid do Player e Aulas */
         .portal-layout {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 420px;
             gap: 28px;
             align-items: start;
         }
 
-        @media (max-width: 1100px) {
+        @media (max-width: 1150px) {
             .portal-layout {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Player Cinema Area */
         .player-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-subtle);
@@ -163,7 +439,7 @@
         .video-wrapper {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            padding-top: 56.25%; /* 16:9 */
             background: #000;
         }
 
@@ -197,7 +473,7 @@
         }
 
         .player-info {
-            padding: 20px 24px;
+            padding: 22px 26px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -269,55 +545,7 @@
             color: #fbbf24;
         }
 
-        /* KPIs / Stats Bar */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-box {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-box::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--accent-gradient);
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .stat-sub {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* Curriculum & Lessons List */
+        /* Lista de Módulos e Aulas */
         .curriculum-container {
             background: var(--bg-surface);
             border: 1px solid var(--border-subtle);
@@ -339,7 +567,7 @@
         }
 
         .module-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-md);
             background: rgba(15, 23, 42, 0.5);
@@ -400,7 +628,7 @@
         }
 
         .lesson-item.active {
-            background: rgba(99, 102, 241, 0.15);
+            background: rgba(99, 102, 241, 0.18);
             border-left: 3px solid var(--accent-indigo);
         }
 
@@ -428,12 +656,14 @@
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
+            font-size: 0.8rem;
         }
 
         .lesson-item.completed .chk-box {
             background: var(--accent-green);
             border-color: var(--accent-green);
             color: #000;
+            font-weight: 800;
         }
 
         .lesson-name {
@@ -445,13 +675,6 @@
             text-overflow: ellipsis;
         }
 
-        .lesson-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 12px;
-        }
-
         .dur-pill {
             font-size: 0.76rem;
             font-weight: 600;
@@ -460,22 +683,6 @@
             padding: 3px 8px;
             border-radius: 6px;
             color: var(--text-muted);
-        }
-
-        /* PDFs & Materiais de Apoio */
-        .materials-box {
-            margin-top: 12px;
-            padding: 12px 18px;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px dashed var(--border-subtle);
-        }
-
-        .materials-box h5 {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
         .pdf-pill {
@@ -498,135 +705,366 @@
             background: rgba(255, 255, 255, 0.12);
             color: #fff;
         }
+
+        /* Modal Seletor de Perfil */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 36px 40px;
+            width: 100%;
+            max-width: 520px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-card h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .modal-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .profiles-list {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-opt-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 22px 18px;
+            width: 150px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .profile-opt-btn:hover, .profile-opt-btn.active {
+            border-color: var(--accent-indigo);
+            background: rgba(99, 102, 241, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .profile-opt-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: var(--glow);
+        }
+
+        .profile-opt-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profile-opt-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
-
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#6366f1">
-    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-    <link rel="apple-touch-icon" href="./icon-192.png">
-
 </head>
 <body>
 
-    <!-- Header com Marca e Abas de Cursos -->
+    <!-- Header Geral -->
     <header class="tv-header">
-        <div class="brand-container">
+        <div class="brand-container" id="brandBtn" tabindex="0" title="Voltar à tela inicial">
             <div class="brand-logo">🎓</div>
             <div class="brand-titles">
                 <h1>PORTAL DE ESTUDOS</h1>
-                <span>Sua Plataforma de Aprendizado na TV (Google Drive HD)</span>
+                <span>Idiomas Bíblicos & Espanhol (TV Box Google Drive HD)</span>
             </div>
         </div>
 
-        <nav class="course-tabs" id="courseTabs">
-            <button class="tab-btn active" data-course="hebraico">
-                <span>🏛️</span> Hebraico Bíblico
-            </button>
-            <button class="tab-btn" data-course="grego">
-                <span>🇬🇷</span> Grego Bíblico
-            </button>
-            <button class="tab-btn" data-course="espanhol">
-                <span>🇪🇸</span> Espanhol 2.0
-            </button>
-        </nav>
+        <div class="header-right">
+            <div class="profile-badge" id="profileBadgeBtn" tabindex="0" title="Trocar perfil de estudo">
+                <div class="profile-avatar" id="headerProfileAvatar">👨‍💻</div>
+                <div class="profile-name" id="headerProfileName">Fábio</div>
+                <span class="profile-tag">Trocar Perfil ▾</span>
+            </div>
+        </div>
     </header>
 
-    <!-- KPIs / Estatísticas Rápidas -->
-    <div class="stats-grid">
-        <div class="stat-box">
-            <div class="stat-label">⏱ Duração Total</div>
-            <div class="stat-value" id="kpiTotalTime">0h 00m</div>
-            <div class="stat-sub" id="kpiTotalLessons">0 aulas cadastradas</div>
+    <!-- TELA PRINCIPAL / HUB (3 COLUNAS) -->
+    <main id="view-hub">
+        <div class="hub-welcome">
+            <div>
+                <h2>Área Principal de Estudos</h2>
+                <p>Selecione um curso para ver as videoaulas, apostilas e continuar seu progresso</p>
+            </div>
         </div>
-        <div class="stat-box">
-            <div class="stat-label">✅ Tempo Estudado</div>
-            <div class="stat-value" id="kpiDoneTime">0m</div>
-            <div class="stat-sub" id="kpiDoneCount">0 concluídas</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-label">📊 Progresso Geral</div>
-            <div class="stat-value" id="kpiPercent">0%</div>
-            <div class="stat-sub" id="kpiModulesCount">0 módulos</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-label">🔥 Sequência de Estudo</div>
-            <div class="stat-value" id="kpiStreak">0 dias</div>
-            <div class="stat-sub">Pratique diariamente</div>
-        </div>
-    </div>
 
-    <!-- Layout Principal: Player Cinema + Lista de Aulas -->
-    <div class="portal-layout">
-        
-        <!-- Player de Vídeo em Destaque -->
-        <div>
-            <div class="player-card">
-                <div class="video-wrapper" id="videoWrapper">
-                    <div class="video-placeholder">
-                        <span class="icon">🎬</span>
-                        <h3>Selecione uma aula para assistir</h3>
-                        <p>Navegue na lista ao lado ou clique em uma das aulas abaixo</p>
-                    </div>
-                </div>
-
-                <div class="player-info" id="playerInfo" style="display: none;">
-                    <div class="player-top">
-                        <div class="lesson-info-box">
-                            <h2 id="currentLessonTitle">Nome da Aula</h2>
-                            <p id="currentModuleTitle">Módulo / Unidade</p>
+        <!-- As 3 Colunas dos Cursos -->
+        <div class="courses-grid-3col">
+            
+            <!-- Coluna 1: Espanhol 2.0 -->
+            <div class="course-col-card card-espanhol" tabindex="0" data-course-key="espanhol">
+                <div>
+                    <div class="card-header-box">
+                        <div class="card-icon-badge">🇪🇸</div>
+                        <div class="card-titles">
+                            <h3>Espanhol 2.0</h3>
+                            <span>Fluency Academy</span>
                         </div>
-                        <span class="dur-pill" id="currentLessonDuration">00m 00s</span>
+                    </div>
+                    <p class="card-desc">Curso completo de espanhol: Ondas 01, práticas de fala, minicursos de pronúncia e memorização acelerada.</p>
+                    
+                    <div class="card-stats-row">
+                        <div class="stat-item-col">
+                            <span class="lbl">Duração</span>
+                            <span class="val" id="hubDur-espanhol">~42h</span>
+                        </div>
+                        <div class="stat-item-col">
+                            <span class="lbl">Total Aulas</span>
+                            <span class="val">108</span>
+                        </div>
                     </div>
 
-                    <div class="player-actions">
-                        <button class="btn-action btn-complete" id="btnToggleDone">
-                            <span>✔</span> Marcar como Concluída
-                        </button>
-                        <button class="btn-action" id="btnPrevLesson">
-                            <span>◀</span> Anterior
-                        </button>
-                        <button class="btn-action" id="btnNextLesson">
-                            Próxima <span>▶</span>
-                        </button>
-                        <a href="#" class="btn-action btn-vlc" id="btnExternalPlayer" target="_blank" title="Abrir no VLC ou player nativo">
-                            <span>🚀</span> Abrir em Player Externo
-                        </a>
+                    <div class="card-progress-wrap">
+                        <div class="progress-labels">
+                            <span style="color: var(--text-muted);">Progresso</span>
+                            <span id="hubPctText-espanhol">0% (0/108)</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar-fill" id="hubBar-espanhol" style="width: 0%; background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+                        </div>
                     </div>
+                </div>
+
+                <button class="card-btn-enter" tabindex="-1">
+                    <span>▶</span> Acessar Curso de Espanhol
+                </button>
+            </div>
+
+            <!-- Coluna 2: Grego Bíblico -->
+            <div class="course-col-card card-grego" tabindex="0" data-course-key="grego">
+                <div>
+                    <div class="card-header-box">
+                        <div class="card-icon-badge">🇬🇷</div>
+                        <div class="card-titles">
+                            <h3>Grego Bíblico</h3>
+                            <span>KOINONIA - ITK</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Formação completa do Grego Koiné do Novo Testamento: 15 meses do básico ao período composto e exegese.</p>
+                    
+                    <div class="card-stats-row">
+                        <div class="stat-item-col">
+                            <span class="lbl">Duração</span>
+                            <span class="val" id="hubDur-grego">~11h 30m</span>
+                        </div>
+                        <div class="stat-item-col">
+                            <span class="lbl">Total Aulas</span>
+                            <span class="val">30</span>
+                        </div>
+                    </div>
+
+                    <div class="card-progress-wrap">
+                        <div class="progress-labels">
+                            <span style="color: var(--text-muted);">Progresso</span>
+                            <span id="hubPctText-grego">0% (0/30)</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar-fill" id="hubBar-grego" style="width: 0%; background: linear-gradient(90deg, #06b6d4, #3b82f6);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="card-btn-enter" tabindex="-1">
+                    <span>▶</span> Acessar Curso de Grego
+                </button>
+            </div>
+
+            <!-- Coluna 3: Hebraico Bíblico -->
+            <div class="course-col-card card-hebraico" tabindex="0" data-course-key="hebraico">
+                <div>
+                    <div class="card-header-box">
+                        <div class="card-icon-badge">🏛️</div>
+                        <div class="card-titles">
+                            <h3>Hebraico Bíblico</h3>
+                            <span>KOINONIA - ITK</span>
+                        </div>
+                    </div>
+                    <p class="card-desc">Formação completa do Hebraico do Antigo Testamento: Alef-Bet, massoréticos, morfologia verbal e vocabulário.</p>
+                    
+                    <div class="card-stats-row">
+                        <div class="stat-item-col">
+                            <span class="lbl">Duração</span>
+                            <span class="val" id="hubDur-hebraico">~8h 40m</span>
+                        </div>
+                        <div class="stat-item-col">
+                            <span class="lbl">Total Aulas</span>
+                            <span class="val">13</span>
+                        </div>
+                    </div>
+
+                    <div class="card-progress-wrap">
+                        <div class="progress-labels">
+                            <span style="color: var(--text-muted);">Progresso</span>
+                            <span id="hubPctText-hebraico">0% (0/13)</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar-fill" id="hubBar-hebraico" style="width: 0%; background: linear-gradient(90deg, #8b5cf6, #ec4899);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="card-btn-enter" tabindex="-1">
+                    <span>▶</span> Acessar Curso de Hebraico
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- TELA DO CURSO (PLAYER CINEMA + LISTA DE AULAS) -->
+    <main id="view-course">
+        <div class="course-toolbar">
+            <button class="btn-back" id="btnBackToHub" tabindex="0">
+                <span>◀</span> Voltar aos Cursos (Início)
+            </button>
+            <div class="course-active-title" id="courseActiveHeaderTitle">
+                <span>🏛️</span> Hebraico Bíblico
+            </div>
+            <div class="module-badge" id="courseHeaderProgress">0/0 Aulas Concluídas</div>
+        </div>
+
+        <div class="portal-layout">
+            <!-- Player Cinema -->
+            <div>
+                <div class="player-card">
+                    <div class="video-wrapper" id="videoWrapper">
+                        <div class="video-placeholder">
+                            <span class="icon">🎬</span>
+                            <h3>Selecione uma aula na lista</h3>
+                        </div>
+                    </div>
+
+                    <div class="player-info" id="playerInfo" style="display: none;">
+                        <div class="player-top">
+                            <div class="lesson-info-box">
+                                <h2 id="currentLessonTitle">Nome da Aula</h2>
+                                <p id="currentModuleTitle">Módulo / Unidade</p>
+                            </div>
+                            <span class="dur-pill" id="currentLessonDuration">00m 00s</span>
+                        </div>
+
+                        <div class="player-actions">
+                            <button class="btn-action btn-complete" id="btnToggleDone" tabindex="0">
+                                <span>✔</span> Marcar como Concluída
+                            </button>
+                            <button class="btn-action" id="btnPrevLesson" tabindex="0">
+                                <span>◀</span> Anterior
+                            </button>
+                            <button class="btn-action" id="btnNextLesson" tabindex="0">
+                                Próxima <span>▶</span>
+                            </button>
+                            <a href="#" class="btn-action btn-vlc" id="btnExternalPlayer" target="_blank" tabindex="0" title="Abrir no VLC ou player nativo">
+                                <span>🚀</span> Abrir no VLC da TV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materiais de Apoio do Módulo -->
+                <div class="curriculum-container" id="currentMaterialsBox" style="display: none; margin-bottom: 24px;">
+                    <div class="curriculum-header">
+                        <h3>📑 Materiais de Apoio & Apostilas do Módulo</h3>
+                    </div>
+                    <div id="materialsList"></div>
                 </div>
             </div>
 
-            <!-- PDFs do Módulo Selecionado -->
-            <div class="curriculum-container" id="currentMaterialsBox" style="display: none; margin-bottom: 24px;">
+            <!-- Grade de Módulos e Aulas -->
+            <div class="curriculum-container">
                 <div class="curriculum-header">
-                    <h3>📑 Materiais de Apoio & Apostilas do Módulo</h3>
+                    <h3 id="curriculumCourseTitle">Grade do Curso</h3>
+                    <span class="module-badge" id="curriculumProgressBadge">0/0</span>
                 </div>
-                <div id="materialsList"></div>
+                <div id="modulesContainer"></div>
             </div>
         </div>
+    </main>
 
-        <!-- Grade de Aulas e Módulos -->
-        <div class="curriculum-container">
-            <div class="curriculum-header">
-                <h3 id="curriculumCourseTitle">Grade do Curso</h3>
-                <span class="module-badge" id="curriculumProgressBadge">0/0</span>
+    <!-- Modal Seletor de Perfil -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card">
+            <h3>Quem está estudando?</h3>
+            <p>Selecione seu perfil para manter seu progresso e histórico separados</p>
+            
+            <div class="profiles-list">
+                <button class="profile-opt-btn active" data-profile="fabio" tabindex="0">
+                    <div class="profile-opt-avatar">👨‍💻</div>
+                    <div class="profile-opt-name">Fábio</div>
+                    <span class="profile-opt-sub">Todos os Cursos</span>
+                </button>
+
+                <button class="profile-opt-btn" data-profile="pais" tabindex="0">
+                    <div class="profile-opt-avatar">🏡</div>
+                    <div class="profile-opt-name">Pais / Família</div>
+                    <span class="profile-opt-sub">Área Espanhol</span>
+                </button>
             </div>
 
-            <div id="modulesContainer">
-                <!-- Inserido dinamicamente via JS -->
-            </div>
+            <button class="btn-action" id="btnCloseProfileModal" tabindex="0" style="margin-top: 10px;">
+                Fechar
+            </button>
         </div>
-
     </div>
 
     <script>
         const COURSES_DATA = {"espanhol": {"course_name": "Espanhol 2.0", "total_seconds": 151799.9, "total_videos": 108, "total_pdfs": 0, "modules": [{"name": "1 - Unidad 01 Parte 1", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\1 - Unidad 01 Parte 1", "total_seconds": 6766.844, "lessons": [{"key": "1 - Unidad 01 Parte 1::2 - Clase de Apertura", "name": "2 - Clase de Apertura", "dur_str": "01m 52s", "duration": 112.213, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\2 - Clase de Apertura.mp4", "filename": "2 - Clase de Apertura.mp4", "cloud_id": "1TtYVUg7Bb49NvLpqryrGbVt3d4zALvJW"}, {"key": "1 - Unidad 01 Parte 1::3 - #01 Minicurso de pronunciación", "name": "3 - #01 Minicurso de pronunciación", "dur_str": "08m 49s", "duration": 529.322, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\3 - #01 Minicurso de pronunciación.mp4", "filename": "3 - #01 Minicurso de pronunciación.mp4", "cloud_id": "1wGQvCAeeU8rEdsJKls1zcTMQKLtVzTsT"}, {"key": "1 - Unidad 01 Parte 1::4 - Memorization Hack - Cadastro", "name": "4 - Memorization Hack - Cadastro", "dur_str": "05m 17s", "duration": 316.949, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\4 - Memorization Hack - Cadastro.mp4", "filename": "4 - Memorization Hack - Cadastro.mp4", "cloud_id": "1zOIpDThs0APfByKbutDkiaIhYfocu9mx"}, {"key": "1 - Unidad 01 Parte 1::5 - #01  Clase de Diálogo", "name": "5 - #01  Clase de Diálogo", "dur_str": "42m 05s", "duration": 2524.672, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\5 - #01  Clase de Diálogo.mp4", "filename": "5 - #01  Clase de Diálogo.mp4", "cloud_id": "1EAJW-7a7ae150P0qn1Ck7dG8eaKKDNfq"}, {"key": "1 - Unidad 01 Parte 1::6 - #02 Minicurso de pronunciación", "name": "6 - #02 Minicurso de pronunciación", "dur_str": "04m 51s", "duration": 291.008, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\6 - #02 Minicurso de pronunciación.mp4", "filename": "6 - #02 Minicurso de pronunciación.mp4", "cloud_id": "1xoIv1MnK3PNg-MhKepXDg1togYOf5qHc"}, {"key": "1 - Unidad 01 Parte 1::7 - #01  Gramática Sencilla 1", "name": "7 - #01  Gramática Sencilla 1", "dur_str": "30m 09s", "duration": 1809.28, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\7 - #01  Gramática Sencilla 1.mp4", "filename": "7 - #01  Gramática Sencilla 1.mp4", "cloud_id": "1Q1nKT43ux4TkvExfVMaVlwnfOaQ6ZWap"}, {"key": "1 - Unidad 01 Parte 1::8 - #03 Minicurso de pronunciación", "name": "8 - #03 Minicurso de pronunciación", "dur_str": "06m 25s", "duration": 384.618, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\8 - #03 Minicurso de pronunciación.mp4", "filename": "8 - #03 Minicurso de pronunciación.mp4", "cloud_id": "1h-DwgG_9PnMImPAQcDZo77Y31misb53y"}, {"key": "1 - Unidad 01 Parte 1::9 - #01  ¡Habla, Nativo", "name": "9 - #01  ¡Habla, Nativo", "dur_str": "02m 24s", "duration": 143.658, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\9 - #01  ¡Habla, Nativo.mp4", "filename": "9 - #01  ¡Habla, Nativo.mp4", "cloud_id": "13DQnvfKaF1WYcee_VCbVMF180iLYsGZE"}, {"key": "1 - Unidad 01 Parte 1::10 - #04 Minicurso de pronunciación", "name": "10 - #04 Minicurso de pronunciación", "dur_str": "04m 51s", "duration": 290.794, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\10 - #04 Minicurso de pronunciación.mp4", "filename": "10 - #04 Minicurso de pronunciación.mp4", "cloud_id": "1fvOUg-4p44-nPsXHybKqywQorQtgzZUv"}, {"key": "1 - Unidad 01 Parte 1::11 - #05 Minicurso de pronunciación", "name": "11 - #05 Minicurso de pronunciación", "dur_str": "06m 04s", "duration": 364.33, "rel_path": "Onda 01\\1 - Unidad 01 Parte 1\\11 - #05 Minicurso de pronunciación.mp4", "filename": "11 - #05 Minicurso de pronunciación.mp4", "cloud_id": "1OveWQ80MAGs2zHbJJdeVjVw_2BZRpF-_"}]}, {"name": "2 - Unidad 01 Parte 2", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\2 - Unidad 01 Parte 2", "total_seconds": 5524.584999999999, "lessons": [{"key": "2 - Unidad 01 Parte 2::2 - #01  Gramática Sencilla 2", "name": "2 - #01  Gramática Sencilla 2", "dur_str": "27m 16s", "duration": 1636.437, "rel_path": "Onda 01\\2 - Unidad 01 Parte 2\\2 - #01  Gramática Sencilla 2.mp4", "filename": "2 - #01  Gramática Sencilla 2.mp4", "cloud_id": "1VNqFi3WTdTkTEo10L-QKsX-tFysSeJhS"}, {"key": "2 - Unidad 01 Parte 2::3 - #01  Maestro de la Conjugación", "name": "3 - #01  Maestro de la Conjugación", "dur_str": "43m 04s", "duration": 2584.042, "rel_path": "Onda 01\\2 - Unidad 01 Parte 2\\3 - #01  Maestro de la Conjugación.mp4", "filename": "3 - #01  Maestro de la Conjugación.mp4", "cloud_id": "1eFt8Pv6blMtI3ets68NlS5M7Kxj7RcpR"}, {"key": "2 - Unidad 01 Parte 2::4 - #01  Pronúncialo Bien", "name": "4 - #01  Pronúncialo Bien", "dur_str": "21m 44s", "duration": 1304.106, "rel_path": "Onda 01\\2 - Unidad 01 Parte 2\\4 - #01  Pronúncialo Bien.mp4", "filename": "4 - #01  Pronúncialo Bien.mp4", "cloud_id": "1VCayyAD4U5PdusTCxu2GrV2uNKg0UXbs"}]}, {"name": "3 - Unidad 02", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\3 - Unidad 02", "total_seconds": 12637.587000000001, "lessons": [{"key": "3 - Unidad 02::2 - Clase de Apertura", "name": "2 - Clase de Apertura", "dur_str": "01m 52s", "duration": 111.68, "rel_path": "Onda 01\\3 - Unidad 02\\2 - Clase de Apertura.mp4", "filename": "2 - Clase de Apertura.mp4", "cloud_id": "1TtYVUg7Bb49NvLpqryrGbVt3d4zALvJW"}, {"key": "3 - Unidad 02::3 - #02  Clases de Diálogo", "name": "3 - #02  Clases de Diálogo", "dur_str": "37m 45s", "duration": 2265.045, "rel_path": "Onda 01\\3 - Unidad 02\\3 - #02  Clases de Diálogo.mp4", "filename": "3 - #02  Clases de Diálogo.mp4", "cloud_id": "1qJAUhGhVS4fMcJ7TFMOJlJMGTBYD96mZ"}, {"key": "3 - Unidad 02::4 - #02  Gramática Sencilla 1", "name": "4 - #02  Gramática Sencilla 1", "dur_str": "41m 27s", "duration": 2486.869, "rel_path": "Onda 01\\3 - Unidad 02\\4 - #02  Gramática Sencilla 1.mp4", "filename": "4 - #02  Gramática Sencilla 1.mp4", "cloud_id": "1ULBkotyuDYhVkc3vmPHrpPB8OeAmyFKO"}, {"key": "3 - Unidad 02::5 - #02  Gramática Sencilla 2", "name": "5 - #02  Gramática Sencilla 2", "dur_str": "56m 13s", "duration": 3373.184, "rel_path": "Onda 01\\3 - Unidad 02\\5 - #02  Gramática Sencilla 2.mp4", "filename": "5 - #02  Gramática Sencilla 2.mp4", "cloud_id": "1Snf50Bdw85tAXoFGuitfnlAbTKO0i1-Q"}, {"key": "3 - Unidad 02::6 - #02  ¡Habla, Nativo", "name": "6 - #02  ¡Habla, Nativo", "dur_str": "02m 35s", "duration": 154.794, "rel_path": "Onda 01\\3 - Unidad 02\\6 - #02  ¡Habla, Nativo.mp4", "filename": "6 - #02  ¡Habla, Nativo.mp4", "cloud_id": "1qVEGiw8eDmyr84F9bM0TdZtMVUgxevGq"}, {"key": "3 - Unidad 02::7 - #02  Maestro de la Conjugación", "name": "7 - #02  Maestro de la Conjugación", "dur_str": "39m 42s", "duration": 2382.378, "rel_path": "Onda 01\\3 - Unidad 02\\7 - #02  Maestro de la Conjugación.mp4", "filename": "7 - #02  Maestro de la Conjugación.mp4", "cloud_id": "1HZSPWPilA3hu6mY2-rEjTvYYqRumdatz"}, {"key": "3 - Unidad 02::8 - #02  Pronúncialo Bien", "name": "8 - #02  Pronúncialo Bien", "dur_str": "31m 04s", "duration": 1863.637, "rel_path": "Onda 01\\3 - Unidad 02\\8 - #02  Pronúncialo Bien.mp4", "filename": "8 - #02  Pronúncialo Bien.mp4", "cloud_id": "1UtggUz8RoiMUNxigYC2OW-3u04b_8rYc"}]}, {"name": "4 - Unidad 03", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\4 - Unidad 03", "total_seconds": 12366.791333000001, "lessons": [{"key": "4 - Unidad 03::2 - Clase de Apertura", "name": "2 - Clase de Apertura", "dur_str": "01m 00s", "duration": 60.48, "rel_path": "Onda 01\\4 - Unidad 03\\2 - Clase de Apertura.mp4", "filename": "2 - Clase de Apertura.mp4", "cloud_id": "1TtYVUg7Bb49NvLpqryrGbVt3d4zALvJW"}, {"key": "4 - Unidad 03::3 - #03  Clases de Diálogo", "name": "3 - #03  Clases de Diálogo", "dur_str": "38m 43s", "duration": 2322.633333, "rel_path": "Onda 01\\4 - Unidad 03\\3 - #03  Clases de Diálogo.mp4", "filename": "3 - #03  Clases de Diálogo.mp4", "cloud_id": "1sENoSja0ahTqDZqk9d_2D8A13KKic999"}, {"key": "4 - Unidad 03::4 - #03  Gramática Sencilla 1", "name": "4 - #03  Gramática Sencilla 1", "dur_str": "48m 30s", "duration": 2910.272, "rel_path": "Onda 01\\4 - Unidad 03\\4 - #03  Gramática Sencilla 1.mp4", "filename": "4 - #03  Gramática Sencilla 1.mp4", "cloud_id": "1BCjJVcXtGbu4gVpJiOIZsFFZadc5nIF_"}, {"key": "4 - Unidad 03::5 - #03  Gramática Sencilla 2", "name": "5 - #03  Gramática Sencilla 2", "dur_str": "39m 52s", "duration": 2392.149, "rel_path": "Onda 01\\4 - Unidad 03\\5 - #03  Gramática Sencilla 2.mp4", "filename": "5 - #03  Gramática Sencilla 2.mp4", "cloud_id": "1bErvbRfZmUR9vsb_zqXBMI1zbvjuRqJ3"}, {"key": "4 - Unidad 03::6 - #03  ¡Habla, Nativo", "name": "6 - #03  ¡Habla, Nativo", "dur_str": "02m 57s", "duration": 177.045, "rel_path": "Onda 01\\4 - Unidad 03\\6 - #03  ¡Habla, Nativo.mp4", "filename": "6 - #03  ¡Habla, Nativo.mp4", "cloud_id": "12sxV1PLYFtQMTH1OJC1h6kvyCItSAXaI"}, {"key": "4 - Unidad 03::7 - #03  Maestro de la Conjugación", "name": "7 - #03  Maestro de la Conjugación", "dur_str": "43m 06s", "duration": 2585.77, "rel_path": "Onda 01\\4 - Unidad 03\\7 - #03  Maestro de la Conjugación.mp4", "filename": "7 - #03  Maestro de la Conjugación.mp4", "cloud_id": "1eVAX5t3HSjzWa-ezvh8n1E-HlBtAafWq"}, {"key": "4 - Unidad 03::8 - #03  Pronúncialo Bien", "name": "8 - #03  Pronúncialo Bien", "dur_str": "31m 58s", "duration": 1918.442, "rel_path": "Onda 01\\4 - Unidad 03\\8 - #03  Pronúncialo Bien.mp4", "filename": "8 - #03  Pronúncialo Bien.mp4", "cloud_id": "1PSMsZSweZ1xLDOHAIZypis09ESUDjoGi"}]}, {"name": "5 - Unidad 04", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\5 - Unidad 04", "total_seconds": 14699.262, "lessons": [{"key": "5 - Unidad 04::2 - Clase de Apertura", "name": "2 - Clase de Apertura", "dur_str": "01m 21s", "duration": 81.088, "rel_path": "Onda 01\\5 - Unidad 04\\2 - Clase de Apertura.mp4", "filename": "2 - Clase de Apertura.mp4", "cloud_id": "1TtYVUg7Bb49NvLpqryrGbVt3d4zALvJW"}, {"key": "5 - Unidad 04::3 - #04  Clases de Diálogo", "name": "3 - #04  Clases de Diálogo", "dur_str": "31m 29s", "duration": 1889.152, "rel_path": "Onda 01\\5 - Unidad 04\\3 - #04  Clases de Diálogo.mp4", "filename": "3 - #04  Clases de Diálogo.mp4", "cloud_id": "1F6MJzdeY_gRoBGKMG-iBMBh7Hqog-o_N"}, {"key": "5 - Unidad 04::4 - #04  Gramática Sencilla 1A", "name": "4 - #04  Gramática Sencilla 1A", "dur_str": "36m 13s", "duration": 2173.482, "rel_path": "Onda 01\\5 - Unidad 04\\4 - #04  Gramática Sencilla 1A.mp4", "filename": "4 - #04  Gramática Sencilla 1A.mp4", "cloud_id": "141vQKIF7NVHXi0QOO0RDAe8R8zLrFeST"}, {"key": "5 - Unidad 04::5 - #04  Gramática Sencilla 1B", "name": "5 - #04  Gramática Sencilla 1B", "dur_str": "34m 37s", "duration": 2077.034, "rel_path": "Onda 01\\5 - Unidad 04\\5 - #04  Gramática Sencilla 1B.mp4", "filename": "5 - #04  Gramática Sencilla 1B.mp4", "cloud_id": "15MFi5W-T19zqIIBOySTxOziNCFC8u3_d"}, {"key": "5 - Unidad 04::6 - #04  Gramática Sencilla 2A", "name": "6 - #04  Gramática Sencilla 2A", "dur_str": "31m 44s", "duration": 1903.68, "rel_path": "Onda 01\\5 - Unidad 04\\6 - #04  Gramática Sencilla 2A.mp4", "filename": "6 - #04  Gramática Sencilla 2A.mp4", "cloud_id": "1mEFQiOZ1FpNWXLIkJn9ipHifA2BUWoqv"}, {"key": "5 - Unidad 04::7 - #04  Gramática Sencilla 2B", "name": "7 - #04  Gramática Sencilla 2B", "dur_str": "32m 16s", "duration": 1935.68, "rel_path": "Onda 01\\5 - Unidad 04\\7 - #04  Gramática Sencilla 2B.mp4", "filename": "7 - #04  Gramática Sencilla 2B.mp4", "cloud_id": "1vh0zLcZbXFkz4GrUeWIqsmHRZlO_TerC"}, {"key": "5 - Unidad 04::8 - #04  ¡Habla, Nativo", "name": "8 - #04  ¡Habla, Nativo", "dur_str": "02m 32s", "duration": 151.957, "rel_path": "Onda 01\\5 - Unidad 04\\8 - #04  ¡Habla, Nativo.mp4", "filename": "8 - #04  ¡Habla, Nativo.mp4", "cloud_id": "1yp9E81haIWKSoMz1htuuQOad8K0F2yk6"}, {"key": "5 - Unidad 04::9 - #04  Maestro de la Conjugación", "name": "9 - #04  Maestro de la Conjugación", "dur_str": "38m 59s", "duration": 2339.413, "rel_path": "Onda 01\\5 - Unidad 04\\9 - #04  Maestro de la Conjugación.mp4", "filename": "9 - #04  Maestro de la Conjugación.mp4", "cloud_id": "1R7kOAElhTGmGeuNcMd5QcfyEypXnmUym"}, {"key": "5 - Unidad 04::10 - #04  Pronúncialo Bien", "name": "10 - #04  Pronúncialo Bien", "dur_str": "35m 48s", "duration": 2147.776, "rel_path": "Onda 01\\5 - Unidad 04\\10 - #04  Pronúncialo Bien.mp4", "filename": "10 - #04  Pronúncialo Bien.mp4", "cloud_id": "1omMzBmX_DpLPE4AjIhDeAAX_ZUpSy6wY"}]}, {"name": "6 - Unidad 05", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\6 - Unidad 05", "total_seconds": 13715.73, "lessons": [{"key": "6 - Unidad 05::2 - Clase de Apertura", "name": "2 - Clase de Apertura", "dur_str": "01m 29s", "duration": 89.258, "rel_path": "Onda 01\\6 - Unidad 05\\2 - Clase de Apertura.mp4", "filename": "2 - Clase de Apertura.mp4", "cloud_id": "1TtYVUg7Bb49NvLpqryrGbVt3d4zALvJW"}, {"key": "6 - Unidad 05::3 - #05  Clases de Diálogo", "name": "3 - #05  Clases de Diálogo", "dur_str": "40m 23s", "duration": 2423.04, "rel_path": "Onda 01\\6 - Unidad 05\\3 - #05  Clases de Diálogo.mp4", "filename": "3 - #05  Clases de Diálogo.mp4", "cloud_id": "1UI2Ym25SttzEol22ZBpgAHOlghPVnqK5"}, {"key": "6 - Unidad 05::4 - #05  Gramática Sencilla 1A", "name": "4 - #05  Gramática Sencilla 1A", "dur_str": "39m 51s", "duration": 2391.445, "rel_path": "Onda 01\\6 - Unidad 05\\4 - #05  Gramática Sencilla 1A.mp4", "filename": "4 - #05  Gramática Sencilla 1A.mp4", "cloud_id": "1jcunlXcEjrR0lTirjJWrHoomN0wFFgyJ"}, {"key": "6 - Unidad 05::5 - #05  Gramática Sencilla 1B", "name": "5 - #05  Gramática Sencilla 1B", "dur_str": "15m 57s", "duration": 957.077, "rel_path": "Onda 01\\6 - Unidad 05\\5 - #05  Gramática Sencilla 1B.mp4", "filename": "5 - #05  Gramática Sencilla 1B.mp4", "cloud_id": "1B4GJZS6ApSde2Q2a67a6nmMKcWC1h6Qe"}, {"key": "6 - Unidad 05::6 - #05  Gramática Sencilla 2A", "name": "6 - #05  Gramática Sencilla 2A", "dur_str": "34m 17s", "duration": 2056.682, "rel_path": "Onda 01\\6 - Unidad 05\\6 - #05  Gramática Sencilla 2A.mp4", "filename": "6 - #05  Gramática Sencilla 2A.mp4", "cloud_id": "1lIgy5bBcoq81vMoqcQZ-oEOqeAcPba14"}, {"key": "6 - Unidad 05::7 - #05  Gramática Sencilla 2B", "name": "7 - #05  Gramática Sencilla 2B", "dur_str": "19m 02s", "duration": 1142.144, "rel_path": "Onda 01\\6 - Unidad 05\\7 - #05  Gramática Sencilla 2B.mp4", "filename": "7 - #05  Gramática Sencilla 2B.mp4", "cloud_id": "1sMwyDgccJAiPcbQza4T8ptATouAWe21-"}, {"key": "6 - Unidad 05::8 - #05  ¡Habla, Nativo", "name": "8 - #05  ¡Habla, Nativo", "dur_str": "02m 37s", "duration": 156.757, "rel_path": "Onda 01\\6 - Unidad 05\\8 - #05  ¡Habla, Nativo.mp4", "filename": "8 - #05  ¡Habla, Nativo.mp4", "cloud_id": "1fT6Zc4OlL_eUiZeHC8uZv-772RE0H3oH"}, {"key": "6 - Unidad 05::9 - #05  Maestro de la Conjugación", "name": "9 - #05  Maestro de la Conjugación", "dur_str": "40m 01s", "duration": 2400.981, "rel_path": "Onda 01\\6 - Unidad 05\\9 - #05  Maestro de la Conjugación.mp4", "filename": "9 - #05  Maestro de la Conjugación.mp4", "cloud_id": "1eeg-fozZh_jl1xS0Joz72SSPzPIeBfMB"}, {"key": "6 - Unidad 05::10 - #05  Pronúncialo Bien", "name": "10 - #05  Pronúncialo Bien", "dur_str": "34m 58s", "duration": 2098.346, "rel_path": "Onda 01\\6 - Unidad 05\\10 - #05  Pronúncialo Bien.mp4", "filename": "10 - #05  Pronúncialo Bien.mp4", "cloud_id": "15vvYVoImAeZCqDgEqBx5tFGId_rw13zu"}]}, {"name": "7 - Clases de Repaso #01", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\7 - Clases de Repaso #01", "total_seconds": 4011.924, "lessons": [{"key": "7 - Clases de Repaso #01::2 - #01  Repaso Clase 1", "name": "2 - #01  Repaso Clase 1", "dur_str": "24m 57s", "duration": 1496.938, "rel_path": "Onda 01\\7 - Clases de Repaso #01\\2 - #01  Repaso Clase 1.mp4", "filename": "2 - #01  Repaso Clase 1.mp4", "cloud_id": "1_v-qAdho7rOYKv86Yr2-fLS5GpJqwHxc"}, {"key": "7 - Clases de Repaso #01::4 - #01  Repaso Clase 2", "name": "4 - #01  Repaso Clase 2", "dur_str": "22m 00s", "duration": 1320.213, "rel_path": "Onda 01\\7 - Clases de Repaso #01\\4 - #01  Repaso Clase 2.mp4", "filename": "4 - #01  Repaso Clase 2.mp4", "cloud_id": "1NuMqqLJ9RSFH12JPMckak6MWyX1QzWIh"}, {"key": "7 - Clases de Repaso #01::6 - #01  Repaso Clase 3", "name": "6 - #01  Repaso Clase 3", "dur_str": "19m 55s", "duration": 1194.773, "rel_path": "Onda 01\\7 - Clases de Repaso #01\\6 - #01  Repaso Clase 3.mp4", "filename": "6 - #01  Repaso Clase 3.mp4", "cloud_id": "1DN0BfBe7piBoFw7BVpjB_dlvOFPGyC7n"}]}, {"name": "8 - Unidad 06", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\8 - Unidad 06", "total_seconds": 12240.551, "lessons": [{"key": "8 - Unidad 06::2 - #06  Clase de Apertura", "name": "2 - #06  Clase de Apertura", "dur_str": "01m 36s", "duration": 96.0, "rel_path": "Onda 01\\8 - Unidad 06\\2 - #06  Clase de Apertura.mp4", "filename": "2 - #06  Clase de Apertura.mp4", "cloud_id": "1wpTru3lPz2XrmOhU5CRgnMivqCnbcris"}, {"key": "8 - Unidad 06::3 - #06  Clases de Diálogo", "name": "3 - #06  Clases de Diálogo", "dur_str": "24m 17s", "duration": 1456.938, "rel_path": "Onda 01\\8 - Unidad 06\\3 - #06  Clases de Diálogo.mp4", "filename": "3 - #06  Clases de Diálogo.mp4", "cloud_id": "1aEsLmiB8LkpWsMiLEUedH98Wo2whG94s"}, {"key": "8 - Unidad 06::4 - #06  Gramática Sencilla 1A", "name": "4 - #06  Gramática Sencilla 1A", "dur_str": "25m 32s", "duration": 1531.648, "rel_path": "Onda 01\\8 - Unidad 06\\4 - #06  Gramática Sencilla 1A.mp4", "filename": "4 - #06  Gramática Sencilla 1A.mp4", "cloud_id": "1yJMDrdVcyEr8zFqXPeAeyFCoPXRAuj-c"}, {"key": "8 - Unidad 06::5 - #06  Gramática Sencilla 1B", "name": "5 - #06  Gramática Sencilla 1B", "dur_str": "37m 31s", "duration": 2251.05, "rel_path": "Onda 01\\8 - Unidad 06\\5 - #06  Gramática Sencilla 1B.mp4", "filename": "5 - #06  Gramática Sencilla 1B.mp4", "cloud_id": "1ixSl_mViqQJhQIshW7ll4idjdlztav9G"}, {"key": "8 - Unidad 06::6 - #06  Gramática Sencilla 2", "name": "6 - #06  Gramática Sencilla 2", "dur_str": "45m 47s", "duration": 2747.05, "rel_path": "Onda 01\\8 - Unidad 06\\6 - #06  Gramática Sencilla 2.mp4", "filename": "6 - #06  Gramática Sencilla 2.mp4", "cloud_id": "16x0RRANW9gCUgNReQKNwhGGOikA280pS"}, {"key": "8 - Unidad 06::7 - #06  ¡Habla, Nativo", "name": "7 - #06  ¡Habla, Nativo", "dur_str": "03m 22s", "duration": 201.706, "rel_path": "Onda 01\\8 - Unidad 06\\7 - #06  ¡Habla, Nativo.mp4", "filename": "7 - #06  ¡Habla, Nativo.mp4", "cloud_id": "1Kdi5tB0jQNdFmcAAjBiikgiffCPulY_i"}, {"key": "8 - Unidad 06::8 - #06  Maestro de la Conjugación", "name": "8 - #06  Maestro de la Conjugación", "dur_str": "41m 14s", "duration": 2473.749, "rel_path": "Onda 01\\8 - Unidad 06\\8 - #06  Maestro de la Conjugación.mp4", "filename": "8 - #06  Maestro de la Conjugación.mp4", "cloud_id": "1vYt0RnWZ9gDJWtpL1TTFsFeE4oGpgKBZ"}, {"key": "8 - Unidad 06::9 - #06  Pronúncialo Bien", "name": "9 - #06  Pronúncialo Bien", "dur_str": "24m 42s", "duration": 1482.41, "rel_path": "Onda 01\\8 - Unidad 06\\9 - #06  Pronúncialo Bien.mp4", "filename": "9 - #06  Pronúncialo Bien.mp4", "cloud_id": "1yLJLPgxtMsfgLaBPGTHhO4nZPE2D2qgw"}]}, {"name": "9 - Unidad 07", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\9 - Unidad 07", "total_seconds": 11231.72, "lessons": [{"key": "9 - Unidad 07::2 - #07  Clase de Apertura", "name": "2 - #07  Clase de Apertura", "dur_str": "01m 07s", "duration": 67.136, "rel_path": "Onda 01\\9 - Unidad 07\\2 - #07  Clase de Apertura.mp4", "filename": "2 - #07  Clase de Apertura.mp4", "cloud_id": "1JBC_dWmvzW7rNiUdiCyhlp2nkQjmX3YJ"}, {"key": "9 - Unidad 07::3 - #07  Clases de Diálogo", "name": "3 - #07  Clases de Diálogo", "dur_str": "33m 43s", "duration": 2022.848, "rel_path": "Onda 01\\9 - Unidad 07\\3 - #07  Clases de Diálogo.mp4", "filename": "3 - #07  Clases de Diálogo.mp4", "cloud_id": "11AoqHCpE_BE7qnGVvOgd26YlMgrEw2-c"}, {"key": "9 - Unidad 07::4 - #07  Gramática Sencilla 1", "name": "4 - #07  Gramática Sencilla 1", "dur_str": "45m 45s", "duration": 2744.81, "rel_path": "Onda 01\\9 - Unidad 07\\4 - #07  Gramática Sencilla 1.mp4", "filename": "4 - #07  Gramática Sencilla 1.mp4", "cloud_id": "1a_FmaZvuTLPJ0m936M14iE29RRavcs0J"}, {"key": "9 - Unidad 07::5 - #07  Gramática Sencilla 2", "name": "5 - #07  Gramática Sencilla 2", "dur_str": "35m 47s", "duration": 2147.178, "rel_path": "Onda 01\\9 - Unidad 07\\5 - #07  Gramática Sencilla 2.mp4", "filename": "5 - #07  Gramática Sencilla 2.mp4", "cloud_id": "1zI_AxzqJcYbHb0wExhiYS3_1JS3jBsS0"}, {"key": "9 - Unidad 07::6 - #07  ¡Habla, Nativo", "name": "6 - #07  ¡Habla, Nativo", "dur_str": "02m 33s", "duration": 152.938, "rel_path": "Onda 01\\9 - Unidad 07\\6 - #07  ¡Habla, Nativo.mp4", "filename": "6 - #07  ¡Habla, Nativo.mp4", "cloud_id": "19AytxhusevEGnqRAVAfgyOE1vz5sWi9c"}, {"key": "9 - Unidad 07::7 - #07  Maestro de la Conjugación", "name": "7 - #07  Maestro de la Conjugación", "dur_str": "42m 32s", "duration": 2551.509, "rel_path": "Onda 01\\9 - Unidad 07\\7 - #07  Maestro de la Conjugación.mp4", "filename": "7 - #07  Maestro de la Conjugación.mp4", "cloud_id": "11srqpPMywznf3WcfrZMDh6lJwVSJZ6q_"}, {"key": "9 - Unidad 07::8 - #07  Pronúncialo Bien", "name": "8 - #07  Pronúncialo Bien", "dur_str": "25m 45s", "duration": 1545.301, "rel_path": "Onda 01\\9 - Unidad 07\\8 - #07  Pronúncialo Bien.mp4", "filename": "8 - #07  Pronúncialo Bien.mp4", "cloud_id": "1GO3lw-PrCPVy90CpDmOa4dgWxu3uTedh"}]}, {"name": "10 - Unidad 08", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\10 - Unidad 08", "total_seconds": 11770.642, "lessons": [{"key": "10 - Unidad 08::2 - #08  Clase de Apertura", "name": "2 - #08  Clase de Apertura", "dur_str": "01m 11s", "duration": 71.189, "rel_path": "Onda 01\\10 - Unidad 08\\2 - #08  Clase de Apertura.mp4", "filename": "2 - #08  Clase de Apertura.mp4", "cloud_id": "1qys9RthFXJwlWqzAegaB3wVAtQ4OTuOw"}, {"key": "10 - Unidad 08::3 - #08  Clases de Diálogo", "name": "3 - #08  Clases de Diálogo", "dur_str": "45m 41s", "duration": 2740.949, "rel_path": "Onda 01\\10 - Unidad 08\\3 - #08  Clases de Diálogo.mp4", "filename": "3 - #08  Clases de Diálogo.mp4", "cloud_id": "13yQ2FTzZsrfOEuf30Iu1Z8Oj-JsNrxQ3"}, {"key": "10 - Unidad 08::4 - #08  Gramática Sencilla 1", "name": "4 - #08  Gramática Sencilla 1", "dur_str": "41m 36s", "duration": 2495.616, "rel_path": "Onda 01\\10 - Unidad 08\\4 - #08  Gramática Sencilla 1.mp4", "filename": "4 - #08  Gramática Sencilla 1.mp4", "cloud_id": "1K1N5SLP_FUF-tEJFzn2YkNlTxU29YNfv"}, {"key": "10 - Unidad 08::5 - #08  Gramática Sencilla 2", "name": "5 - #08  Gramática Sencilla 2", "dur_str": "35m 33s", "duration": 2132.714, "rel_path": "Onda 01\\10 - Unidad 08\\5 - #08  Gramática Sencilla 2.mp4", "filename": "5 - #08  Gramática Sencilla 2.mp4", "cloud_id": "1H-BphfwV1a-jfLv3OECpvZvLg4XhAJF4"}, {"key": "10 - Unidad 08::6 - #08  ¡Habla, Nativo", "name": "6 - #08  ¡Habla, Nativo", "dur_str": "03m 07s", "duration": 186.858, "rel_path": "Onda 01\\10 - Unidad 08\\6 - #08  ¡Habla, Nativo.mp4", "filename": "6 - #08  ¡Habla, Nativo.mp4", "cloud_id": "1cwpl3dM-8xSTizCfT4avikamM4I9Zgay"}, {"key": "10 - Unidad 08::7 - #08  Maestro de la Conjugación", "name": "7 - #08  Maestro de la Conjugación", "dur_str": "44m 56s", "duration": 2696.17, "rel_path": "Onda 01\\10 - Unidad 08\\7 - #08  Maestro de la Conjugación.mp4", "filename": "7 - #08  Maestro de la Conjugación.mp4", "cloud_id": "11wTGEgq41PI18bBxpldtL3_s2o2GGQc9"}, {"key": "10 - Unidad 08::8 - #08  Pronúncialo Bien", "name": "8 - #08  Pronúncialo Bien", "dur_str": "24m 07s", "duration": 1447.146, "rel_path": "Onda 01\\10 - Unidad 08\\8 - #08  Pronúncialo Bien.mp4", "filename": "8 - #08  Pronúncialo Bien.mp4", "cloud_id": "1mtekCE1p7_r4pIgpNAwTjnpRjWChtqlr"}]}, {"name": "11 - Unidad 09", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\11 - Unidad 09", "total_seconds": 11526.084667, "lessons": [{"key": "11 - Unidad 09::2 - #09  Clase de Apertura", "name": "2 - #09  Clase de Apertura", "dur_str": "01m 44s", "duration": 103.509, "rel_path": "Onda 01\\11 - Unidad 09\\2 - #09  Clase de Apertura.mp4", "filename": "2 - #09  Clase de Apertura.mp4", "cloud_id": "1Ue_3mximabhOUiQzghWxRdQr4lHtyf9-"}, {"key": "11 - Unidad 09::3 - #09  Clases de Diálogo", "name": "3 - #09  Clases de Diálogo", "dur_str": "40m 03s", "duration": 2402.566667, "rel_path": "Onda 01\\11 - Unidad 09\\3 - #09  Clases de Diálogo.mp4", "filename": "3 - #09  Clases de Diálogo.mp4", "cloud_id": "10tyeARbVL9xQf_BPYYKdJjxejuzMGy09"}, {"key": "11 - Unidad 09::4 - #09  Gramática Sencilla 1", "name": "4 - #09  Gramática Sencilla 1", "dur_str": "44m 37s", "duration": 2677.269, "rel_path": "Onda 01\\11 - Unidad 09\\4 - #09  Gramática Sencilla 1.mp4", "filename": "4 - #09  Gramática Sencilla 1.mp4", "cloud_id": "1sWnSDtsX118I7GQx4cgNSRvJokMoqEfc"}, {"key": "11 - Unidad 09::5 - #09  Gramática Sencilla 2", "name": "5 - #09  Gramática Sencilla 2", "dur_str": "39m 02s", "duration": 2342.08, "rel_path": "Onda 01\\11 - Unidad 09\\5 - #09  Gramática Sencilla 2.mp4", "filename": "5 - #09  Gramática Sencilla 2.mp4", "cloud_id": "1LB-yFJi4_ubTCaKbrdis24DZEiJFln6X"}, {"key": "11 - Unidad 09::6 - #09  ¡Habla, Nativo", "name": "6 - #09  ¡Habla, Nativo", "dur_str": "02m 26s", "duration": 145.6, "rel_path": "Onda 01\\11 - Unidad 09\\6 - #09  ¡Habla, Nativo.mp4", "filename": "6 - #09  ¡Habla, Nativo.mp4", "cloud_id": "1uIFJeryUpK59yukBFaRyZwa966Pxhs9j"}, {"key": "11 - Unidad 09::7 - #09  Maestro de la Conjugación", "name": "7 - #09  Maestro de la Conjugación", "dur_str": "43m 11s", "duration": 2591.082, "rel_path": "Onda 01\\11 - Unidad 09\\7 - #09  Maestro de la Conjugación.mp4", "filename": "7 - #09  Maestro de la Conjugación.mp4", "cloud_id": "1bbqqKx4TkARSQLOkaTj_A5ROI1PedLrb"}, {"key": "11 - Unidad 09::8 - #09  Pronúncialo Bien", "name": "8 - #09  Pronúncialo Bien", "dur_str": "21m 04s", "duration": 1263.978, "rel_path": "Onda 01\\11 - Unidad 09\\8 - #09  Pronúncialo Bien.mp4", "filename": "8 - #09  Pronúncialo Bien.mp4", "cloud_id": "1KSkeqUIwNbHy_eJgWFpp-6G-tOBW6VSR"}]}, {"name": "12 - Unidad 10", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\12 - Unidad 10", "total_seconds": 8610.015, "lessons": [{"key": "12 - Unidad 10::2 - #10  Clase de Apertura", "name": "2 - #10  Clase de Apertura", "dur_str": "01m 22s", "duration": 82.325, "rel_path": "Onda 01\\12 - Unidad 10\\2 - #10  Clase de Apertura.mp4", "filename": "2 - #10  Clase de Apertura.mp4", "cloud_id": "1u_RN_SUw7XDysmolT_iX8sGTZxKmdxyc"}, {"key": "12 - Unidad 10::3 - #10  Clases de Diálogo", "name": "3 - #10  Clases de Diálogo", "dur_str": "33m 43s", "duration": 2022.634, "rel_path": "Onda 01\\12 - Unidad 10\\3 - #10  Clases de Diálogo.mp4", "filename": "3 - #10  Clases de Diálogo.mp4", "cloud_id": "1tkh14zrVIHYA6tgRsnjNJ4DovDz2axTr"}, {"key": "12 - Unidad 10::4 - #10  Gramática Sencilla 1", "name": "4 - #10  Gramática Sencilla 1", "dur_str": "36m 44s", "duration": 2204.074, "rel_path": "Onda 01\\12 - Unidad 10\\4 - #10  Gramática Sencilla 1.mp4", "filename": "4 - #10  Gramática Sencilla 1.mp4", "cloud_id": "1lX0L1lA2qEcuW3Lhf82kRBnztgDYBDlk"}, {"key": "12 - Unidad 10::5 - #10  Gramática Sencilla 2", "name": "5 - #10  Gramática Sencilla 2", "dur_str": "27m 02s", "duration": 1621.568, "rel_path": "Onda 01\\12 - Unidad 10\\5 - #10  Gramática Sencilla 2.mp4", "filename": "5 - #10  Gramática Sencilla 2.mp4", "cloud_id": "1kMOXITw68kyhlOZQnoNpHLqXuq0zPD_c"}, {"key": "12 - Unidad 10::6 - #10  ¡Habla, Nativo", "name": "6 - #10  ¡Habla, Nativo", "dur_str": "02m 45s", "duration": 164.736, "rel_path": "Onda 01\\12 - Unidad 10\\6 - #10  ¡Habla, Nativo.mp4", "filename": "6 - #10  ¡Habla, Nativo.mp4", "cloud_id": "1lnx8DeSSH1jRtfMKox-yj1m3abod5Jdr"}, {"key": "12 - Unidad 10::7 - #10  Maestro de la Conjugación", "name": "7 - #10  Maestro de la Conjugación", "dur_str": "31m 10s", "duration": 1870.378, "rel_path": "Onda 01\\12 - Unidad 10\\7 - #10  Maestro de la Conjugación.mp4", "filename": "7 - #10  Maestro de la Conjugación.mp4", "cloud_id": "1hokGEYx8lhfK6jwQMtHfxbNfYdr9iZRE"}, {"key": "12 - Unidad 10::8 - #10  Pronúncialo Bien", "name": "8 - #10  Pronúncialo Bien", "dur_str": "10m 44s", "duration": 644.3, "rel_path": "Onda 01\\12 - Unidad 10\\8 - #10  Pronúncialo Bien.mp4", "filename": "8 - #10  Pronúncialo Bien.mp4", "cloud_id": "1inl9_vmNgQWenlQXySgODZRf-Atut_-Z"}]}, {"name": "13 - Clases de Repaso #02", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\13 - Clases de Repaso #02", "total_seconds": 3481.343, "lessons": [{"key": "13 - Clases de Repaso #02::2 - #02  Repaso Clase 1", "name": "2 - #02  Repaso Clase 1", "dur_str": "20m 25s", "duration": 1225.237, "rel_path": "Onda 01\\13 - Clases de Repaso #02\\2 - #02  Repaso Clase 1.mp4", "filename": "2 - #02  Repaso Clase 1.mp4", "cloud_id": "1OTK3ErNIR2txMxYLBCVFDPiadHmBxifc"}, {"key": "13 - Clases de Repaso #02::4 - #02  Repaso Clase 2", "name": "4 - #02  Repaso Clase 2", "dur_str": "16m 20s", "duration": 979.968, "rel_path": "Onda 01\\13 - Clases de Repaso #02\\4 - #02  Repaso Clase 2.mp4", "filename": "4 - #02  Repaso Clase 2.mp4", "cloud_id": "1UyoF6u2ABjdnoLcDBPhBcyV7HeQvpNeM"}, {"key": "13 - Clases de Repaso #02::6 - #02  Repaso Clase 3", "name": "6 - #02  Repaso Clase 3", "dur_str": "21m 16s", "duration": 1276.138, "rel_path": "Onda 01\\13 - Clases de Repaso #02\\6 - #02  Repaso Clase 3.mp4", "filename": "6 - #02  Repaso Clase 3.mp4", "cloud_id": "16AOGxonLkGnJm9w36uX5nsI4av2PJ2-Z"}]}, {"name": "14 - Unidad 11", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\14 - Unidad 11", "total_seconds": 9911.741999999998, "lessons": [{"key": "14 - Unidad 11::2 - #11  Clase de Apertura", "name": "2 - #11  Clase de Apertura", "dur_str": "01m 11s", "duration": 71.018, "rel_path": "Onda 01\\14 - Unidad 11\\2 - #11  Clase de Apertura.mp4", "filename": "2 - #11  Clase de Apertura.mp4", "cloud_id": "17IImHfhy4Ly8g0l0Vg1qXccX3ZE2ZDLt"}, {"key": "14 - Unidad 11::3 - #11  Clases de Diálogo", "name": "3 - #11  Clases de Diálogo", "dur_str": "33m 37s", "duration": 2017.216, "rel_path": "Onda 01\\14 - Unidad 11\\3 - #11  Clases de Diálogo.mp4", "filename": "3 - #11  Clases de Diálogo.mp4", "cloud_id": "16eiKxj_NG5zKxOsxPBUw17fTdQZkwB9F"}, {"key": "14 - Unidad 11::4 - #11  Gramática Sencilla 1", "name": "4 - #11  Gramática Sencilla 1", "dur_str": "38m 03s", "duration": 2283.477, "rel_path": "Onda 01\\14 - Unidad 11\\4 - #11  Gramática Sencilla 1.mp4", "filename": "4 - #11  Gramática Sencilla 1.mp4", "cloud_id": "1nKszHNrA2yVKTBzNj9Abq5OSYLz0vlgT"}, {"key": "14 - Unidad 11::5 - #11  Gramática Sencilla 2", "name": "5 - #11  Gramática Sencilla 2", "dur_str": "32m 31s", "duration": 1951.018, "rel_path": "Onda 01\\14 - Unidad 11\\5 - #11  Gramática Sencilla 2.mp4", "filename": "5 - #11  Gramática Sencilla 2.mp4", "cloud_id": "1L2EOoJrfsNh3xfm71cRnmoy7TJoiRbjh"}, {"key": "14 - Unidad 11::6 - #11  ¡Habla, Nativo", "name": "6 - #11  ¡Habla, Nativo", "dur_str": "03m 23s", "duration": 203.157, "rel_path": "Onda 01\\14 - Unidad 11\\6 - #11  ¡Habla, Nativo.mp4", "filename": "6 - #11  ¡Habla, Nativo.mp4", "cloud_id": "1ddzdZ4my_SLwcOKEbBZL6ABR1qGdIgo4"}, {"key": "14 - Unidad 11::7 - #11  Maestro de la Conjugación", "name": "7 - #11  Maestro de la Conjugación", "dur_str": "33m 02s", "duration": 1982.144, "rel_path": "Onda 01\\14 - Unidad 11\\7 - #11  Maestro de la Conjugación.mp4", "filename": "7 - #11  Maestro de la Conjugación.mp4", "cloud_id": "1iG5GDz76Lxm1bVN78JhQU7hnvq7H_u0t"}, {"key": "14 - Unidad 11::8 - #11  Pronúncialo Bien", "name": "8 - #11  Pronúncialo Bien", "dur_str": "23m 24s", "duration": 1403.712, "rel_path": "Onda 01\\14 - Unidad 11\\8 - #11  Pronúncialo Bien.mp4", "filename": "8 - #11  Pronúncialo Bien.mp4", "cloud_id": "1Yu6008SkDmFqNXtOlJaZ0gLpI4e8gFaw"}]}, {"name": "15 - Unidad 12", "folder_path": "G:\\Meu Drive\\Espanhol\\Onda 01\\15 - Unidad 12", "total_seconds": 9586.643, "lessons": [{"key": "15 - Unidad 12::2 - #12  Clase de Apertura", "name": "2 - #12  Clase de Apertura", "dur_str": "01m 27s", "duration": 87.36, "rel_path": "Onda 01\\15 - Unidad 12\\2 - #12  Clase de Apertura.mp4", "filename": "2 - #12  Clase de Apertura.mp4", "cloud_id": "1lNbvlGRgJRzZqIJCcC-yjGsc2r4NlY2r"}, {"key": "15 - Unidad 12::3 - #12  Clases de Diálogo", "name": "3 - #12  Clases de Diálogo", "dur_str": "24m 20s", "duration": 1459.669, "rel_path": "Onda 01\\15 - Unidad 12\\3 - #12  Clases de Diálogo.mp4", "filename": "3 - #12  Clases de Diálogo.mp4", "cloud_id": "1_gckt952ojj6Cr5ZLyz6MSIxNZYk1FM0"}, {"key": "15 - Unidad 12::4 - #12  Gramática Sencilla 1A", "name": "4 - #12  Gramática Sencilla 1A", "dur_str": "35m 47s", "duration": 2146.581, "rel_path": "Onda 01\\15 - Unidad 12\\4 - #12  Gramática Sencilla 1A.mp4", "filename": "4 - #12  Gramática Sencilla 1A.mp4", "cloud_id": "1Vmkgnl7FfWFfRVDRXtrSuwfDS4LWYKKr"}, {"key": "15 - Unidad 12::5 - #12  Gramática Sencilla 1B", "name": "5 - #12  Gramática Sencilla 1B", "dur_str": "38m 37s", "duration": 2317.269, "rel_path": "Onda 01\\15 - Unidad 12\\5 - #12  Gramática Sencilla 1B.mp4", "filename": "5 - #12  Gramática Sencilla 1B.mp4", "cloud_id": "1Ghnwo7pYsYIDDlOWSmRl4OKaiCxG3RAz"}, {"key": "15 - Unidad 12::6 - #12  ¡Habla, Nativo", "name": "6 - #12  ¡Habla, Nativo", "dur_str": "03m 32s", "duration": 212.117, "rel_path": "Onda 01\\15 - Unidad 12\\6 - #12  ¡Habla, Nativo.mp4", "filename": "6 - #12  ¡Habla, Nativo.mp4", "cloud_id": "1t40hG5fzZ1XkTdK7WvOZok_YX1hlXghV"}, {"key": "15 - Unidad 12::7 - #12  Maestro de la Conjugación", "name": "7 - #12  Maestro de la Conjugación", "dur_str": "36m 06s", "duration": 2166.378, "rel_path": "Onda 01\\15 - Unidad 12\\7 - #12  Maestro de la Conjugación.mp4", "filename": "7 - #12  Maestro de la Conjugación.mp4", "cloud_id": "16M8G9_6EX8ZaSvQfvKa1ZhRYcM2qaKls"}, {"key": "15 - Unidad 12::8 - #12  Pronúncialo Bien", "name": "8 - #12  Pronúncialo Bien", "dur_str": "19m 57s", "duration": 1197.269, "rel_path": "Onda 01\\15 - Unidad 12\\8 - #12  Pronúncialo Bien.mp4", "filename": "8 - #12  Pronúncialo Bien.mp4", "cloud_id": "1U3BmQaBljj0rHqT0T8VefPhKQR01c69p"}]}, {"name": "1 - ¡Bienvenido", "folder_path": "G:\\Meu Drive\\Espanhol\\¡Bienvenido\\1 - ¡Bienvenido", "total_seconds": 3718.4399999999996, "lessons": [{"key": "1 - ¡Bienvenido::1 - Bem-vindo", "name": "1 - Bem-vindo", "dur_str": "04m 10s", "duration": 250.133, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\1 - Bem-vindo.mp4", "filename": "1 - Bem-vindo.mp4", "cloud_id": "1vDZXcPCNiDY0vo8IqYjJOkSL6b_7dkcx"}, {"key": "1 - ¡Bienvenido::2 - A plataforma", "name": "2 - A plataforma", "dur_str": "09m 53s", "duration": 593.237, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\2 - A plataforma.mp4", "filename": "2 - A plataforma.mp4", "cloud_id": "1jH8BArqBKqWhQzAQwFerkJohd6cbKN7K"}, {"key": "1 - ¡Bienvenido::5 - Canais de comunicação & configurações", "name": "5 - Canais de comunicação & configurações", "dur_str": "07m 28s", "duration": 447.616, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\5 - Canais de comunicação & configurações.mp4", "filename": "5 - Canais de comunicação & configurações.mp4", "cloud_id": "1W9sY0QekY7vlzQGugIYc6EH9fKvbsQEJ"}, {"key": "1 - ¡Bienvenido::6 - O método", "name": "6 - O método", "dur_str": "10m 56s", "duration": 656.042, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\6 - O método.mp4", "filename": "6 - O método.mp4", "cloud_id": "1wRedSsOCE17IDlLDbyBepCexa2zH_39o"}, {"key": "1 - ¡Bienvenido::7 - Como estudar", "name": "7 - Como estudar", "dur_str": "12m 33s", "duration": 752.725, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\7 - Como estudar.mp4", "filename": "7 - Como estudar.mp4", "cloud_id": "1AtonTdz1_8zQfT1k3cf1k0G4Fl3xX-xO"}, {"key": "1 - ¡Bienvenido::8 - Memorization Hack", "name": "8 - Memorization Hack", "dur_str": "11m 50s", "duration": 709.674, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\8 - Memorization Hack.mp4", "filename": "8 - Memorization Hack.mp4", "cloud_id": "1G-BKYZoj_pyq7DIjrNeMy2aGz45LSdnh"}, {"key": "1 - ¡Bienvenido::9 - Memhack", "name": "9 - Memhack", "dur_str": "05m 09s", "duration": 309.013, "rel_path": "¡Bienvenido\\1 - ¡Bienvenido\\9 - Memhack.mp4", "filename": "9 - Memhack.mp4", "cloud_id": "1J5qUxTq4E9cEA0EABTtKzHTIEsZnx0id"}]}]}, "grego": {"course_name": "Grego Bíblico", "total_seconds": 41634.34, "total_videos": 30, "total_pdfs": 58, "modules": [{"name": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\01 - MÊS 1. IMPORTÂNCIA E CULTURA!", "total_seconds": 4465.37, "total_dur_str": "01h 14m 25s", "lessons": [{"key": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!::01 - AULA 1. QUE DIFERENÇA FAZ O GREGO. KOINONIA-ITK (Grego Bíblico). Mateus G", "name": "01 - AULA 1. QUE DIFERENÇA FAZ O GREGO. KOINONIA-ITK (Grego Bíblico). Mateus G", "dur_str": "28m 01s", "duration": 1681.13, "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/01 - AULA 1. QUE DIFERENÇA FAZ O GREGO. KOINONIA-ITK (Grego Bíblico). Mateus G.mp4", "filename": "01 - AULA 1. QUE DIFERENÇA FAZ O GREGO. KOINONIA-ITK (Grego Bíblico). Mateus G.mp4", "cloud_id": "1bux30WQDKwpuLJ3SmRrPW8dVHg-0Wr5q"}, {"key": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!::02 - AULA 2. CULTURALIZANDO. KOINONIA-ITK (Grego bíblico). Mateus G", "name": "02 - AULA 2. CULTURALIZANDO. KOINONIA-ITK (Grego bíblico). Mateus G", "dur_str": "28m 01s", "duration": 1681.17, "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/02 - AULA 2. CULTURALIZANDO. KOINONIA-ITK (Grego bíblico). Mateus G.mp4", "filename": "02 - AULA 2. CULTURALIZANDO. KOINONIA-ITK (Grego bíblico). Mateus G.mp4", "cloud_id": "14gVJ4kr6GoQSYUjT7vVcBdBhLrty1N9I"}, {"key": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!::03 - COMO ESTUDAR O GREGO BÍBLICO. Koinonia-ITK, Mateus G", "name": "03 - COMO ESTUDAR O GREGO BÍBLICO. Koinonia-ITK, Mateus G", "dur_str": "18m 23s", "duration": 1103.07, "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/03 - COMO ESTUDAR O GREGO BÍBLICO. Koinonia-ITK, Mateus G.mp4", "filename": "03 - COMO ESTUDAR O GREGO BÍBLICO. Koinonia-ITK, Mateus G.mp4", "cloud_id": "1Jj_5CiyvP8iCZzBwqSs1GOBWhtqvNRJ1"}], "pdfs": [{"name": "01 - AULA 1 (Para que Serve o grego). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "01 - AULA 1 (Para que Serve o grego). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/Materiais de Apoio/01 - AULA 1 (Para que Serve o grego). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "1GpwDlBuvcf65iOZutG83bYYzizyUeRF2"}, {"name": "02 - AULA 2 (Culturalizando). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "02 - AULA 2 (Culturalizando). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/Materiais de Apoio/02 - AULA 2 (Culturalizando). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "1U-2Vrw6jqgvMvfTYAEwlzxtLGOymIb4N"}, {"name": "03 - GREGO BÍBLICO - ENCONTROS ONLINE. aula 1", "filename": "03 - GREGO BÍBLICO - ENCONTROS ONLINE. aula 1.pdf", "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/Materiais de Apoio/03 - GREGO BÍBLICO - ENCONTROS ONLINE. aula 1.pdf", "cloud_id": "16MI2ZeUBHB33vF0HJ6hQbauZiOE_K9D5"}, {"name": "04 - GREGO BÍBLICO - ENCONTROS ONLINE. aula 2", "filename": "04 - GREGO BÍBLICO - ENCONTROS ONLINE. aula 2.pdf", "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/Materiais de Apoio/04 - GREGO BÍBLICO - ENCONTROS ONLINE. aula 2.pdf", "cloud_id": "1ZiHHCAdatt0oZijvTQyvC3Y6pJ_mFrvX"}, {"name": "05 - MAPAS MENTAIS. GREGO BÍBLICO - ITK", "filename": "05 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "rel_path": "01 - MÊS 1. IMPORTÂNCIA E CULTURA!/Materiais de Apoio/05 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "cloud_id": "15J-rEWRuOlpSZiX6eMl4mIAekKLchq9_"}]}, {"name": "02 - MÊS 2. ALFABETO E SONORIDADE", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\02 - MÊS 2. ALFABETO E SONORIDADE", "total_seconds": 4327.71, "total_dur_str": "01h 12m 08s", "lessons": [{"key": "02 - MÊS 2. ALFABETO E SONORIDADE::01 - AULA 3. O ALFABETIZANDO. KOINONIA-ITK (Grego Bíblico). Mateus G. Rangel", "name": "01 - AULA 3. O ALFABETIZANDO. KOINONIA-ITK (Grego Bíblico). Mateus G. Rangel", "dur_str": "55m 33s", "duration": 3333.37, "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/01 - AULA 3. O ALFABETIZANDO. KOINONIA-ITK (Grego Bíblico). Mateus G. Rangel.mp4", "filename": "01 - AULA 3. O ALFABETIZANDO. KOINONIA-ITK (Grego Bíblico). Mateus G. Rangel.mp4", "cloud_id": "1qxZNbejnyyYm7WhrQ3LyaaNoXRwZYEMv"}, {"key": "02 - MÊS 2. ALFABETO E SONORIDADE::02 - Aula 4. Prosódia (Regras De Acentuação). Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "name": "02 - Aula 4. Prosódia (Regras De Acentuação). Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "dur_str": "16m 34s", "duration": 994.33, "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/02 - Aula 4. Prosódia (Regras De Acentuação). Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "filename": "02 - Aula 4. Prosódia (Regras De Acentuação). Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "cloud_id": "1SvkzwOSwOxqLqC-_LtU9Ksvvdnh0MddW"}], "pdfs": [{"name": "01 - Acentuação, Aspiração, Ditongos e pontuação grego", "filename": "01 - Acentuação, Aspiração, Ditongos e pontuação grego.pdf", "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/Materiais de Apoio/01 - Acentuação, Aspiração, Ditongos e pontuação grego.pdf", "cloud_id": "1IHNIoxvphJvwVUZnpV_yYwwdzpQYViHI"}, {"name": "02 - Alfabeto Grego - Breve Histórico", "filename": "02 - Alfabeto Grego - Breve Histórico.pdf", "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/Materiais de Apoio/02 - Alfabeto Grego - Breve Histórico.pdf", "cloud_id": "1Fywhd3-HOG4Ye90SLYAW0vNg6GWGb5rg"}, {"name": "03 - alfabeto grego.", "filename": "03 - alfabeto grego..pdf", "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/Materiais de Apoio/03 - alfabeto grego..pdf", "cloud_id": "1GxrSbdqfqrJlVSleUAJdezFFo3ZVNIQB"}, {"name": "04 - Pronúncia das Consoantes e das Vogais", "filename": "04 - Pronúncia das Consoantes e das Vogais.pdf", "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/Materiais de Apoio/04 - Pronúncia das Consoantes e das Vogais.pdf", "cloud_id": "1lamNM9EcL3cpbvf_EmXTVkDrdIN2psjz"}, {"name": "05 - Caderno_Caligrafia_Grego_Completo", "filename": "05 - Caderno_Caligrafia_Grego_Completo.pdf", "rel_path": "02 - MÊS 2. ALFABETO E SONORIDADE/Materiais de Apoio/05 - Caderno_Caligrafia_Grego_Completo.pdf", "cloud_id": "1LQTr0cnQ3pcIoZptE5AxbzPpaJJ_IZZ6"}]}, {"name": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA", "total_seconds": 2190.83, "total_dur_str": "36m 31s", "lessons": [{"key": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA::01 - Aula 5. Ortoépia (Regras De Pronúncia). Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "name": "01 - Aula 5. Ortoépia (Regras De Pronúncia). Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "dur_str": "22m 28s", "duration": 1348.27, "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/01 - Aula 5. Ortoépia (Regras De Pronúncia). Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "filename": "01 - Aula 5. Ortoépia (Regras De Pronúncia). Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "cloud_id": "1Nf1jnEqmTb0yZJBaHjxEH8YQGiOlvHTa"}, {"key": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA::02 - Aula 6. Ortografia (Regras De Escrita). Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "name": "02 - Aula 6. Ortografia (Regras De Escrita). Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "dur_str": "14m 03s", "duration": 842.57, "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/02 - Aula 6. Ortografia (Regras De Escrita). Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "filename": "02 - Aula 6. Ortografia (Regras De Escrita). Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "cloud_id": "1JU_l5-n50QRxRdR8FFabvA3Owxm1o8N5"}], "pdfs": [{"name": "01 - AULA 5 (Ortoépia). CURSO DE GREGO. KOINONIA-ITK. MATEUS G. RANGEL", "filename": "01 - AULA 5 (Ortoépia). CURSO DE GREGO. KOINONIA-ITK. MATEUS G. RANGEL.pdf", "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/Materiais de Apoio/01 - AULA 5 (Ortoépia). CURSO DE GREGO. KOINONIA-ITK. MATEUS G. RANGEL.pdf", "cloud_id": "1ef-IDMcxaZENMXrIfUWXwpZyzkqmSyHV"}, {"name": "02 - AULA 6 (Ortografia). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "02 - AULA 6 (Ortografia). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/Materiais de Apoio/02 - AULA 6 (Ortografia). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "1ksBpc7r_KjOo_xsbJUDxokS6nT_LnYOO"}, {"name": "03 - Grego Bíblico - Bibliografia Selecionada", "filename": "03 - Grego Bíblico - Bibliografia Selecionada.pdf", "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/Materiais de Apoio/03 - Grego Bíblico - Bibliografia Selecionada.pdf", "cloud_id": "1lVeHYGMqiskhayCnsJxCAnQ5EVYaOpRa"}, {"name": "04 - Grego Biblico - Introducao Panoramica", "filename": "04 - Grego Biblico - Introducao Panoramica.pdf", "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/Materiais de Apoio/04 - Grego Biblico - Introducao Panoramica.pdf", "cloud_id": "1aGU9Pk4QPY773RYUPHfXGBXgJYInwpMq"}, {"name": "05 - Nomina Sacra e o Nome Jesus Cristo", "filename": "05 - Nomina Sacra e o Nome Jesus Cristo.pdf", "rel_path": "03 - MÊS 3. REGRAS DE PRONÚNCIA E ESCRITA/Materiais de Apoio/05 - Nomina Sacra e o Nome Jesus Cristo.pdf", "cloud_id": "1HEwUW7Up1IVjZxrhr-rDxU553qutA7qG"}]}, {"name": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)", "total_seconds": 2913.77, "total_dur_str": "48m 34s", "lessons": [{"key": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)::01 - Aula 7. Morfossintaxando. Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "name": "01 - Aula 7. Morfossintaxando. Curso De Grego Bíblico. Mateus G. Rangel Itk-1", "dur_str": "24m 49s", "duration": 1488.83, "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/01 - Aula 7. Morfossintaxando. Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "filename": "01 - Aula 7. Morfossintaxando. Curso De Grego Bíblico. Mateus G. Rangel Itk-1.mp4", "cloud_id": "1y1RF99UD9XhvhlyHCyxH9sC1VpO-T3oj"}, {"key": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)::02 - Aula 8. Artigos Gregos. Curso De Grego Bíblico. Itk, Mateus G. Rangel-1", "name": "02 - Aula 8. Artigos Gregos. Curso De Grego Bíblico. Itk, Mateus G. Rangel-1", "dur_str": "23m 45s", "duration": 1424.93, "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/02 - Aula 8. Artigos Gregos. Curso De Grego Bíblico. Itk, Mateus G. Rangel-1.mp4", "filename": "02 - Aula 8. Artigos Gregos. Curso De Grego Bíblico. Itk, Mateus G. Rangel-1.mp4", "cloud_id": "1mcCgnJORwHyJlP1YEM42QSzRgq7LyrKF"}], "pdfs": [{"name": "01 - AULA 7 (Morfossintaxe). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "01 - AULA 7 (Morfossintaxe). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/01 - AULA 7 (Morfossintaxe). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "1ibzVZMfHD5hNe8ZwK76wJZL79APoKemt"}, {"name": "02 - AULA 8 (Artigos). CURSO DE GREGO. KOINONIA-ITK. MATEUS G. RANGEL", "filename": "02 - AULA 8 (Artigos). CURSO DE GREGO. KOINONIA-ITK. MATEUS G. RANGEL.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/02 - AULA 8 (Artigos). CURSO DE GREGO. KOINONIA-ITK. MATEUS G. RANGEL.pdf", "cloud_id": "1fnIEd3i-RjvZcXbUepXb8SqZwBPQ372w"}, {"name": "03 - Publicação", "filename": "03 - Publicação.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/03 - Publicação.pdf", "cloud_id": "1Bzk4JORgWy0pGA7mwCRBXRMIdPlZNoVf"}, {"name": "04 - Textus Receptus e Novum Testamentum Graece", "filename": "04 - Textus Receptus e Novum Testamentum Graece.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/04 - Textus Receptus e Novum Testamentum Graece.pdf", "cloud_id": "1zCJKt2Ii83o3sCheDwBHQH0SK5ZFsEOQ"}, {"name": "05 - Utilização do BibleWorks - NA", "filename": "05 - Utilização do BibleWorks - NA.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/05 - Utilização do BibleWorks - NA.pdf", "cloud_id": "1n_KZcyUtJIm2oOA2GUY1JXP_vSGiBjFV"}, {"name": "06 - Utilização do Dicionário de Grego Bíblico", "filename": "06 - Utilização do Dicionário de Grego Bíblico.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/06 - Utilização do Dicionário de Grego Bíblico.pdf", "cloud_id": "1KVXisK12doW3smRQVE0baZ_sNC9SNpo0"}, {"name": "07 - Utilização do NA27", "filename": "07 - Utilização do NA27.pdf", "rel_path": "04 - MÊS 4. NÍVEL INTERMEDIÁRIO (MORFOSSINTAXANDO)/Materiais de Apoio/07 - Utilização do NA27.pdf", "cloud_id": "1VjFvn9QHBCGzPkrt-mi7X0XAUDgh0hsz"}]}, {"name": "05 - MÊS 5. SUBSTANTIVANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\05 - MÊS 5. SUBSTANTIVANDO", "total_seconds": 2705.9, "total_dur_str": "45m 06s", "lessons": [{"key": "05 - MÊS 5. SUBSTANTIVANDO::01 - Aula 9. Substantivos Grego (1ª Declinação). Curso De Grego Bíblico Do Itk, Mateus G. Rangel-1", "name": "01 - Aula 9. Substantivos Grego (1ª Declinação). Curso De Grego Bíblico Do Itk, Mateus G. Rangel-1", "dur_str": "28m 30s", "duration": 1709.93, "rel_path": "05 - MÊS 5. SUBSTANTIVANDO/01 - Aula 9. Substantivos Grego (1ª Declinação). Curso De Grego Bíblico Do Itk, Mateus G. Rangel-1.mp4", "filename": "01 - Aula 9. Substantivos Grego (1ª Declinação). Curso De Grego Bíblico Do Itk, Mateus G. Rangel-1.mp4", "cloud_id": "1BjDiIaQ00hPYjfrDipiTlRvBID6I3gGA"}, {"key": "05 - MÊS 5. SUBSTANTIVANDO::02 - Aula 10. Sustantivos Gregos (2ª Declinação). Curso De Grego Bíblico Itk. Mateus G. Rangel-1 (1)", "name": "02 - Aula 10. Sustantivos Gregos (2ª Declinação). Curso De Grego Bíblico Itk. Mateus G. Rangel-1 (1)", "dur_str": "16m 36s", "duration": 995.97, "rel_path": "05 - MÊS 5. SUBSTANTIVANDO/02 - Aula 10. Sustantivos Gregos (2ª Declinação). Curso De Grego Bíblico Itk. Mateus G. Rangel-1 (1).mp4", "filename": "02 - Aula 10. Sustantivos Gregos (2ª Declinação). Curso De Grego Bíblico Itk. Mateus G. Rangel-1 (1).mp4", "cloud_id": "1KmTY8WlNk2i2eqOCBnU4iMirCenWg2IP"}], "pdfs": [{"name": "01 - AULA 9. SUBSTANTIVOS I (1ª DECLINAÇÃO)", "filename": "01 - AULA 9. SUBSTANTIVOS I (1ª DECLINAÇÃO).pdf", "rel_path": "05 - MÊS 5. SUBSTANTIVANDO/Materiais de Apoio/01 - AULA 9. SUBSTANTIVOS I (1ª DECLINAÇÃO).pdf", "cloud_id": "1zCXJ4wuTryu-CzajPtql5UWJ8eKI6nTt"}, {"name": "02 - AULA 10 (Substantivos 2ª Declinação). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "02 - AULA 10 (Substantivos 2ª Declinação). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "05 - MÊS 5. SUBSTANTIVANDO/Materiais de Apoio/02 - AULA 10 (Substantivos 2ª Declinação). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "10N9MUptVroem6f3-1bacnbtzhJd9-9xp"}]}, {"name": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO", "total_seconds": 2776.13, "total_dur_str": "46m 16s", "lessons": [{"key": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO::01 - Aula 11. Substantivos Gregos (3ª Declinação). Curso De Grego Bíblico. Mateus G. Rangel-1", "name": "01 - Aula 11. Substantivos Gregos (3ª Declinação). Curso De Grego Bíblico. Mateus G. Rangel-1", "dur_str": "31m 34s", "duration": 1894.03, "rel_path": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO/01 - Aula 11. Substantivos Gregos (3ª Declinação). Curso De Grego Bíblico. Mateus G. Rangel-1.mp4", "filename": "01 - Aula 11. Substantivos Gregos (3ª Declinação). Curso De Grego Bíblico. Mateus G. Rangel-1.mp4", "cloud_id": "1l_rFfxlE2R2jVTO6mHGUvD4ecvBYxTa0"}, {"key": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO::02 - Aula 12. Adjetivos I (Características - Atrivutivo, Predicativo E Substantival). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1", "name": "02 - Aula 12. Adjetivos I (Características - Atrivutivo, Predicativo E Substantival). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1", "dur_str": "14m 42s", "duration": 882.1, "rel_path": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO/02 - Aula 12. Adjetivos I (Características - Atrivutivo, Predicativo E Substantival). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1.mp4", "filename": "02 - Aula 12. Adjetivos I (Características - Atrivutivo, Predicativo E Substantival). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1.mp4", "cloud_id": "1cNNex7JcCvEtRnLK7TY7dA87zJC2Z_A0"}], "pdfs": [{"name": "01 - AULA 11 (Substantivos. 3ª declinação). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "01 - AULA 11 (Substantivos. 3ª declinação). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO/Materiais de Apoio/01 - AULA 11 (Substantivos. 3ª declinação). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "1pTfR-aELZ_HY5RXqS2sDFqgXCKXY1zXE"}, {"name": "02 - AULA 12 (Adjetivos. Atributivo, Predicativo, Substantival). CURSO DE GREGO. KOINONIA-ITK", "filename": "02 - AULA 12 (Adjetivos. Atributivo, Predicativo, Substantival). CURSO DE GREGO. KOINONIA-ITK.pdf", "rel_path": "06 - MÊS 6. SUBSTANTIVANDO E ADJETIVANDO/Materiais de Apoio/02 - AULA 12 (Adjetivos. Atributivo, Predicativo, Substantival). CURSO DE GREGO. KOINONIA-ITK.pdf", "cloud_id": "11vLt4WaDDebgGWpuYpxAiVUP4Sz2nCWD"}]}, {"name": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\07 - MÊS 7. ADJETIVANDO E PRONOMINANDO", "total_seconds": 3555.3, "total_dur_str": "59m 15s", "lessons": [{"key": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO::01 - Aula 13. Adjetivos II (Comparativo, Superlativo, Paradigmas). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1", "name": "01 - Aula 13. Adjetivos II (Comparativo, Superlativo, Paradigmas). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1", "dur_str": "22m 51s", "duration": 1371.4, "rel_path": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO/01 - Aula 13. Adjetivos II (Comparativo, Superlativo, Paradigmas). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1.mp4", "filename": "01 - Aula 13. Adjetivos II (Comparativo, Superlativo, Paradigmas). Curso De Grego Bíblico. Mateus G. Rangel. Itk-1.mp4", "cloud_id": "17qXS0CqmH2D5rNVOUh3GBCvrHqJYfK72"}, {"key": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO::02 - Aula 14. Pronomes I (Tipos, Anáfora E Catáfora). Curso De Grego Bíblico, Koinonia-Itk, Mateus G. Rangel-1", "name": "02 - Aula 14. Pronomes I (Tipos, Anáfora E Catáfora). Curso De Grego Bíblico, Koinonia-Itk, Mateus G. Rangel-1", "dur_str": "36m 24s", "duration": 2183.9, "rel_path": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO/02 - Aula 14. Pronomes I (Tipos, Anáfora E Catáfora). Curso De Grego Bíblico, Koinonia-Itk, Mateus G. Rangel-1.mp4", "filename": "02 - Aula 14. Pronomes I (Tipos, Anáfora E Catáfora). Curso De Grego Bíblico, Koinonia-Itk, Mateus G. Rangel-1.mp4", "cloud_id": "1rpEpzNhq--bI7yG06jLSyc7_f4QrVWI7"}], "pdfs": [{"name": "01 - AULA 13 (Adjetivos II. Superlativo, Comparativo, Paradigmas). CURSO DE GREGO. KOINONIA-ITK. MATEUS G", "filename": "01 - AULA 13 (Adjetivos II. Superlativo, Comparativo, Paradigmas). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "rel_path": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO/Materiais de Apoio/01 - AULA 13 (Adjetivos II. Superlativo, Comparativo, Paradigmas). CURSO DE GREGO. KOINONIA-ITK. MATEUS G.pdf", "cloud_id": "11IFxSO9WpQtLONRnlqjaKnttzCtWnAMv"}, {"name": "02 - AULA 14 (Pronomes I). CURSO DE GREGO. KOINONIA-ITK", "filename": "02 - AULA 14 (Pronomes I). CURSO DE GREGO. KOINONIA-ITK.pdf", "rel_path": "07 - MÊS 7. ADJETIVANDO E PRONOMINANDO/Materiais de Apoio/02 - AULA 14 (Pronomes I). CURSO DE GREGO. KOINONIA-ITK.pdf", "cloud_id": "1JeePsbEtqTLGrvf_cBS20FtVVcRGBN6o"}]}, {"name": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\08 - MÊS 8. PRONOMINANDO E VERBALIZANDO", "total_seconds": 2890.97, "total_dur_str": "48m 11s", "lessons": [{"key": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO::01 - Aula 15. Pronomes II (Reflexivos, Deîxi, Endofóricos, Exofóricos, Mnomômicos). Curso De Grego Bíblico, Mateus G. Rangel Koinonia-Itk-1", "name": "01 - Aula 15. Pronomes II (Reflexivos, Deîxi, Endofóricos, Exofóricos, Mnomômicos). Curso De Grego Bíblico, Mateus G. Rangel Koinonia-Itk-1", "dur_str": "27m 10s", "duration": 1629.97, "rel_path": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO/01 - Aula 15. Pronomes II (Reflexivos, Deîxi, Endofóricos, Exofóricos, Mnomômicos). Curso De Grego Bíblico, Mateus G. Rangel Koinonia-Itk-1.mp4", "filename": "01 - Aula 15. Pronomes II (Reflexivos, Deîxi, Endofóricos, Exofóricos, Mnomômicos). Curso De Grego Bíblico, Mateus G. Rangel Koinonia-Itk-1.mp4", "cloud_id": "1UGrNHjTNbyVv6rOu1_7o7PztE_fyJVJF"}, {"key": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO::02 - Aula 16. Verbos I (Tipos E Atribuições Do Verbo Grego). Curso Grego Bíblico. Mateus G. Rangel, Koinonia-Itk-1", "name": "02 - Aula 16. Verbos I (Tipos E Atribuições Do Verbo Grego). Curso Grego Bíblico. Mateus G. Rangel, Koinonia-Itk-1", "dur_str": "21m 01s", "duration": 1261, "rel_path": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO/02 - Aula 16. Verbos I (Tipos E Atribuições Do Verbo Grego). Curso Grego Bíblico. Mateus G. Rangel, Koinonia-Itk-1.mp4", "filename": "02 - Aula 16. Verbos I (Tipos E Atribuições Do Verbo Grego). Curso Grego Bíblico. Mateus G. Rangel, Koinonia-Itk-1.mp4", "cloud_id": "1HPjgsd5HQS4Qo0gW-74EamXBM5Gs53Se"}], "pdfs": [{"name": "01 - AULA 15 (Pronomes II). CURSO DE GREGO", "filename": "01 - AULA 15 (Pronomes II). CURSO DE GREGO.pdf", "rel_path": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO/Materiais de Apoio/01 - AULA 15 (Pronomes II). CURSO DE GREGO.pdf", "cloud_id": "1JdMHke-KKLgASZwzCxLH7iaD9m5A_sOF"}, {"name": "02 - AULA 16 (Verbos I. Tipos de verbos e elementos do verbo). CURSO DE GREGO. KOINONIA-ITK", "filename": "02 - AULA 16 (Verbos I. Tipos de verbos e elementos do verbo). CURSO DE GREGO. KOINONIA-ITK.pdf", "rel_path": "08 - MÊS 8. PRONOMINANDO E VERBALIZANDO/Materiais de Apoio/02 - AULA 16 (Verbos I. Tipos de verbos e elementos do verbo). CURSO DE GREGO. KOINONIA-ITK.pdf", "cloud_id": "1Lzog4ItI5AwOP5Z9LQdG87QZmkpNXlGa"}]}, {"name": "09 - MÊS 9. VERBALIZANDO BASTANTE", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\09 - MÊS 9. VERBALIZANDO BASTANTE", "total_seconds": 4810.53, "total_dur_str": "01h 20m 11s", "lessons": [{"key": "09 - MÊS 9. VERBALIZANDO BASTANTE::01 - Aula 17. Verbos II(Transitividade Verbal E Modos Verbais). Curso De Grego Bíblico. Mateus G. Rangel -Itk-1", "name": "01 - Aula 17. Verbos II(Transitividade Verbal E Modos Verbais). Curso De Grego Bíblico. Mateus G. Rangel -Itk-1", "dur_str": "42m 07s", "duration": 2527.13, "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/01 - Aula 17. Verbos II(Transitividade Verbal E Modos Verbais). Curso De Grego Bíblico. Mateus G. Rangel -Itk-1.mp4", "filename": "01 - Aula 17. Verbos II(Transitividade Verbal E Modos Verbais). Curso De Grego Bíblico. Mateus G. Rangel -Itk-1.mp4", "cloud_id": "1pkgejgCw2PhWH0M3RaaD6ofNQ8l7VQhO"}, {"key": "09 - MÊS 9. VERBALIZANDO BASTANTE::02 - Αula 18. Verbos III (Tempos Verbais E Aktionsart). Curso De Grego Bíblico. Mateus G. Rangel - Itk-1", "name": "02 - Αula 18. Verbos III (Tempos Verbais E Aktionsart). Curso De Grego Bíblico. Mateus G. Rangel - Itk-1", "dur_str": "38m 03s", "duration": 2283.4, "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/02 - Αula 18. Verbos III (Tempos Verbais E Aktionsart). Curso De Grego Bíblico. Mateus G. Rangel - Itk-1.mp4", "filename": "02 - Αula 18. Verbos III (Tempos Verbais E Aktionsart). Curso De Grego Bíblico. Mateus G. Rangel - Itk-1.mp4", "cloud_id": "1HiJpEyTiqlxQF8DgTFTdAZ3tv93ymmJC"}], "pdfs": [{"name": "01 - ASPECTO_VERBAL_COMO_INDICADOR_DE_PROEMIN", "filename": "01 - ASPECTO_VERBAL_COMO_INDICADOR_DE_PROEMIN.pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/01 - ASPECTO_VERBAL_COMO_INDICADOR_DE_PROEMIN.pdf", "cloud_id": "1meXscEQWgIX9BYp9cSs0YbkXZlf0kkrP"}, {"name": "02 - AULA 17 (Verbos II. Modos verbais e Transitividade verbal). CURSO DE GREGO", "filename": "02 - AULA 17 (Verbos II. Modos verbais e Transitividade verbal). CURSO DE GREGO.pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/02 - AULA 17 (Verbos II. Modos verbais e Transitividade verbal). CURSO DE GREGO.pdf", "cloud_id": "13wBYnbRKRMiBMSX6j1bDsEIwMqTbp0BL"}, {"name": "03 - AULA 18 (Verbos III. Tempo, Aspecto e Morfologia Verbal)", "filename": "03 - AULA 18 (Verbos III. Tempo, Aspecto e Morfologia Verbal).pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/03 - AULA 18 (Verbos III. Tempo, Aspecto e Morfologia Verbal).pdf", "cloud_id": "13DXUaxuewVY5sNEdgDbPWmYW8Z8cA0s0"}, {"name": "04 - linguistica_lingua_portuguesa_2010-06-24_jean_paul_campos_e_sant_anna", "filename": "04 - linguistica_lingua_portuguesa_2010-06-24_jean_paul_campos_e_sant_anna.pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/04 - linguistica_lingua_portuguesa_2010-06-24_jean_paul_campos_e_sant_anna.pdf", "cloud_id": "1guYeGdPL9WTEBVmtrDk6PRoWzd_H6vfw"}, {"name": "05 - O Aspecto Verbal no Português. Travaglia", "filename": "05 - O Aspecto Verbal no Português. Travaglia.pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/05 - O Aspecto Verbal no Português. Travaglia.pdf", "cloud_id": "1mxAFk-j4tJD8lN_uuA68WWq-jcatqCo_"}, {"name": "06 - O_estudo_do_aspecto_verbal_em_grego_anti", "filename": "06 - O_estudo_do_aspecto_verbal_em_grego_anti.pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/06 - O_estudo_do_aspecto_verbal_em_grego_anti.pdf", "cloud_id": "1VeQX2FgechubQv0CjP3C73qiNwwmNf58"}, {"name": "07 - Aspecto_Verbal_Grego_Koine_Mateus_Rangel_ITK", "filename": "07 - Aspecto_Verbal_Grego_Koine_Mateus_Rangel_ITK.pdf", "rel_path": "09 - MÊS 9. VERBALIZANDO BASTANTE/Materiais de Apoio/07 - Aspecto_Verbal_Grego_Koine_Mateus_Rangel_ITK.pdf", "cloud_id": "1VaA-PrI5CXJAdXdWMZr5dgLDlAju9FgL"}]}, {"name": "10 - MÊS 10. VERBALIZANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\10 - MÊS 10. VERBALIZANDO", "total_seconds": 3274.77, "total_dur_str": "54m 35s", "lessons": [{"key": "10 - MÊS 10. VERBALIZANDO::01 - Aula 19. Verbos IV (Vozes Verbais, Paradigma Do Futuro, Aoristo E Particípios E Infinitivos)-1", "name": "01 - Aula 19. Verbos IV (Vozes Verbais, Paradigma Do Futuro, Aoristo E Particípios E Infinitivos)-1", "dur_str": "30m 20s", "duration": 1820.07, "rel_path": "10 - MÊS 10. VERBALIZANDO/01 - Aula 19. Verbos IV (Vozes Verbais, Paradigma Do Futuro, Aoristo E Particípios E Infinitivos)-1.m4v", "filename": "01 - Aula 19. Verbos IV (Vozes Verbais, Paradigma Do Futuro, Aoristo E Particípios E Infinitivos)-1.m4v", "cloud_id": "1kkDgAmf7fpmpobyUjyZ6otZQl3l3c1B7"}, {"key": "10 - MÊS 10. VERBALIZANDO::02 - Aula 20. Verbos V (Infinitivo E Particípio - Macetes Para Decorar A Morfologia Dos Verbos)-2", "name": "02 - Aula 20. Verbos V (Infinitivo E Particípio - Macetes Para Decorar A Morfologia Dos Verbos)-2", "dur_str": "24m 15s", "duration": 1454.7, "rel_path": "10 - MÊS 10. VERBALIZANDO/02 - Aula 20. Verbos V (Infinitivo E Particípio - Macetes Para Decorar A Morfologia Dos Verbos)-2.m4v", "filename": "02 - Aula 20. Verbos V (Infinitivo E Particípio - Macetes Para Decorar A Morfologia Dos Verbos)-2.m4v", "cloud_id": "1y0A_vyHnvODVTF8otDlZvtPXoTGdqQi8"}], "pdfs": [{"name": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA", "filename": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "rel_path": "10 - MÊS 10. VERBALIZANDO/Materiais de Apoio/01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "cloud_id": "1PRViNnj66lZTDl1dZKiSCMfWEG9Paa2S"}, {"name": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK", "filename": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "rel_path": "10 - MÊS 10. VERBALIZANDO/Materiais de Apoio/02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "cloud_id": "1fNK6fRIfje21KHVcT6ocEF_S3dSNRv2x"}]}, {"name": "11 - MÊS 11. ADVERBIANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\11 - MÊS 11. ADVERBIANDO", "total_seconds": 1386.73, "total_dur_str": "23m 07s", "lessons": [{"key": "11 - MÊS 11. ADVERBIANDO::01 - Aula 21. Advérbios I (Tipos De Advérbios)-3", "name": "01 - Aula 21. Advérbios I (Tipos De Advérbios)-3", "dur_str": "10m 28s", "duration": 628.23, "rel_path": "11 - MÊS 11. ADVERBIANDO/01 - Aula 21. Advérbios I (Tipos De Advérbios)-3.m4v", "filename": "01 - Aula 21. Advérbios I (Tipos De Advérbios)-3.m4v", "cloud_id": "1auX79K4p4BkEkkuNj1uI2T9nTD5dWxS5"}, {"key": "11 - MÊS 11. ADVERBIANDO::02 - AULA 22. ADVÉRBIOS II (FUNÇÕES)", "name": "02 - AULA 22. ADVÉRBIOS II (FUNÇÕES)", "dur_str": "12m 38s", "duration": 758.5, "rel_path": "11 - MÊS 11. ADVERBIANDO/02 - AULA 22. ADVÉRBIOS II (FUNÇÕES).mp4", "filename": "02 - AULA 22. ADVÉRBIOS II (FUNÇÕES).mp4", "cloud_id": "1bIcCsfkPMJIi5xlpIDoZV1k5DW1lDvmn"}], "pdfs": [{"name": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA-1", "filename": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA-1.pdf", "rel_path": "11 - MÊS 11. ADVERBIANDO/Materiais de Apoio/01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA-1.pdf", "cloud_id": "16BMTcGNUlP_r4RMqFaRgouavjN8qV0b3"}, {"name": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK (1)", "filename": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK (1).pdf", "rel_path": "11 - MÊS 11. ADVERBIANDO/Materiais de Apoio/02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK (1).pdf", "cloud_id": "15WxCYO_6w-LQZ_RrYakB1p6idSkPoes1"}]}, {"name": "12 - MÊS 12. NUMERALIZANDO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\12 - MÊS 12. NUMERALIZANDO", "total_seconds": 1750.93, "total_dur_str": "29m 11s", "lessons": [{"key": "12 - MÊS 12. NUMERALIZANDO::01 - AULA 23. NUMERAIS I (CONCEITO E PARADIGMAS)", "name": "01 - AULA 23. NUMERAIS I (CONCEITO E PARADIGMAS)", "dur_str": "11m 24s", "duration": 683.77, "rel_path": "12 - MÊS 12. NUMERALIZANDO/01 - AULA 23. NUMERAIS I (CONCEITO E PARADIGMAS).mp4", "filename": "01 - AULA 23. NUMERAIS I (CONCEITO E PARADIGMAS).mp4", "cloud_id": "1wKjqwA8QlG_PB9BbBTtnJrnnLU5vIsoM"}, {"key": "12 - MÊS 12. NUMERALIZANDO::02 - AULA 24. NUMERAIS II (NA PRÁTICA)", "name": "02 - AULA 24. NUMERAIS II (NA PRÁTICA)", "dur_str": "17m 47s", "duration": 1067.17, "rel_path": "12 - MÊS 12. NUMERALIZANDO/02 - AULA 24. NUMERAIS II (NA PRÁTICA).mp4", "filename": "02 - AULA 24. NUMERAIS II (NA PRÁTICA).mp4", "cloud_id": "1yqcME19JNeNJfs4ndZ8pLUHWGo4txyw1"}], "pdfs": [{"name": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA", "filename": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "rel_path": "12 - MÊS 12. NUMERALIZANDO/Materiais de Apoio/01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "cloud_id": "1PRViNnj66lZTDl1dZKiSCMfWEG9Paa2S"}, {"name": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK", "filename": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "rel_path": "12 - MÊS 12. NUMERALIZANDO/Materiais de Apoio/02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "cloud_id": "1fNK6fRIfje21KHVcT6ocEF_S3dSNRv2x"}]}, {"name": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES", "total_seconds": 3060.1, "total_dur_str": "51m 00s", "lessons": [{"key": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES::01 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO)", "name": "01 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO)", "dur_str": "15m 14s", "duration": 913.9, "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/01 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO).mp4", "filename": "01 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO).mp4", "cloud_id": "15VntP0XW5sNLVCkIFpLPA2EIWFDtdXlC"}, {"key": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES::02 - AULA 26. GREGO AVANÇADO. (CONJUNÇÕES ADVERBIAIS - COORDENADAS E SUBORDINADAS)", "name": "02 - AULA 26. GREGO AVANÇADO. (CONJUNÇÕES ADVERBIAIS - COORDENADAS E SUBORDINADAS)", "dur_str": "20m 32s", "duration": 1232.3, "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/02 - AULA 26. GREGO AVANÇADO. (CONJUNÇÕES ADVERBIAIS - COORDENADAS E SUBORDINADAS).mp4", "filename": "02 - AULA 26. GREGO AVANÇADO. (CONJUNÇÕES ADVERBIAIS - COORDENADAS E SUBORDINADAS).mp4", "cloud_id": "1dxuwvWmg73-55gF0inCNwTfl3tfGk6hE"}, {"key": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES::03 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO)", "name": "03 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO)", "dur_str": "15m 14s", "duration": 913.9, "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/03 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO).mp4", "filename": "03 - AULA 25. GREGO AVANÇADO (PERÍODO SIMPLES E COMPOSTO).mp4", "cloud_id": "1dYi98dL7FPpnOUz946BN5ZdRLqhw7-IO"}], "pdfs": [{"name": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA", "filename": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/Materiais de Apoio/01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "cloud_id": "1PRViNnj66lZTDl1dZKiSCMfWEG9Paa2S"}, {"name": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK", "filename": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/Materiais de Apoio/02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "cloud_id": "1fNK6fRIfje21KHVcT6ocEF_S3dSNRv2x"}, {"name": "03 - TCC UFF, 2021.02, Mateus G. Rangel. A Tradução das Orações com Prótase e Apódase do Grego Koiné para o Português.", "filename": "03 - TCC UFF, 2021.02, Mateus G. Rangel. A Tradução das Orações com Prótase e Apódase do Grego Koiné para o Português..pdf", "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/Materiais de Apoio/03 - TCC UFF, 2021.02, Mateus G. Rangel. A Tradução das Orações com Prótase e Apódase do Grego Koiné para o Português..pdf", "cloud_id": "1SDw6nAOKS8XWZB0Rcj-VD6ymw2JZMX1u"}, {"name": "04 - HIPOTAXE, PARATAXE. Articulação de orações; pesquisa e ensino. Violeta Virgínia Rodrigues", "filename": "04 - HIPOTAXE, PARATAXE. Articulação de orações; pesquisa e ensino. Violeta Virgínia Rodrigues.pdf", "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/Materiais de Apoio/04 - HIPOTAXE, PARATAXE. Articulação de orações; pesquisa e ensino. Violeta Virgínia Rodrigues.pdf", "cloud_id": "17d0qhVlmxSkvPaF7HjTw96lgh48gIQVi"}, {"name": "05 - conjuncoes. SLIDES", "filename": "05 - conjuncoes. SLIDES.pdf", "rel_path": "13 - MÊS 13. GREGO AVANÇADO PERÍODO SIMPLES E COMPOSTO, CONJUNÇÕES/Materiais de Apoio/05 - conjuncoes. SLIDES.pdf", "cloud_id": "1NgLZJdkMxBfWa1d46JTVSJ4OSl6GR3rv"}]}, {"name": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS", "total_seconds": 1525.3, "total_dur_str": "25m 25s", "lessons": [{"key": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS::01 - AULA 28. GREGO AVANÇADO (ORAÇÕES ADJETIVAS)", "name": "01 - AULA 28. GREGO AVANÇADO (ORAÇÕES ADJETIVAS)", "dur_str": "05m 36s", "duration": 335.53, "rel_path": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS/01 - AULA 28. GREGO AVANÇADO (ORAÇÕES ADJETIVAS).mp4", "filename": "01 - AULA 28. GREGO AVANÇADO (ORAÇÕES ADJETIVAS).mp4", "cloud_id": "1iLayC1KcFm83A_6Arx-9z4Chj1ufLf6O"}, {"key": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS::02 - AULA 27. GREGO AVANÇADO (ORAÇÕES SUBORDINADAS SUBSTANTIVAS)", "name": "02 - AULA 27. GREGO AVANÇADO (ORAÇÕES SUBORDINADAS SUBSTANTIVAS)", "dur_str": "19m 50s", "duration": 1189.77, "rel_path": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS/02 - AULA 27. GREGO AVANÇADO (ORAÇÕES SUBORDINADAS SUBSTANTIVAS).mp4", "filename": "02 - AULA 27. GREGO AVANÇADO (ORAÇÕES SUBORDINADAS SUBSTANTIVAS).mp4", "cloud_id": "1yVr9PpOhz5-9l7j9x6rKnucjG970-OK1"}], "pdfs": [{"name": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA", "filename": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "rel_path": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS/Materiais de Apoio/01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "cloud_id": "1PRViNnj66lZTDl1dZKiSCMfWEG9Paa2S"}, {"name": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK", "filename": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "rel_path": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS/Materiais de Apoio/02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "cloud_id": "1fNK6fRIfje21KHVcT6ocEF_S3dSNRv2x"}, {"name": "03 - Tese-MarchonAH-min. AS Teias da Argumentação. Um Estudo de Interface Sintático-discursivo da Hipotaxe Circunstancial", "filename": "03 - Tese-MarchonAH-min. AS Teias da Argumentação. Um Estudo de Interface Sintático-discursivo da Hipotaxe Circunstancial.pdf", "rel_path": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS/Materiais de Apoio/03 - Tese-MarchonAH-min. AS Teias da Argumentação. Um Estudo de Interface Sintático-discursivo da Hipotaxe Circunstancial.pdf", "cloud_id": "1P2vLkae3hTX_6WfQJqz47pHyPSUJj1TG"}, {"name": "04 - ORAÇÕES CONCESSIVAS INDEPENDENTES À LUZ DA GRAMÁTICA DISCURSO-FUNCIONAL. Talita Storti Garcia", "filename": "04 - ORAÇÕES CONCESSIVAS INDEPENDENTES À LUZ DA GRAMÁTICA DISCURSO-FUNCIONAL. Talita Storti Garcia.pdf", "rel_path": "14 - MÊS 14. CONJUNÇÕES SUBSTANTIVAS E ADJETIVAS/Materiais de Apoio/04 - ORAÇÕES CONCESSIVAS INDEPENDENTES À LUZ DA GRAMÁTICA DISCURSO-FUNCIONAL. Talita Storti Garcia.pdf", "cloud_id": "1q_GlA1Hms3JmtGEyOiMfZ_zdLR8-DZyf"}]}, {"name": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Grego Bíblico - ITK\\15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO", "total_seconds": 0, "total_dur_str": "00m 00s", "lessons": [], "pdfs": [{"name": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA", "filename": "01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "rel_path": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO/Materiais de Apoio/01 - CURSO DE GREGO BÍBLICO. 2024 (COM QR CODE). CAPA DURA.pdf", "cloud_id": "1PRViNnj66lZTDl1dZKiSCMfWEG9Paa2S"}, {"name": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK", "filename": "02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "rel_path": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO/Materiais de Apoio/02 - MAPAS MENTAIS. GREGO BÍBLICO - ITK.pdf", "cloud_id": "1fNK6fRIfje21KHVcT6ocEF_S3dSNRv2x"}, {"name": "03 - A tradução do novo testamento em português. Jonathan Rodrigues Louveira", "filename": "03 - A tradução do novo testamento em português. Jonathan Rodrigues Louveira.pdf", "rel_path": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO/Materiais de Apoio/03 - A tradução do novo testamento em português. Jonathan Rodrigues Louveira.pdf", "cloud_id": "1gq5CvINRPnBcrQkGahxbdrVPPieabdxS"}, {"name": "04 - Argumentação - Fiorin", "filename": "04 - Argumentação - Fiorin.pdf", "rel_path": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO/Materiais de Apoio/04 - Argumentação - Fiorin.pdf", "cloud_id": "14VMM5FKqSxcWVzXeoT0AIxSgSvjOHG6S"}, {"name": "05 - Metáfrase e Paráfrase", "filename": "05 - Metáfrase e Paráfrase.pdf", "rel_path": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO/Materiais de Apoio/05 - Metáfrase e Paráfrase.pdf", "cloud_id": "1Bmp2b3JHJtMpjKsWHAbeR23xZYOyHH_D"}, {"name": "06 - O desenvolvimento da subcompetência teórica e metateórica em tradução. Técnicas de tradução e sua metalinguagem. José Luiz Vila Real Gonçalves", "filename": "06 - O desenvolvimento da subcompetência teórica e metateórica em tradução. Técnicas de tradução e sua metalinguagem. José Luiz Vila Real Gonçalves.pdf", "rel_path": "15 - MÊS 15. PREPOSIÇÕES E TÉCNICAS DE TRADUÇÃO/Materiais de Apoio/06 - O desenvolvimento da subcompetência teórica e metateórica em tradução. Técnicas de tradução e sua metalinguagem. José Luiz Vila Real Gonçalves.pdf", "cloud_id": "1WeCOSQGo_g3UghlTOsfcyfMfTKsaOo2z"}]}]}, "hebraico": {"course_name": "Hebraico Bíblico", "total_seconds": 31305.37, "total_videos": 13, "total_pdfs": 61, "modules": [{"name": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA", "total_seconds": 3863.43, "total_dur_str": "01h 04m 23s", "lessons": [{"key": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA::01 - VIDEOAULA 01 - Parte 1 - (HISTÓRIA DA LÍNGUA HEBRAICA)", "name": "01 - VIDEOAULA 01 - Parte 1 - (HISTÓRIA DA LÍNGUA HEBRAICA)", "dur_str": "28m 34s", "duration": 1713.98, "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/01 - VIDEOAULA 01 - Parte 1 - (HISTÓRIA DA LÍNGUA HEBRAICA).mp4", "filename": "01 - VIDEOAULA 01 - Parte 1 - (HISTÓRIA DA LÍNGUA HEBRAICA).mp4", "cloud_id": "1pQZ7Qz0CNrx7sVR9ktyBfLPg2FLz-cXk"}, {"key": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA::02 - VIDEOAULA 01 - Parte 2 - (CONTINUAÇÃO)", "name": "02 - VIDEOAULA 01 - Parte 2 - (CONTINUAÇÃO)", "dur_str": "35m 49s", "duration": 2149.45, "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/02 - VIDEOAULA 01 - Parte 2 - (CONTINUAÇÃO).mp4", "filename": "02 - VIDEOAULA 01 - Parte 2 - (CONTINUAÇÃO).mp4", "cloud_id": "1KZ61iBsxhkk1s17r3HYPgeHRNY1pgMNc"}], "pdfs": [{"name": "01 - alfabeto hebraico histórico", "filename": "01 - alfabeto hebraico histórico.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/01 - alfabeto hebraico histórico.pdf", "cloud_id": "12fIxKBzxH9Gj-jqWAvgg7LusMEXAwcTO"}, {"name": "02 - Textus Receptus e Biblia Hebraica", "filename": "02 - Textus Receptus e Biblia Hebraica.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/02 - Textus Receptus e Biblia Hebraica.pdf", "cloud_id": "1SxEek7wESYQ-PefNWXlMPVqdVPM6PbVv"}, {"name": "03 - alfabeto hebraico histórico", "filename": "03 - alfabeto hebraico histórico.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/03 - alfabeto hebraico histórico.pdf", "cloud_id": "1K_8rv7T6Jhu1mmBUyw76rQ3LSrsn9w8G"}, {"name": "04 - Texto Massorético", "filename": "04 - Texto Massorético.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/04 - Texto Massorético.pdf", "cloud_id": "1NQ358sxQ_k45addnwWBtjbBvL_lQZd5h"}, {"name": "05 - O HEBRAICO MODERNO UM ESTUDO HISTÓRICO. Rifka Berezin", "filename": "05 - O HEBRAICO MODERNO UM ESTUDO HISTÓRICO. Rifka Berezin.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/05 - O HEBRAICO MODERNO UM ESTUDO HISTÓRICO. Rifka Berezin.pdf", "cloud_id": "1S86udHHH7JFPLLEfWW__a2IYJGs9jYzD"}, {"name": "06 - O HEBRAICO MODERNO UM ESTUDO HISTÓRICO. Rifka Berezin", "filename": "06 - O HEBRAICO MODERNO UM ESTUDO HISTÓRICO. Rifka Berezin.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/06 - O HEBRAICO MODERNO UM ESTUDO HISTÓRICO. Rifka Berezin.pdf", "cloud_id": "1ECBfUq1L-uADxzUB2NTMpL375uPjzcG-"}, {"name": "07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "01 - MÊS 1. HISTÓRIA DA LÍNGUA HEBRAICA/Materiais de Apoio/07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1AyBXc8KUUhjwQO1oPwIdPLX3xBUu7yFv"}]}, {"name": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU", "total_seconds": 3258.02, "total_dur_str": "54m 18s", "lessons": [{"key": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU::01 - Aula 02 - SÍNTESE HISTÓRICA DO POVO JUDEU", "name": "01 - Aula 02 - SÍNTESE HISTÓRICA DO POVO JUDEU", "dur_str": "54m 18s", "duration": 3258.02, "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/01 - Aula 02 - SÍNTESE HISTÓRICA DO POVO JUDEU.mp4", "filename": "01 - Aula 02 - SÍNTESE HISTÓRICA DO POVO JUDEU.mp4", "cloud_id": "17aKmGUzkJLOy3jHW4YS60y36X3JfcR8p"}], "pdfs": [{"name": "01 - LEGÍTIMA DEFESA PREEMPTIVA DE ISRAEL NA GUERRA DOS SEIS DIAS. Direito Internacional", "filename": "01 - LEGÍTIMA DEFESA PREEMPTIVA DE ISRAEL NA GUERRA DOS SEIS DIAS. Direito Internacional.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/01 - LEGÍTIMA DEFESA PREEMPTIVA DE ISRAEL NA GUERRA DOS SEIS DIAS. Direito Internacional.pdf", "cloud_id": "1jVuDIZRwUSSEpQLFbi2SsYwY-hKTKTuI"}, {"name": "02 - O PAPEL DOS ESTADOS UNIDOS NA CRIAÇÃO DO ESTADO DE ISRAEL razões que motivaram Truman a apoiar a fundação de um Estado judaico.", "filename": "02 - O PAPEL DOS ESTADOS UNIDOS NA CRIAÇÃO DO ESTADO DE ISRAEL razões que motivaram Truman a apoiar a fundação de um Estado judaico..pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/02 - O PAPEL DOS ESTADOS UNIDOS NA CRIAÇÃO DO ESTADO DE ISRAEL razões que motivaram Truman a apoiar a fundação de um Estado judaico..pdf", "cloud_id": "1Uwd3xiFHDe275HRQamHNauIjYjd0kE0R"}, {"name": "03 - Os Sefarditas", "filename": "03 - Os Sefarditas.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/03 - Os Sefarditas.pdf", "cloud_id": "16dwCj2zRCKzBgLIpfk8vh8dQA8NY1VEe"}, {"name": "04 - RESPONSABILIDADE INTERNACIONAL DA ONU NO CONFLITO ISRAEL-PALESTINA UMA ANÁLISE HISTÓRICO e JURÍDICA", "filename": "04 - RESPONSABILIDADE INTERNACIONAL DA ONU NO CONFLITO ISRAEL-PALESTINA UMA ANÁLISE HISTÓRICO e JURÍDICA.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/04 - RESPONSABILIDADE INTERNACIONAL DA ONU NO CONFLITO ISRAEL-PALESTINA UMA ANÁLISE HISTÓRICO e JURÍDICA.pdf", "cloud_id": "1hpBc-A0S6HMQIQ0S5AanqvFAc8Bilo2O"}, {"name": "05 - A História de Israel no debate atual", "filename": "05 - A História de Israel no debate atual.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/05 - A História de Israel no debate atual.pdf", "cloud_id": "1Ej47366pXKqsgiyOL8wK2BjxHvlGe3zU"}, {"name": "06 - Dossiê da Guerra entre Israel e Hamas", "filename": "06 - Dossiê da Guerra entre Israel e Hamas.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/06 - Dossiê da Guerra entre Israel e Hamas.pdf", "cloud_id": "1K-n94mrWqasptIoe3lfqhv9QMViyWazx"}, {"name": "07 - Israel. Implantação do Estado, Sionismo e governo Netanyahu", "filename": "07 - Israel. Implantação do Estado, Sionismo e governo Netanyahu.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/07 - Israel. Implantação do Estado, Sionismo e governo Netanyahu.pdf", "cloud_id": "1a4DS7H8-tkOkgRNacXULta9a5f09_ro1"}, {"name": "08 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "08 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "02 - MÊS 2. SÍNTESE HISTÓRICA DO POVO JUDEU/Materiais de Apoio/08 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1qka8gJp6dhsYhnSYThS5O-K0sOr1rfPX"}]}, {"name": "03 - MÊS 3. ALFABETO HEBRAICO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\03 - MÊS 3. ALFABETO HEBRAICO", "total_seconds": 4049.04, "total_dur_str": "01h 07m 29s", "lessons": [{"key": "03 - MÊS 3. ALFABETO HEBRAICO::01 - AULA 3. ALFABETO HEBRAICO - PARTE 1", "name": "01 - AULA 3. ALFABETO HEBRAICO - PARTE 1", "dur_str": "31m 58s", "duration": 1918.27, "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/01 - AULA 3. ALFABETO HEBRAICO - PARTE 1.mp4", "filename": "01 - AULA 3. ALFABETO HEBRAICO - PARTE 1.mp4", "cloud_id": "1H9hhLxDzyXF4nNoPqJ4YdyfHnhsbnBjj"}, {"key": "03 - MÊS 3. ALFABETO HEBRAICO::02 - AUL 3. ALFABETO HEBRAICO - Parte 2", "name": "02 - AUL 3. ALFABETO HEBRAICO - Parte 2", "dur_str": "35m 31s", "duration": 2130.77, "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/02 - AUL 3. ALFABETO HEBRAICO - Parte 2.mp4", "filename": "02 - AUL 3. ALFABETO HEBRAICO - Parte 2.mp4", "cloud_id": "1dXYcOnpmJYxKz4wqJHF4Vadcz8IeBhxa"}], "pdfs": [{"name": "01 - alfabeto paleohebraico.", "filename": "01 - alfabeto paleohebraico..pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/01 - alfabeto paleohebraico..pdf", "cloud_id": "1-XO2WqhPjYscyrsMKRXPVoUVpxQ-C78-"}, {"name": "02 - Bíblia Hebraico-Português Interlinear", "filename": "02 - Bíblia Hebraico-Português Interlinear.pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/02 - Bíblia Hebraico-Português Interlinear.pdf", "cloud_id": "1UCAssfn5bFZUrNVkoebgdbfoVz-ObDa5"}, {"name": "03 - Sinais e Pontuações do Hebraico Bíblico", "filename": "03 - Sinais e Pontuações do Hebraico Bíblico.pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/03 - Sinais e Pontuações do Hebraico Bíblico.pdf", "cloud_id": "11vBFmjNasuslN7puz0286-lxP7M6ulYC"}, {"name": "04 - Alfabeto Hebraico Samaritano", "filename": "04 - Alfabeto Hebraico Samaritano.pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/04 - Alfabeto Hebraico Samaritano.pdf", "cloud_id": "1Io6NyTF0WuWe2t0fIjKgO2D_Dt1RVqZn"}, {"name": "05 - alfabeto hebraico", "filename": "05 - alfabeto hebraico.pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/05 - alfabeto hebraico.pdf", "cloud_id": "1yyog8vGfCOc9AzKxDoHDnOajS663uJoA"}, {"name": "07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1AyBXc8KUUhjwQO1oPwIdPLX3xBUu7yFv"}, {"name": "08 - Caderno_Caligrafia_Hebraico_Biblico", "filename": "08 - Caderno_Caligrafia_Hebraico_Biblico.pdf", "rel_path": "03 - MÊS 3. ALFABETO HEBRAICO/Materiais de Apoio/08 - Caderno_Caligrafia_Hebraico_Biblico.pdf", "cloud_id": "1UMg781vDcPFS86yT2vT7nsCgTdURww3s"}]}, {"name": "04 - MÊS 4. DASGUESH E FORMA SOFIT", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\04 - MÊS 4. DASGUESH E FORMA SOFIT", "total_seconds": 1888.32, "total_dur_str": "31m 28s", "lessons": [{"key": "04 - MÊS 4. DASGUESH E FORMA SOFIT::01 - AULA 04 DAGUESH E FORMAS SOFIT", "name": "01 - AULA 04 DAGUESH E FORMAS SOFIT", "dur_str": "31m 28s", "duration": 1888.32, "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/01 - AULA 04 DAGUESH E FORMAS SOFIT.mp4", "filename": "01 - AULA 04 DAGUESH E FORMAS SOFIT.mp4", "cloud_id": "1-vcNP0xwq1arr7FAL37n_DbaERAx_5by"}], "pdfs": [{"name": "01 - BÍBLIA HEBRAICA. Tanach Hebraico", "filename": "01 - BÍBLIA HEBRAICA. Tanach Hebraico.pdf", "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/Materiais de Apoio/01 - BÍBLIA HEBRAICA. Tanach Hebraico.pdf", "cloud_id": "1Lb8AINkhgiueBfbXtt9jb0wn77D6uYbA"}, {"name": "02 - DICIONÁRIO BÍBLICO STRONG, LÉXICO HEBRAICO, ARAMAICO E GREGO EM PORTUGUÊS", "filename": "02 - DICIONÁRIO BÍBLICO STRONG, LÉXICO HEBRAICO, ARAMAICO E GREGO EM PORTUGUÊS.pdf", "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/Materiais de Apoio/02 - DICIONÁRIO BÍBLICO STRONG, LÉXICO HEBRAICO, ARAMAICO E GREGO EM PORTUGUÊS.pdf", "cloud_id": "1tAWVKgXBjv125112O2xpP8t7xiR-zsTN"}, {"name": "03 - O DICIONARIO DE HEBRAICO - PARALELISMOS", "filename": "03 - O DICIONARIO DE HEBRAICO - PARALELISMOS.pdf", "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/Materiais de Apoio/03 - O DICIONARIO DE HEBRAICO - PARALELISMOS.pdf", "cloud_id": "1JJ8LIs4vNArQEHFF2A7xFoh38FacP8vi"}, {"name": "04 - Biblia Hebraica - David Gorodovits", "filename": "04 - Biblia Hebraica - David Gorodovits.pdf", "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/Materiais de Apoio/04 - Biblia Hebraica - David Gorodovits.pdf", "cloud_id": "1f5yCGTH2B4S8k2ttklm2bSw1j1rdOwcX"}, {"name": "05 - Biblia hebraica na Escrita Rashi", "filename": "05 - Biblia hebraica na Escrita Rashi.pdf", "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/Materiais de Apoio/05 - Biblia hebraica na Escrita Rashi.pdf", "cloud_id": "1QIvv2C0QYCVEe99j32Po790o1zgxA1Z-"}, {"name": "06 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "06 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "04 - MÊS 4. DASGUESH E FORMA SOFIT/Materiais de Apoio/06 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1ri-aGXH-EdZl_7G88xEBhzqNB3415g7W"}]}, {"name": "05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT", "total_seconds": 3141.82, "total_dur_str": "52m 22s", "lessons": [{"key": "05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT::01 - AULA 05 CONSOANTES VOCÁLICAS E SINAIS MASSORÉTICOS", "name": "01 - AULA 05 CONSOANTES VOCÁLICAS E SINAIS MASSORÉTICOS", "dur_str": "52m 22s", "duration": 3141.82, "rel_path": "05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT/01 - AULA 05 CONSOANTES VOCÁLICAS E SINAIS MASSORÉTICOS.mp4", "filename": "01 - AULA 05 CONSOANTES VOCÁLICAS E SINAIS MASSORÉTICOS.mp4", "cloud_id": "11t6LrGXYC7mWxm9GwENKiWguDtnL_oBF"}], "pdfs": [{"name": "01 - Pronúncia das Consoantes, Vogais e Semivogais", "filename": "01 - Pronúncia das Consoantes, Vogais e Semivogais.pdf", "rel_path": "05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT/Materiais de Apoio/01 - Pronúncia das Consoantes, Vogais e Semivogais.pdf", "cloud_id": "1B5j8vPskAbIrCQj6_JS3GxZYIVbRiZ8I"}, {"name": "02 - Sinais e Pontuações do Hebraico Bíblico", "filename": "02 - Sinais e Pontuações do Hebraico Bíblico.pdf", "rel_path": "05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT/Materiais de Apoio/02 - Sinais e Pontuações do Hebraico Bíblico.pdf", "cloud_id": "19Rh5-ZE6OANhcMYIWDZeTM6Rd5eFNjPa"}, {"name": "03 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "03 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "05 - MÊS 5. CONSOANTES VOCÁLICAS E NEKUDOT/Materiais de Apoio/03 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1abdKhBgIdKj_PIvqx8Qt017t5CWTu9X4"}]}, {"name": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO", "total_seconds": 3249.52, "total_dur_str": "54m 10s", "lessons": [{"key": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO::01 - AULA 06 SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO-", "name": "01 - AULA 06 SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO-", "dur_str": "54m 10s", "duration": 3249.52, "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/01 - AULA 06 SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO-.mp4", "filename": "01 - AULA 06 SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO-.mp4", "cloud_id": "1pk-TSNWAintTeBMc4gLj17qfFdzCfVkX"}], "pdfs": [{"name": "01 - Vocabulário do Hebraico Bíblico", "filename": "01 - Vocabulário do Hebraico Bíblico.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/01 - Vocabulário do Hebraico Bíblico.pdf", "cloud_id": "1H5aWEV71FDkWjqhzivrcPxRj8hOmRTxG"}, {"name": "02 - Indicação de Publicações sobre a Preservação e Transmissão da Bíblia Hebraica e Estudos sobre o Hebraico Bíblico", "filename": "02 - Indicação de Publicações sobre a Preservação e Transmissão da Bíblia Hebraica e Estudos sobre o Hebraico Bíblico.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/02 - Indicação de Publicações sobre a Preservação e Transmissão da Bíblia Hebraica e Estudos sobre o Hebraico Bíblico.pdf", "cloud_id": "18DZvWgiw_5ZMAlR_CC39ypoa1xgrCxBZ"}, {"name": "03 - Manuscritos do Deserto da Judeia", "filename": "03 - Manuscritos do Deserto da Judeia.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/03 - Manuscritos do Deserto da Judeia.pdf", "cloud_id": "1C0gA73KUancLQsjA37llfDqzwRVXOixv"}, {"name": "04 - Manuscritos do Texto Massorético", "filename": "04 - Manuscritos do Texto Massorético.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/04 - Manuscritos do Texto Massorético.pdf", "cloud_id": "1cfoFhk57uk8euzLDrtV6W9eNR3Xl7S_F"}, {"name": "05 - Massorá", "filename": "05 - Massorá.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/05 - Massorá.pdf", "cloud_id": "1_TawRMN-r65YcsK6Fz7GgswD_Q4gPkvh"}, {"name": "06 - Massoretas", "filename": "06 - Massoretas.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/06 - Massoretas.pdf", "cloud_id": "1IY6OzmQGbQAiaiOWOUX_dowIFIY72NPX"}, {"name": "07 - Utilização da BHS", "filename": "07 - Utilização da BHS.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/07 - Utilização da BHS.pdf", "cloud_id": "12ED_iIIKuJ6k1yELNR6VScbcvyXsqdPv"}, {"name": "08 - Utilização do Dicionário de Hebraico Bíblico", "filename": "08 - Utilização do Dicionário de Hebraico Bíblico.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/08 - Utilização do Dicionário de Hebraico Bíblico.pdf", "cloud_id": "1xLiUP_gktKUfTTmYdgXhoGeLCtaeb8ZU"}, {"name": "09 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "09 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/09 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1FWtcBUriXbIvRtsD0PTcbRlWoFaVO1Pr"}, {"name": "10 - 06 - SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO", "filename": "10 - 06 - SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO.pdf", "rel_path": "06 - MÊS 6. SHEVARIM, VAV CONJUNTIVO E CONSECUTIVO/Materiais de Apoio/10 - 06 - SH'VÁ E O VAV CONJUNTIVO E CONSECUTIVO.pdf", "cloud_id": "1Gc2b8YmSiv5IEQvzrPLgxSkPePwH8OMc"}]}, {"name": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES", "total_seconds": 2033.81, "total_dur_str": "33m 54s", "lessons": [{"key": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES::01 - VIDEOAULA 7 - PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES 3", "name": "01 - VIDEOAULA 7 - PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES 3", "dur_str": "33m 54s", "duration": 2033.81, "rel_path": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES/01 - VIDEOAULA 7 - PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES 3.mp4", "filename": "01 - VIDEOAULA 7 - PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES 3.mp4", "cloud_id": "1MI07WYYBJCVbIGuOhKP4zvN4P_vOsQsF"}], "pdfs": [{"name": "01 - Estratificação Linguística, Ampliação Semântica e Polissemia em Hebraico", "filename": "01 - Estratificação Linguística, Ampliação Semântica e Polissemia em Hebraico.pdf", "rel_path": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES/Materiais de Apoio/01 - Estratificação Linguística, Ampliação Semântica e Polissemia em Hebraico.pdf", "cloud_id": "13b2m32gJOR_OaVLcsw78Y8mqFX0Ljp4b"}, {"name": "02 - A Linguística Textual no Ensino do Hebraico Bíblico", "filename": "02 - A Linguística Textual no Ensino do Hebraico Bíblico.pdf", "rel_path": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES/Materiais de Apoio/02 - A Linguística Textual no Ensino do Hebraico Bíblico.pdf", "cloud_id": "13KPBlGDLj701Ij3ZslLXUSVtGDEZ_C7Q"}, {"name": "03 - FERRAMENTAS PARA O ESTUDO DO HEBRAICO BÍBLICO", "filename": "03 - FERRAMENTAS PARA O ESTUDO DO HEBRAICO BÍBLICO.pdf", "rel_path": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES/Materiais de Apoio/03 - FERRAMENTAS PARA O ESTUDO DO HEBRAICO BÍBLICO.pdf", "cloud_id": "1BUaQpDzoU3IBp4NKHOXwX1G-WcnOyI8H"}, {"name": "04 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "04 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "07 - MÊS 7. PREPOSIÇÕES INSEPARÁVEIS E INDEPENDENTES/Materiais de Apoio/04 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1tZU2CiDpbD77lFi7-Uu9ND6oy-vSyXq8"}]}, {"name": "08 - MÊS 8. ARTIGOS E SUBSTANTIVOS", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\08 - MÊS 8. ARTIGOS E SUBSTANTIVOS", "total_seconds": 2662.98, "total_dur_str": "44m 23s", "lessons": [{"key": "08 - MÊS 8. ARTIGOS E SUBSTANTIVOS::01 - AULA 8 - ARTIGOS E SUBSTANTIVOS HEBRAICOS", "name": "01 - AULA 8 - ARTIGOS E SUBSTANTIVOS HEBRAICOS", "dur_str": "44m 23s", "duration": 2662.98, "rel_path": "08 - MÊS 8. ARTIGOS E SUBSTANTIVOS/01 - AULA 8 - ARTIGOS E SUBSTANTIVOS HEBRAICOS.mp4", "filename": "01 - AULA 8 - ARTIGOS E SUBSTANTIVOS HEBRAICOS.mp4", "cloud_id": "13egqvZ58xNUCCuTUQY6yXus9Tz-2qNBR"}], "pdfs": [{"name": "01 - As relações de factitividade e ou causatividade nas formas verbais Piel e Hifil no hebraico bíblico", "filename": "01 - As relações de factitividade e ou causatividade nas formas verbais Piel e Hifil no hebraico bíblico.pdf", "rel_path": "08 - MÊS 8. ARTIGOS E SUBSTANTIVOS/Materiais de Apoio/01 - As relações de factitividade e ou causatividade nas formas verbais Piel e Hifil no hebraico bíblico.pdf", "cloud_id": "1wOJIVtMG9r_uqynHn61unRKX8G1yidRv"}, {"name": "02 - AS VOGAIS E SUAS TRANSFORMAÇÕES NO HEBRAICO BÍBLICO", "filename": "02 - AS VOGAIS E SUAS TRANSFORMAÇÕES NO HEBRAICO BÍBLICO.pdf", "rel_path": "08 - MÊS 8. ARTIGOS E SUBSTANTIVOS/Materiais de Apoio/02 - AS VOGAIS E SUAS TRANSFORMAÇÕES NO HEBRAICO BÍBLICO.pdf", "cloud_id": "104coUSXqd8Ok3Hefn-rSUJxHi1HtbzN5"}, {"name": "03 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "03 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "08 - MÊS 8. ARTIGOS E SUBSTANTIVOS/Materiais de Apoio/03 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1abdKhBgIdKj_PIvqx8Qt017t5CWTu9X4"}]}, {"name": "09 - MÊS 9. OS VERBOS HEBRAICOS", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\09 - MÊS 9. OS VERBOS HEBRAICOS", "total_seconds": 6418.67, "total_dur_str": "01h 46m 59s", "lessons": [{"key": "09 - MÊS 9. OS VERBOS HEBRAICOS::01 - VIDEOAULA 9 - INTRODUÇÃO GERAL AOS VERBOS HEBRAICOS", "name": "01 - VIDEOAULA 9 - INTRODUÇÃO GERAL AOS VERBOS HEBRAICOS", "dur_str": "01h 46m 59s", "duration": 6418.67, "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/01 - VIDEOAULA 9 - INTRODUÇÃO GERAL AOS VERBOS HEBRAICOS.mp4", "filename": "01 - VIDEOAULA 9 - INTRODUÇÃO GERAL AOS VERBOS HEBRAICOS.mp4", "cloud_id": "1oOxA2HnqpblIRjjNjzMo1T3HYG-Ky2om"}], "pdfs": [{"name": "01 - Algumas observações acerca da formação dos verbos árabe e hebraico", "filename": "01 - Algumas observações acerca da formação dos verbos árabe e hebraico.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/01 - Algumas observações acerca da formação dos verbos árabe e hebraico.pdf", "cloud_id": "17ffNRxOorxz9h6ENCthe4XCOK4w8X8p2"}, {"name": "02 - Aspecto Verbal no Hebraico Biblico", "filename": "02 - Aspecto Verbal no Hebraico Biblico.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/02 - Aspecto Verbal no Hebraico Biblico.pdf", "cloud_id": "1iY6zx5nnLavyMRItv08HwKskVi-G1ucC"}, {"name": "03 - O VERBO NA GRAMÁTICA HEBRAICA E A GLOBALIZAÇÃO", "filename": "03 - O VERBO NA GRAMÁTICA HEBRAICA E A GLOBALIZAÇÃO.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/03 - O VERBO NA GRAMÁTICA HEBRAICA E A GLOBALIZAÇÃO.pdf", "cloud_id": "1lj_8kC7RGnM799Ju4oj4BkVeMFGM_hlJ"}, {"name": "04 - Algumas observações acerca da formação dos verbos árabe e hebraico", "filename": "04 - Algumas observações acerca da formação dos verbos árabe e hebraico.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/04 - Algumas observações acerca da formação dos verbos árabe e hebraico.pdf", "cloud_id": "1K6XJpHn65bNx_fVtn2PGv75bbGXEinHn"}, {"name": "05 - Aspecto Verbal no Hebraico Biblico", "filename": "05 - Aspecto Verbal no Hebraico Biblico.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/05 - Aspecto Verbal no Hebraico Biblico.pdf", "cloud_id": "1G02EhHXUrW9O3jndjiBGTVLxPMQfiTJo"}, {"name": "06 - O VERBO NA GRAMÁTICA HEBRAICA E A GLOBALIZAÇÃO", "filename": "06 - O VERBO NA GRAMÁTICA HEBRAICA E A GLOBALIZAÇÃO.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/06 - O VERBO NA GRAMÁTICA HEBRAICA E A GLOBALIZAÇÃO.pdf", "cloud_id": "1oFYKmDhI1WTCX-7ydpz36GQTLLW422AS"}, {"name": "07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/07 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1AyBXc8KUUhjwQO1oPwIdPLX3xBUu7yFv"}, {"name": "08 - AULA 9 DE HEBRAICO BÍBLICO. VERBOS", "filename": "08 - AULA 9 DE HEBRAICO BÍBLICO. VERBOS.pdf", "rel_path": "09 - MÊS 9. OS VERBOS HEBRAICOS/Materiais de Apoio/08 - AULA 9 DE HEBRAICO BÍBLICO. VERBOS.pdf", "cloud_id": "1UgMdZ0tNJ5X4VAwCQXvMIbjIgaMUfp6b"}]}, {"name": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO", "folder_path": "C:\\Users\\fabiovieitas\\Desktop\\Curso de Hebraico Bíblico - ITK\\10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO", "total_seconds": 739.76, "total_dur_str": "12m 20s", "lessons": [{"key": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO::01 - Guia de 20 palavras mais úteis no hebraico", "name": "01 - Guia de 20 palavras mais úteis no hebraico", "dur_str": "04m 55s", "duration": 295.38, "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/01 - Guia de 20 palavras mais úteis no hebraico.mp4", "filename": "01 - Guia de 20 palavras mais úteis no hebraico.mp4", "cloud_id": "1DuqcymG4azLBgAdvu0dSv2zp_3oRiU0b"}, {"key": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO::02 - Números, Comércio e Lugares em Hebraico", "name": "02 - Números, Comércio e Lugares em Hebraico", "dur_str": "07m 24s", "duration": 444.38, "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/02 - Números, Comércio e Lugares em Hebraico.mp4", "filename": "02 - Números, Comércio e Lugares em Hebraico.mp4", "cloud_id": "1nd5Muxf7DA_MsKikqBxNO6tohLINRIDx"}], "pdfs": [{"name": "01 - SIMPLES VOCABULÁRIO HEBRAICO", "filename": "01 - SIMPLES VOCABULÁRIO HEBRAICO.pdf", "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/Materiais de Apoio/01 - SIMPLES VOCABULÁRIO HEBRAICO.pdf", "cloud_id": "1Fs-dEAB7muV6nGU13ayCjn4Duv_rA0aA"}, {"name": "02 - CURSO DE HEBRAICO BÍBLICO. KOINONIA", "filename": "02 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/Materiais de Apoio/02 - CURSO DE HEBRAICO BÍBLICO. KOINONIA.pdf", "cloud_id": "1VZ-1Fp2KoVFlxpfb9RmheoGRMHI-brW1"}, {"name": "03 - Guia de Sobrevivência Linguística no Hebraico", "filename": "03 - Guia de Sobrevivência Linguística no Hebraico.pdf", "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/Materiais de Apoio/03 - Guia de Sobrevivência Linguística no Hebraico.pdf", "cloud_id": "14KrrAX0qQuI6QC68x02ZOf9HcFqZxYYJ"}, {"name": "04 - Hebraico-de-Sobrevivencia-em-Israel", "filename": "04 - Hebraico-de-Sobrevivencia-em-Israel.pdf", "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/Materiais de Apoio/04 - Hebraico-de-Sobrevivencia-em-Israel.pdf", "cloud_id": "1Tq4ucfyQ-sVMLhWhf3sQAm6czUsNYdTN"}, {"name": "05 - Números, Comércio e Lugares no Hebraico", "filename": "05 - Números, Comércio e Lugares no Hebraico.pdf", "rel_path": "10 - MÊS 10. SAUDAÇÕES E VOCABULÁRIO NO HEBRAICO/Materiais de Apoio/05 - Números, Comércio e Lugares no Hebraico.pdf", "cloud_id": "1QBQXtQHmpHwceyWW-VT-DA7-46HYZBSC"}]}]}};
 
+        const PROFILES = {
+            'fabio': { id: 'fabio', name: 'Fábio', avatar: '👨‍💻', desc: 'Todos os Cursos' },
+            'pais': { id: 'pais', name: 'Pais / Família', avatar: '🏡', desc: 'Área Espanhol' }
+        };
+
+        let activeProfile = localStorage.getItem('itk_active_profile_v1') || 'fabio';
         let currentCourseKey = 'hebraico';
         let currentLesson = null;
         let tracker = {};
 
         function getStorageKey(cKey) {
-            return 'portal_cursos_tv_' + cKey + '_v1';
+            return `itk_tracker_${activeProfile}_${cKey}_v2`;
         }
 
         function loadTracker(cKey) {
@@ -653,21 +1091,78 @@
             return `${m}m`;
         }
 
-        function switchCourse(courseKey) {
+        function setProfile(profileId) {
+            activeProfile = profileId;
+            localStorage.setItem('itk_active_profile_v1', profileId);
+
+            const p = PROFILES[profileId];
+            document.getElementById('headerProfileAvatar').textContent = p.avatar;
+            document.getElementById('headerProfileName').textContent = p.name;
+
+            document.querySelectorAll('.profile-opt-btn').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-profile') === profileId);
+            });
+
+            document.getElementById('profileModal').style.display = 'none';
+
+            // Recarregar métricas do Hub para o novo perfil
+            updateHubProgress();
+            if (document.getElementById('view-course').style.display === 'block') {
+                openCourse(currentCourseKey);
+            }
+        }
+
+        function updateHubProgress() {
+            ['espanhol', 'grego', 'hebraico'].forEach(cKey => {
+                const course = COURSES_DATA[cKey];
+                if (!course) return;
+
+                const trk = loadTracker(cKey);
+                let doneCount = 0;
+                let totalCount = 0;
+
+                course.modules.forEach(m => {
+                    m.lessons.forEach(l => {
+                        totalCount++;
+                        if (trk[l.key]) doneCount++;
+                    });
+                });
+
+                const pct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+                const durEl = document.getElementById(`hubDur-${cKey}`);
+                if (durEl) durEl.textContent = formatDurationShort(course.total_seconds);
+
+                const pctEl = document.getElementById(`hubPctText-${cKey}`);
+                if (pctEl) pctEl.textContent = `${pct}% (${doneCount}/${totalCount})`;
+
+                const barEl = document.getElementById(`hubBar-${cKey}`);
+                if (barEl) barEl.style.width = `${pct}%`;
+            });
+        }
+
+        function showHub() {
+            document.getElementById('view-hub').style.display = 'block';
+            document.getElementById('view-course').style.display = 'none';
+            updateHubProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openCourse(courseKey) {
             currentCourseKey = courseKey;
             tracker = loadTracker(courseKey);
             currentLesson = null;
 
-            // Atualiza abas
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('data-course') === courseKey);
-            });
+            document.getElementById('view-hub').style.display = 'none';
+            document.getElementById('view-course').style.display = 'block';
+
+            const course = COURSES_DATA[courseKey];
+            const icons = { 'espanhol': '🇪🇸', 'grego': '🇬🇷', 'hebraico': '🏛️' };
+            document.getElementById('courseActiveHeaderTitle').innerHTML = `<span>${icons[courseKey] || '🎬'}</span> ${course.course_name}`;
 
             renderCourse();
-            updateKPIs();
+            updateCourseProgress();
 
-            // Auto-selecionar a primeira aula não concluída
-            const course = COURSES_DATA[courseKey];
+            // Auto-selecionar primeira aula não concluída
             let firstToPlay = null;
             if (course && course.modules) {
                 for (const mod of course.modules) {
@@ -687,47 +1182,32 @@
             if (firstToPlay) {
                 selectLesson(firstToPlay, false);
             }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function updateKPIs() {
+        function updateCourseProgress() {
             const course = COURSES_DATA[currentCourseKey];
             if (!course) return;
 
-            let doneSec = 0;
             let doneCount = 0;
             let totalLessons = 0;
 
             course.modules.forEach(m => {
                 m.lessons.forEach(l => {
                     totalLessons++;
-                    if (tracker[l.key]) {
-                        doneSec += l.duration || 0;
-                        doneCount++;
-                    }
+                    if (tracker[l.key]) doneCount++;
                 });
             });
 
-            const totalSec = course.total_seconds || 1;
-            const pct = Math.round((doneSec / totalSec) * 100);
-
-            document.getElementById('kpiTotalTime').textContent = formatDurationShort(course.total_seconds);
-            document.getElementById('kpiTotalLessons').textContent = `${totalLessons} aulas cadastradas`;
-
-            document.getElementById('kpiDoneTime').textContent = formatDurationShort(doneSec);
-            document.getElementById('kpiDoneCount').textContent = `${doneCount} de ${totalLessons} concluídas`;
-
-            document.getElementById('kpiPercent').textContent = `${pct}%`;
-            document.getElementById('kpiModulesCount').textContent = `${course.modules.length} módulos`;
-
-            // Streak simples de estudo
-            document.getElementById('kpiStreak').textContent = doneCount > 0 ? `${Math.min(doneCount, 7)} dias` : '0 dias';
-            document.getElementById('curriculumProgressBadge').textContent = `${doneCount}/${totalLessons}`;
+            const badgeText = `${doneCount}/${totalLessons} Concluídas`;
+            document.getElementById('courseHeaderProgress').textContent = badgeText;
+            document.getElementById('curriculumProgressBadge').textContent = badgeText;
         }
 
         function selectLesson(lesson, autoPlay = true) {
             currentLesson = lesson;
 
-            // Achar o módulo correspondente
             const course = COURSES_DATA[currentCourseKey];
             let parentMod = null;
             for (const m of course.modules) {
@@ -737,7 +1217,6 @@
                 }
             }
 
-            // Atualiza Player UI
             const wrapper = document.getElementById('videoWrapper');
             const info = document.getElementById('playerInfo');
             info.style.display = 'flex';
@@ -746,43 +1225,34 @@
             document.getElementById('currentModuleTitle').textContent = parentMod ? parentMod.name : '';
             document.getElementById('currentLessonDuration').textContent = lesson.dur_str || '';
 
-            // Video Embed do Google Drive em Alta Resolução (HD)
             if (lesson.cloud_id) {
                 const embedUrl = `https://drive.google.com/file/d/${lesson.cloud_id}/preview${autoPlay ? '?autoplay=1' : ''}`;
                 wrapper.innerHTML = `<iframe src="${embedUrl}" allow="autoplay; fullscreen" class="tv-video-frame" allowfullscreen></iframe>`;
                 
-                // Link para player externo nativo (VLC / Nova)
                 const directUrl = `https://drive.google.com/uc?id=${lesson.cloud_id}&export=download`;
                 document.getElementById('btnExternalPlayer').href = directUrl;
                 document.getElementById('btnExternalPlayer').style.display = 'inline-flex';
             } else {
-                wrapper.innerHTML = `
-                    <div class="video-placeholder">
-                        <span class="icon">⚠️</span>
-                        <h3>Arquivo sem ID de Nuvem</h3>
-                    </div>`;
+                wrapper.innerHTML = `<div class="video-placeholder"><span class="icon">⚠️</span><h3>Vídeo sem ID</h3></div>`;
                 document.getElementById('btnExternalPlayer').style.display = 'none';
             }
 
-            // Atualizar botão de Concluído
             const isDone = !!tracker[lesson.key];
             const btnDone = document.getElementById('btnToggleDone');
             btnDone.classList.toggle('active', isDone);
             btnDone.innerHTML = isDone ? '<span>✔</span> Concluída' : '<span>○</span> Marcar como Concluída';
 
-            // Destacar na lista de aulas
             document.querySelectorAll('.lesson-item').forEach(el => {
                 el.classList.toggle('active', el.getAttribute('data-key') === lesson.key);
             });
 
-            // Atualizar Materiais em PDF se houver no módulo
             const matBox = document.getElementById('currentMaterialsBox');
             const matList = document.getElementById('materialsList');
             if (parentMod && parentMod.pdfs && parentMod.pdfs.length > 0) {
                 matBox.style.display = 'block';
                 matList.innerHTML = parentMod.pdfs.map(p => {
                     const pUrl = p.cloud_id ? `https://drive.google.com/file/d/${p.cloud_id}/view` : '#';
-                    return `<a href="${pUrl}" class="pdf-pill" target="_blank"><span>📄</span> ${p.name}</a>`;
+                    return `<a href="${pUrl}" class="pdf-pill" target="_blank" tabindex="0"><span>📄</span> ${p.name}</a>`;
                 }).join('');
             } else {
                 matBox.style.display = 'none';
@@ -799,7 +1269,7 @@
                 };
             }
             saveTracker(currentCourseKey);
-            updateKPIs();
+            updateCourseProgress();
             renderCourse();
 
             if (currentLesson && currentLesson.key === lessonKey) {
@@ -898,40 +1368,43 @@
             });
         }
 
-        // Eventos
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                switchCourse(btn.getAttribute('data-course'));
+        // Listeners
+        document.querySelectorAll('.course-col-card').forEach(card => {
+            const cKey = card.getAttribute('data-course-key');
+            card.addEventListener('click', () => openCourse(cKey));
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') openCourse(cKey);
             });
+        });
+
+        document.getElementById('btnBackToHub').addEventListener('click', showHub);
+        document.getElementById('brandBtn').addEventListener('click', showHub);
+        document.getElementById('brandBtn').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') showHub();
         });
 
         document.getElementById('btnToggleDone').addEventListener('click', () => {
             if (currentLesson) toggleLessonDone(currentLesson.key);
         });
-
         document.getElementById('btnNextLesson').addEventListener('click', navigateNextLesson);
         document.getElementById('btnPrevLesson').addEventListener('click', navigatePrevLesson);
 
-        // Suporte a Teclas de Atalho / Controle Remoto da TV Box
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && e.ctrlKey) {
-                navigateNextLesson();
-            } else if (e.key === 'ArrowLeft' && e.ctrlKey) {
-                navigatePrevLesson();
-            }
+        // Perfil Modal
+        document.getElementById('profileBadgeBtn').addEventListener('click', () => {
+            document.getElementById('profileModal').style.display = 'flex';
+        });
+        document.getElementById('btnCloseProfileModal').addEventListener('click', () => {
+            document.getElementById('profileModal').style.display = 'none';
+        });
+        document.querySelectorAll('.profile-opt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setProfile(btn.getAttribute('data-profile'));
+            });
         });
 
-        // Inicia com Hebraico ou o último curso visto
-        switchCourse('hebraico');
+        // Inicialização
+        setProfile(activeProfile);
+        showHub();
     </script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(console.error);
-            });
-        }
-    </script>
-
 </body>
 </html>

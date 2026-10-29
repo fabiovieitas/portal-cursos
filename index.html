@@ -754,6 +754,93 @@
             color: var(--text-muted);
         }
 
+        /* Card Informativo de Onde Parou */
+        .resume-alert-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.22) 0%, rgba(16, 185, 129, 0.16) 100%);
+            border: 2px solid rgba(99, 102, 241, 0.6);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .resume-alert-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .resume-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .resume-alert-left h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .resume-alert-left .time-highlight {
+            color: #38bdf8;
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .resume-alert-left p {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.45;
+        }
+
+        .resume-alert-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-resume-ack {
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.5);
+            transition: all 0.2s;
+        }
+
+        .btn-resume-ack:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.7);
+        }
+
+        .btn-reset-time {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset-time:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #ef4444;
+            color: #fff;
+        }
+
         /* Marcador de Posição 100% Automático */
         .auto-tracker-status-box {
             background: rgba(16, 185, 129, 0.08);
@@ -1396,6 +1483,25 @@
                             <span class="dur-pill" id="currentLessonDuration">00m 00s</span>
                         </div>
 
+                        <!-- Card Informativo Quando Já Houver Ponto Salvo -->
+                        <div class="resume-alert-card" id="resumeAlertCard" style="display: none;">
+                            <div class="resume-alert-left">
+                                <span class="resume-icon">📍</span>
+                                <div>
+                                    <h4>Ponto memorizado: <span id="resumeAlertTime" class="time-highlight">00m 00s</span></h4>
+                                    <p>O player do Google Drive sempre inicia do zero (00:00). <strong>Arraste a linha do tempo do vídeo para <span id="resumeAlertTimeSub" style="color: #38bdf8; font-weight: 700;">00m 00s</span></strong> para continuar assistindo!</p>
+                                </div>
+                            </div>
+                            <div class="resume-alert-actions">
+                                <button type="button" class="btn-resume-ack" id="btnResumeAck" title="Continuar contando a partir do ponto salvo">
+                                    ▶ Continuar de <span id="btnResumeAckTime">00m 00s</span>
+                                </button>
+                                <button type="button" class="btn-reset-time" id="btnResetToZero" title="Recomeçar esta aula do início">
+                                    🔄 Recomeçar do 00:00
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Gravador de Posição 100% Automático -->
                         <div class="auto-tracker-status-box" id="autoTrackerBox">
                             <div class="auto-tracker-left">
@@ -1977,11 +2083,23 @@
 
             // Recuperar posição salva anteriormente para esta aula
             const cData = getProfileCourseData(currentCourseKey);
-            if (startSeconds > 0) {
+            const savedLesson = (cData.last_lesson && cData.last_lesson.key === lesson.key) ? cData.last_lesson : null;
+            const resumeAlert = document.getElementById('resumeAlertCard');
+            const resumeTimeEl = document.getElementById('resumeAlertTime');
+            const resumeTimeSubEl = document.getElementById('resumeAlertTimeSub');
+            const resumeAckTime = document.getElementById('btnResumeAckTime');
+
+            if (savedLesson && savedLesson.seconds > 10) {
+                if (resumeAlert) resumeAlert.style.display = 'flex';
+                if (resumeTimeEl) resumeTimeEl.textContent = savedLesson.time_str;
+                if (resumeTimeSubEl) resumeTimeSubEl.textContent = savedLesson.time_str;
+                if (resumeAckTime) resumeAckTime.textContent = savedLesson.time_str;
+                currentLessonSeconds = savedLesson.seconds;
+            } else if (startSeconds > 0) {
+                if (resumeAlert) resumeAlert.style.display = 'none';
                 currentLessonSeconds = startSeconds;
-            } else if (cData.last_lesson && cData.last_lesson.key === lesson.key && cData.last_lesson.seconds > 0) {
-                currentLessonSeconds = cData.last_lesson.seconds;
             } else {
+                if (resumeAlert) resumeAlert.style.display = 'none';
                 currentLessonSeconds = 0;
             }
 
@@ -2160,6 +2278,18 @@
         document.getElementById('btnNextLesson').addEventListener('click', navigateNextLesson);
         document.getElementById('btnPrevLesson').addEventListener('click', navigatePrevLesson);
 
+        // Botões do Card de Ponto Onde Parou
+        document.getElementById('btnResumeAck').addEventListener('click', () => {
+            document.getElementById('resumeAlertCard').style.display = 'none';
+        });
+        document.getElementById('btnResetToZero').addEventListener('click', () => {
+            currentLessonSeconds = 0;
+            recordCurrentProgress(true);
+            document.getElementById('resumeAlertCard').style.display = 'none';
+            updateAutoTrackerUI();
+            updateHubProgress();
+        });
+
         // Botão Sincronizar Agora
         document.getElementById('btnSyncNow').addEventListener('click', fetchCloudState);
 
@@ -2192,11 +2322,11 @@
         setInterval(fetchCloudState, 45000);
     </script>
 
-    <!-- Registro de Service Worker v6 -->
+    <!-- Registro de Service Worker v7 -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=6').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=7').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);

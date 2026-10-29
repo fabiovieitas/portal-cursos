@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Estudos - Cursos ITK & Fluency (Sync em Nuvem & Metas)</title>
+    <title>Portal de Estudos - Cursos ITK & Fluency (Sync em Nuvem & Metas) v8</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#6366f1">
     <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -841,6 +841,30 @@
             color: #fff;
         }
 
+        .btn-drive-direct {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            color: #38bdf8;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-drive-direct:hover {
+            background: rgba(56, 189, 248, 0.3);
+            border-color: #38bdf8;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+
         /* Marcador de Posição 100% Automático */
         .auto-tracker-status-box {
             background: rgba(16, 185, 129, 0.08);
@@ -1489,7 +1513,7 @@
                                 <span class="resume-icon">📍</span>
                                 <div>
                                     <h4>Ponto memorizado: <span id="resumeAlertTime" class="time-highlight">00m 00s</span></h4>
-                                    <p>O player do Google Drive sempre inicia do zero (00:00). <strong>Arraste a linha do tempo do vídeo para <span id="resumeAlertTimeSub" style="color: #38bdf8; font-weight: 700;">00m 00s</span></strong> para continuar assistindo!</p>
+                                    <p>Por segurança do Google Drive, o player embutido inicia no 00:00. <strong>Arraste o cursor do vídeo até <span id="resumeAlertTimeSub" style="color: #38bdf8; font-weight: 700;">00m 00s</span></strong> ou abra diretamente no Drive no ponto exato!</p>
                                 </div>
                             </div>
                             <div class="resume-alert-actions">
@@ -1499,6 +1523,9 @@
                                 <button type="button" class="btn-reset-time" id="btnResetToZero" title="Recomeçar esta aula do início">
                                     🔄 Recomeçar do 00:00
                                 </button>
+                                <a id="btnOpenDriveDirect" href="#" target="_blank" rel="noopener noreferrer" class="btn-drive-direct" title="Abrir no Google Drive direto no segundo memorizado">
+                                    ↗ Abrir no Drive aos <span id="btnDriveDirectTime">00m 00s</span>
+                                </a>
                             </div>
                         </div>
 
@@ -2037,6 +2064,14 @@
                 seconds: currentLessonSeconds,
                 updated_at: Date.now()
             };
+            if (!cData.lessons_progress) cData.lessons_progress = {};
+            cData.lessons_progress[currentLesson.key] = {
+                key: currentLesson.key,
+                name: currentLesson.name,
+                time_str: timeStr,
+                seconds: currentLessonSeconds,
+                updated_at: Date.now()
+            };
 
             localStorage.setItem('itk_cloud_cache_v4', JSON.stringify(globalCloudState));
             updateHubProgress();
@@ -2073,34 +2108,50 @@
             document.getElementById('currentModuleTitle').textContent = parentMod ? parentMod.name : '';
             document.getElementById('currentLessonDuration').textContent = lesson.dur_str || '';
 
-            // Incorporar Vídeo (O usuário pode ajustar a qualidade no ícone de engrenagem do próprio player)
+            // Recuperar posição salva anteriormente para esta aula (individual ou última)
+            const cData = getProfileCourseData(currentCourseKey);
+            const savedLesson = (cData.lessons_progress && cData.lessons_progress[lesson.key]) ||
+                                ((cData.last_lesson && cData.last_lesson.key === lesson.key) ? cData.last_lesson : null);
+            const targetSec = (savedLesson && savedLesson.seconds > 10) ? savedLesson.seconds : (startSeconds > 0 ? startSeconds : 0);
+            currentLessonSeconds = targetSec;
+
+            // Incorporar Vídeo (passando time parameter e hash)
             if (lesson.cloud_id) {
-                const embedUrl = `https://drive.google.com/file/d/${lesson.cloud_id}/preview${autoPlay ? '?autoplay=1' : ''}`;
+                let params = [];
+                if (autoPlay) params.push('autoplay=1');
+                if (targetSec > 0) params.push(`t=${targetSec}s`);
+                const qs = params.length > 0 ? '?' + params.join('&') : '';
+                const hash = targetSec > 0 ? `#t=${targetSec}s` : '';
+                const embedUrl = `https://drive.google.com/file/d/${lesson.cloud_id}/preview${qs}${hash}`;
                 wrapper.innerHTML = `<iframe src="${embedUrl}" allow="autoplay; fullscreen" class="tv-video-frame" allowfullscreen></iframe>`;
             } else {
                 wrapper.innerHTML = `<div class="video-placeholder"><span class="icon">⚠️</span><h3>Vídeo sem ID de Nuvem</h3></div>`;
             }
 
-            // Recuperar posição salva anteriormente para esta aula
-            const cData = getProfileCourseData(currentCourseKey);
-            const savedLesson = (cData.last_lesson && cData.last_lesson.key === lesson.key) ? cData.last_lesson : null;
+            // Exibir Card Informativo de Onde Parou
             const resumeAlert = document.getElementById('resumeAlertCard');
             const resumeTimeEl = document.getElementById('resumeAlertTime');
             const resumeTimeSubEl = document.getElementById('resumeAlertTimeSub');
             const resumeAckTime = document.getElementById('btnResumeAckTime');
+            const driveDirectBtn = document.getElementById('btnOpenDriveDirect');
+            const driveDirectTime = document.getElementById('btnDriveDirectTime');
 
-            if (savedLesson && savedLesson.seconds > 10) {
+            if (targetSec > 10) {
+                const m = Math.floor(targetSec / 60);
+                const s = targetSec % 60;
+                const timeStr = `${m}m ${s < 10 ? '0' : ''}${s}s`;
                 if (resumeAlert) resumeAlert.style.display = 'flex';
-                if (resumeTimeEl) resumeTimeEl.textContent = savedLesson.time_str;
-                if (resumeTimeSubEl) resumeTimeSubEl.textContent = savedLesson.time_str;
-                if (resumeAckTime) resumeAckTime.textContent = savedLesson.time_str;
-                currentLessonSeconds = savedLesson.seconds;
-            } else if (startSeconds > 0) {
-                if (resumeAlert) resumeAlert.style.display = 'none';
-                currentLessonSeconds = startSeconds;
+                if (resumeTimeEl) resumeTimeEl.textContent = timeStr;
+                if (resumeTimeSubEl) resumeTimeSubEl.textContent = timeStr;
+                if (resumeAckTime) resumeAckTime.textContent = timeStr;
+                if (driveDirectTime) driveDirectTime.textContent = timeStr;
+                if (driveDirectBtn) {
+                    driveDirectBtn.href = `https://drive.google.com/file/d/${lesson.cloud_id}/view?t=${m}m${s}s`;
+                    driveDirectBtn.style.display = 'inline-flex';
+                }
             } else {
                 if (resumeAlert) resumeAlert.style.display = 'none';
-                currentLessonSeconds = 0;
+                if (driveDirectBtn) driveDirectBtn.style.display = 'none';
             }
 
             updateAutoTrackerUI();
@@ -2284,6 +2335,12 @@
         });
         document.getElementById('btnResetToZero').addEventListener('click', () => {
             currentLessonSeconds = 0;
+            if (currentLesson) {
+                const cData = getProfileCourseData(currentCourseKey);
+                if (cData.lessons_progress && cData.lessons_progress[currentLesson.key]) {
+                    delete cData.lessons_progress[currentLesson.key];
+                }
+            }
             recordCurrentProgress(true);
             document.getElementById('resumeAlertCard').style.display = 'none';
             updateAutoTrackerUI();
@@ -2326,7 +2383,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=7').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=8').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);

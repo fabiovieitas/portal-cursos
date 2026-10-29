@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portal-cursos-v4';
+const CACHE_NAME = 'portal-cursos-v5';
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();
@@ -22,6 +22,11 @@ self.addEventListener('activate', (e) => {
 
 // Network-First: sempre busca a versão mais recente na rede!
 self.addEventListener('fetch', (e) => {
+    // Para requisições de API (Gist, GitHub), não interceptar com cache do Service Worker
+    if (e.request.url.includes('api.github.com') || e.request.url.includes('drive.google.com')) {
+        return;
+    }
+
     e.respondWith(
         fetch(e.request)
             .then((networkResponse) => {

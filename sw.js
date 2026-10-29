@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portal-cursos-v5';
+const CACHE_NAME = 'portal-cursos-v6';
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();

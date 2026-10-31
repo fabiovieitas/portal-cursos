@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Estudos - Cursos ITK & Fluency (Sync em Nuvem & Metas) v11</title>
+    <title>Portal de Estudos - Cursos ITK & Fluency (Sync em Nuvem & Metas) v12 (Layout Cinema TV)</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#6366f1">
     <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -1311,6 +1311,421 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+    
+        /* ==========================================================
+           NOVO LAYOUT CINEMA (V12) - VIDEO DE CARA & GRADE LATERAL
+           ========================================================== */
+        .course-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 10px 18px;
+            backdrop-filter: blur(12px);
+        }
+
+        .course-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .course-active-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .breadcrumb-sep {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .active-module-crumb {
+            color: #38bdf8;
+            font-size: 0.84rem;
+            font-weight: 600;
+            max-width: 320px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .course-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-toggle-metrics {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: #c7d2fe;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-toggle-metrics:hover, .btn-toggle-metrics:focus-visible {
+            background: rgba(99, 102, 241, 0.25);
+            border-color: var(--accent-indigo);
+            color: #fff;
+            outline: 2px solid var(--accent-indigo);
+        }
+
+        /* Layout Grid: Video Esquerda (68%) + Grade Direita (32%) */
+        .portal-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 68%) minmax(310px, 32%);
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1080px) {
+            .portal-layout {
+                grid-template-columns: 1fr;
+            }
+            .course-sidebar-column {
+                position: static !important;
+            }
+        }
+
+        .course-main-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .course-sidebar-column {
+            position: sticky;
+            top: 14px;
+            min-width: 0;
+        }
+
+        /* Botão TV Tela Cheia com Super Destaque */
+        .btn-tv-fullscreen {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.45) !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tv-fullscreen:hover, .btn-tv-fullscreen:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(6, 182, 212, 0.7) !important;
+            outline: 3px solid #38bdf8 !important;
+        }
+
+        .tv-quick-bar {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 20;
+        }
+
+        .btn-tv-quick {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-tv-quick:hover, .btn-tv-quick:focus-visible {
+            background: var(--accent-indigo);
+            border-color: #38bdf8;
+            outline: 2px solid #38bdf8;
+        }
+
+        /* Materiais de Apoio Embaixo do Vídeo */
+        .materials-box-bottom {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 16px 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .materials-box-bottom .curriculum-header h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #f1f5f9;
+        }
+
+        /* Dashboard de Metas Recolhível Embaixo dos Materiais */
+        .dash-metrics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .dash-metrics-header h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .btn-close-metrics {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            cursor: pointer;
+        }
+
+        .btn-close-metrics:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        /* Grade Lateral Compacta (Estilo i9 Educação) */
+        .curriculum-container.sidebar-mode {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 14px;
+            backdrop-filter: blur(12px);
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .curriculum-container.sidebar-mode::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .curriculum-container.sidebar-mode::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+        }
+
+        .curriculum-sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .curriculum-sidebar-header h3 {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0;
+        }
+
+        .curriculum-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Módulos Compactos Accordion */
+        .module-group-compact {
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.45);
+            transition: border-color 0.2s;
+        }
+
+        .module-group-compact.active-mod {
+            border-color: rgba(99, 102, 241, 0.55);
+        }
+
+        .module-title-bar-compact {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s;
+        }
+
+        .module-title-bar-compact:hover, .module-title-bar-compact:focus-visible {
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+        }
+
+        .module-title-bar-compact h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        .mod-chevron {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+
+        .module-group-compact.collapsed .mod-chevron {
+            transform: rotate(-90deg);
+        }
+
+        .module-group-compact.collapsed .lesson-list-compact {
+            display: none;
+        }
+
+        .module-badge-compact {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 2px 7px;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        .module-badge-compact.all-done {
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+        }
+
+        /* Aulas Compactas Estilo i9 Educação */
+        .lesson-list-compact {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+        }
+
+        .lesson-item-compact {
+            padding: 7px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.15s;
+            outline: none;
+        }
+
+        .lesson-item-compact:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-item-compact:hover, .lesson-item-compact:focus-visible {
+            background: rgba(99, 102, 241, 0.2);
+            outline: 2px solid var(--accent-indigo);
+            outline-offset: -2px;
+        }
+
+        .lesson-item-compact.active {
+            background: rgba(99, 102, 241, 0.28);
+            border-left: 3px solid #38bdf8;
+        }
+
+        .lesson-item-compact.completed .lesson-name-compact {
+            color: #94a3b8;
+        }
+
+        .lesson-left-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chk-circle {
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            font-size: 0.65rem;
+            color: transparent;
+            user-select: none;
+        }
+
+        .chk-circle:hover {
+            border-color: #34d399;
+        }
+
+        .lesson-item-compact.completed .chk-circle {
+            background: #10b981;
+            border-color: #10b981;
+            color: #052e16;
+            font-weight: 900;
+        }
+
+        .lesson-name-col-compact {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            gap: 1px;
+        }
+
+        .lesson-name-compact {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #e2e8f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.25;
+        }
+
+        .dur-pill-compact {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
+
     </style>
 </head>
 <body>
@@ -1523,98 +1938,30 @@
     </main>
 
     <!-- TELA DO CURSO (PLAYER CINEMA + METAS + LISTA DE AULAS) -->
-    <main id="view-course">
+        <main id="view-course">
+        <!-- BARRA DE TOPO ELEGANTE E COMPACTA (NAVEGAÇÃO DIRETA) -->
         <div class="course-toolbar">
-            <button class="btn-back" id="btnBackToHub" tabindex="0">
-                <span>◀</span> Voltar aos Cursos (Início)
-            </button>
-            <div class="course-active-title" id="courseActiveHeaderTitle">
-                <span>🏛️</span> Hebraico Bíblico
+            <div class="course-toolbar-left">
+                <button class="btn-back" id="btnBackToHub" tabindex="0">
+                    <span>◀</span> Voltar aos Cursos
+                </button>
+                <div class="course-active-breadcrumb">
+                    <span class="course-active-title" id="courseActiveHeaderTitle"><span>🏛️</span> Hebraico Bíblico</span>
+                    <span class="breadcrumb-sep">•</span>
+                    <span class="active-module-crumb" id="activeModuleCrumb">Selecione uma aula</span>
+                </div>
             </div>
-            <div class="module-badge" id="courseHeaderProgress">0/0 Aulas Concluídas</div>
+            <div class="course-toolbar-right">
+                <div class="module-badge" id="courseHeaderProgress">0/0 Aulas Concluídas</div>
+                <button type="button" class="btn-toggle-metrics" id="btnToggleMetrics" tabindex="0" title="Ver metas de estudo e ritmo diário">
+                    <span>📊</span> Metas & Ritmo
+                </button>
+            </div>
         </div>
 
-        <!-- DASHBOARD DE METAS, TEMPO RESTANTE & RITMO DE ESTUDOS -->
-        <section class="course-metrics-dashboard">
-            <div class="dashboard-kpi-grid">
-                <div class="kpi-card">
-                    <span class="kpi-label">⏱ Duração Total</span>
-                    <span class="kpi-val" id="courseKpiTotal">0h 00m</span>
-                    <span class="kpi-hint">Total de videoaulas</span>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-label">✅ Tempo Alcançado</span>
-                    <span class="kpi-val" id="courseKpiDone" style="color: #34d399;">0m</span>
-                    <span class="kpi-hint" id="courseKpiDoneSub">0 aulas concluídas</span>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-label">⏳ Tempo Faltando</span>
-                    <span class="kpi-val" id="courseKpiRemaining" style="color: #fbbf24;">0h 00m</span>
-                    <span class="kpi-hint" id="courseKpiRemainingSub">0 aulas restantes</span>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-label">🎯 Conclusão</span>
-                    <span class="kpi-val" id="courseKpiPct">0%</span>
-                    <span class="kpi-hint" id="courseKpiProgressCount">0 / 0</span>
-                </div>
-            </div>
-
-            <div class="dashboard-progress-wrap">
-                <div class="dash-prog-header">
-                    <span class="dash-prog-title">Progresso do Curso</span>
-                    <span class="dash-prog-pct" id="courseDashPct">0%</span>
-                </div>
-                <div class="dash-prog-track">
-                    <div class="dash-prog-bar" id="courseDashBar" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <!-- Painel Inteligente de Metas, Reagendamento & Laboratórios -->
-            <div class="study-pace-box">
-                <div class="pace-header">
-                    <span class="pace-title">
-                        <span>🎯 Plano de Metas & Reagendamento Inteligente</span>
-                    </span>
-                    <div class="pace-selector">
-                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Seu Ritmo:</span>
-                        <button type="button" class="btn-pace-opt" data-pace-type="lessons" data-pace-val="1">1 aula / dia</button>
-                        <button type="button" class="btn-pace-opt active" data-pace-type="lessons" data-pace-val="2">⚡ 2 aulas / dia (Turbo)</button>
-                        <button type="button" class="btn-pace-opt" data-pace-type="time" data-pace-val="30">30 min / dia</button>
-                        <button type="button" class="btn-pace-opt" data-pace-type="time" data-pace-val="60">1h / dia</button>
-                    </div>
-                </div>
-
-                <p class="pace-forecast-text" id="paceForecastText">
-                    Calculando previsão dinâmica...
-                </p>
-
-
-
-                <!-- Card Próxima Missão Imediata -->
-                <div class="next-mission-card" id="nextMissionCard" style="display: none;">
-                    <div class="next-mission-left">
-                        <span class="mission-icon">🎯</span>
-                        <div>
-                            <span class="mission-tag">Próxima Atividade Recomendada</span>
-                            <h4 id="nextMissionTitle">Nome da Aula</h4>
-                            <p id="nextMissionMeta">📖 Livro: pp. 8 a 13 • ~45 min estimados</p>
-                        </div>
-                    </div>
-                    <div class="next-mission-actions">
-                        <button type="button" class="btn-start-mission" id="btnStartNextMission">
-                            ▶ Iniciar Aula
-                        </button>
-                        <a id="btnNextMissionBook" href="#" target="_blank" rel="noopener noreferrer" class="btn-mission-book">
-                            📖 Abrir Livro
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <div class="portal-layout">
-            <!-- Player Cinema -->
-            <div>
+            <!-- COLUNA PRINCIPAL (ESQUERDA - 68%): VÍDEO DE CARA + AÇÕES + MATERIAIS DE APOIO -->
+            <div class="course-main-column">
                 <div class="player-card">
                     <div class="video-wrapper" id="videoWrapper">
                         <div class="video-placeholder">
@@ -1639,20 +1986,6 @@
                             <span class="dur-pill" id="currentLessonDuration">00m 00s</span>
                         </div>
 
-                        
-                            <div class="resume-alert-actions">
-                                <button type="button" class="btn-resume-ack" id="btnResumeAck" title="Continuar contando a partir do ponto salvo">
-                                    ▶ Continuar de <span id="btnResumeAckTime">00m 00s</span>
-                                </button>
-                                <button type="button" class="btn-reset-time" id="btnResetToZero" title="Recomeçar esta aula do início">
-                                    🔄 Recomeçar do 00:00
-                                </button>
-                                <a id="btnOpenDriveDirect" href="#" target="_blank" rel="noopener noreferrer" class="btn-drive-direct" title="Abrir no Google Drive direto no segundo memorizado">
-                                    ↗ Abrir no Drive aos <span id="btnDriveDirectTime">00m 00s</span>
-                                </a>
-                            </div>
-                        </div>
-
                         <!-- Gravador de Posição 100% Automático -->
                         <div class="auto-tracker-status-box" id="autoTrackerBox">
                             <div class="auto-tracker-left">
@@ -1662,37 +1995,125 @@
                             <span class="auto-tracker-tag">Memorização Automática</span>
                         </div>
 
-                        <!-- Ações do Player Limpo (Concluída, Anterior, Próxima) -->
+                        <!-- Ações do Player (TELA CHEIA TV, Concluída, Anterior, Próxima) -->
                         <div class="player-actions">
-                            <button class="btn-action btn-complete" id="btnToggleDone" tabindex="0">
+                            <button type="button" class="btn-action btn-tv-fullscreen" id="btnTvFullScreen" tabindex="0" title="Assistir no Player Nativo da TV em Tela Cheia">
+                                <span>📺</span> Tela Cheia (TV)
+                            </button>
+                            <button type="button" class="btn-action btn-complete" id="btnToggleDone" tabindex="0">
                                 <span>✔</span> Marcar como Concluída
                             </button>
-                            <button class="btn-action" id="btnPrevLesson" tabindex="0">
+                            <button type="button" class="btn-action" id="btnPrevLesson" tabindex="0">
                                 <span>◀</span> Anterior
                             </button>
-                            <button class="btn-action" id="btnNextLesson" tabindex="0">
+                            <button type="button" class="btn-action" id="btnNextLesson" tabindex="0">
                                 Próxima <span>▶</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Materiais de Apoio do Módulo -->
-                <div class="curriculum-container" id="currentMaterialsBox" style="display: none; margin-bottom: 24px;">
+                <!-- MATERIAIS DE APOIO DO MÓDULO (DIRETAMENTE EMBAIXO DO VÍDEO) -->
+                <div class="curriculum-container materials-box-bottom" id="currentMaterialsBox" style="display: none;">
                     <div class="curriculum-header">
                         <h3>📑 Materiais de Apoio & Apostilas do Módulo</h3>
                     </div>
                     <div id="materialsList"></div>
                 </div>
+
+                <!-- DASHBOARD DE METAS, TEMPO RESTANTE & RITMO DE ESTUDOS (EMBAIXO DOS MATERIAIS) -->
+                <section class="course-metrics-dashboard" id="courseMetricsDashboard" style="display: none;">
+                    <div class="dash-metrics-header">
+                        <h3>📊 Plano de Metas & Previsão Dinâmica</h3>
+                        <button type="button" class="btn-close-metrics" id="btnCloseMetrics">✕ Ocultar</button>
+                    </div>
+
+                    <div class="dashboard-kpi-grid">
+                        <div class="kpi-card">
+                            <span class="kpi-label">⏱ Duração Total</span>
+                            <span class="kpi-val" id="courseKpiTotal">0h 00m</span>
+                            <span class="kpi-hint">Total de videoaulas</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">✅ Tempo Alcançado</span>
+                            <span class="kpi-val" id="courseKpiDone" style="color: #34d399;">0m</span>
+                            <span class="kpi-hint" id="courseKpiDoneSub">0 aulas concluídas</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">⏳ Tempo Faltando</span>
+                            <span class="kpi-val" id="courseKpiRemaining" style="color: #fbbf24;">0h 00m</span>
+                            <span class="kpi-hint" id="courseKpiRemainingSub">0 aulas restantes</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">🎯 Conclusão</span>
+                            <span class="kpi-val" id="courseKpiPct">0%</span>
+                            <span class="kpi-hint" id="courseKpiProgressCount">0 / 0</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-progress-wrap">
+                        <div class="dash-prog-header">
+                            <span class="dash-prog-title">Progresso do Curso</span>
+                            <span class="dash-prog-pct" id="courseDashPct">0%</span>
+                        </div>
+                        <div class="dash-prog-track">
+                            <div class="dash-prog-bar" id="courseDashBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="study-pace-box">
+                        <div class="pace-header">
+                            <span class="pace-title">
+                                <span>🎯 Ritmo & Previsão de Conclusão</span>
+                            </span>
+                            <div class="pace-selector">
+                                <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Seu Ritmo:</span>
+                                <button type="button" class="btn-pace-opt" data-pace-type="lessons" data-pace-val="1">1 aula / dia</button>
+                                <button type="button" class="btn-pace-opt active" data-pace-type="lessons" data-pace-val="2">⚡ 2 aulas / dia (Turbo)</button>
+                                <button type="button" class="btn-pace-opt" data-pace-type="time" data-pace-val="30">30 min / dia</button>
+                                <button type="button" class="btn-pace-opt" data-pace-type="time" data-pace-val="60">1h / dia</button>
+                            </div>
+                        </div>
+
+                        <p class="pace-forecast-text" id="paceForecastText">
+                            Calculando previsão dinâmica...
+                        </p>
+
+                        <!-- Card Próxima Missão Imediata -->
+                        <div class="next-mission-card" id="nextMissionCard" style="display: none;">
+                            <div class="next-mission-left">
+                                <span class="mission-icon">🎯</span>
+                                <div>
+                                    <span class="mission-tag">Próxima Atividade Recomendada</span>
+                                    <h4 id="nextMissionTitle">Nome da Aula</h4>
+                                    <p id="nextMissionMeta">📖 Livro: pp. 8 a 13 • ~45 min estimados</p>
+                                </div>
+                            </div>
+                            <div class="next-mission-actions">
+                                <button type="button" class="btn-start-mission" id="btnStartNextMission">
+                                    ▶ Iniciar Aula
+                                </button>
+                                <a href="#" target="_blank" rel="noopener noreferrer" class="btn-book-action" id="nextMissionBookBtn" style="display: none;">
+                                    📖 Abrir Livro
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
-            <!-- Grade de Módulos e Aulas -->
-            <div class="curriculum-container">
-                <div class="curriculum-header">
-                    <h3 id="curriculumCourseTitle">Grade do Curso</h3>
-                    <span class="module-badge" id="curriculumProgressBadge">0/0</span>
+            <!-- COLUNA LATERAL (DIREITA - 32%): GRADE DE AULAS COMPACTA "APERTADA" (ESTILO i9 EDUCAÇÃO) -->
+            <div class="course-sidebar-column">
+                <div class="curriculum-container sidebar-mode">
+                    <div class="curriculum-sidebar-header">
+                        <div>
+                            <h3 id="curriculumCourseTitle">Grade de Aulas</h3>
+                            <span class="curriculum-subtitle" id="curriculumSubtitle">Selecione para reproduzir</span>
+                        </div>
+                        <span class="module-badge-compact" id="curriculumProgressBadge">0/0</span>
+                    </div>
+                    <div id="modulesContainer" class="modules-accordion-wrap"></div>
                 </div>
-                <div id="modulesContainer"></div>
             </div>
         </div>
     </main>
@@ -2240,6 +2661,32 @@
             }
         }
 
+        
+        // ==========================================================
+        // REPRODUÇÃO EM TELA CHEIA PARA SMART TV & NAVEGADOR
+        // ==========================================================
+        function playLessonOnTv(lesson) {
+            if (!lesson) lesson = currentLesson;
+            if (!lesson || !lesson.cloud_id) return;
+
+            const cData = getProfileCourseData(currentCourseKey);
+            const savedLesson = (cData.lessons_progress && cData.lessons_progress[lesson.key]) ||
+                                ((cData.last_lesson && cData.last_lesson.key === lesson.key) ? cData.last_lesson : null);
+            const targetSec = (savedLesson && savedLesson.seconds > 10) ? savedLesson.seconds : (currentLessonSeconds > 0 ? currentLessonSeconds : 0);
+
+            const hash = targetSec > 0 ? `#t=${targetSec}s` : '';
+            const directUrl = `https://drive.google.com/file/d/${lesson.cloud_id}/view${hash}`;
+
+            recordCurrentProgress(true);
+            pushCloudState(true);
+
+            // Abre no player nativo em tela cheia do Google Drive (sem bloqueio de iframe na TV)
+            const w = window.open(directUrl, '_blank');
+            if (!w) {
+                window.location.href = directUrl;
+            }
+        }
+
         function selectLesson(lesson, autoPlay = true, startSeconds = 0) {
             flushAutoTracking();
             currentLesson = lesson;
@@ -2259,6 +2706,10 @@
 
             document.getElementById('currentLessonTitle').textContent = lesson.name;
             document.getElementById('currentModuleTitle').textContent = parentMod ? parentMod.name : '';
+            const crumbMod = document.getElementById('activeModuleCrumb');
+            if (crumbMod) {
+                crumbMod.textContent = parentMod ? parentMod.name : lesson.name;
+            }
             document.getElementById('currentLessonDuration').textContent = lesson.dur_str || '';
 
             // Barra do Livro no Player
@@ -2288,7 +2739,19 @@
                 const qs = params.length > 0 ? '?' + params.join('&') : '';
                 const hash = targetSec > 0 ? `#t=${targetSec}s` : '';
                 const embedUrl = `https://drive.google.com/file/d/${lesson.cloud_id}/preview${qs}${hash}`;
-                wrapper.innerHTML = `<iframe src="${embedUrl}" allow="autoplay; fullscreen" class="tv-video-frame" allowfullscreen></iframe>`;
+                wrapper.innerHTML = `
+                    <iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="no-referrer" class="tv-video-frame" allowfullscreen></iframe>
+                    <div class="tv-quick-bar">
+                        <button type="button" class="btn-tv-quick" id="btnTvQuick" title="Assistir no player da TV em tela cheia">
+                            <span>📺</span> Tela Cheia (TV)
+                        </button>
+                    </div>
+                `;
+
+                const btnQ = document.getElementById('btnTvQuick');
+                if (btnQ) {
+                    btnQ.addEventListener('click', () => playLessonOnTv(lesson));
+                }
             } else if (lesson.is_reading_lesson || lesson.book_pages) {
                 wrapper.innerHTML = `
                     <div class="reading-lesson-hero">
@@ -2385,7 +2848,7 @@
             const course = COURSES_DATA[currentCourseKey];
             if (!course) return;
 
-            document.getElementById('curriculumCourseTitle').textContent = course.course_name;
+            document.getElementById('curriculumCourseTitle').textContent = 'Aulas do Curso';
             const container = document.getElementById('modulesContainer');
             container.innerHTML = '';
 
@@ -2393,56 +2856,66 @@
 
             course.modules.forEach((mod, mIdx) => {
                 const modGroup = document.createElement('div');
-                modGroup.className = 'module-group';
+                const isModActive = currentLesson && mod.lessons.some(l => l.key === currentLesson.key);
+                modGroup.className = `module-group-compact ${isModActive ? 'active-mod' : ''}`;
 
                 let modDoneCount = 0;
                 mod.lessons.forEach(l => {
                     if (cData.completed[l.key]) modDoneCount++;
                 });
 
+                const allDone = modDoneCount === mod.lessons.length && mod.lessons.length > 0;
+
                 const titleBar = document.createElement('div');
-                titleBar.className = 'module-title-bar';
-                const matCount = mod.pdfs ? mod.pdfs.length : 0;
-                const matBadge = matCount > 0 ? `<span class="mod-materials-pill">📄 ${matCount} materiais</span>` : '';
+                titleBar.className = 'module-title-bar-compact';
+                titleBar.setAttribute('tabindex', '0');
                 titleBar.innerHTML = `
-                    <div>
-                        <h4><span>📁</span> ${mod.name}</h4>
-                        ${matBadge}
-                    </div>
-                    <span class="module-badge">${modDoneCount}/${mod.lessons.length}</span>
+                    <h4>
+                        <span class="mod-chevron">▼</span>
+                        <span>📁</span>
+                        <span>${mod.name}</span>
+                    </h4>
+                    <span class="module-badge-compact ${allDone ? 'all-done' : ''}">${modDoneCount}/${mod.lessons.length}</span>
                 `;
 
+                // Accordion toggle ao clicar no header do módulo
+                titleBar.addEventListener('click', () => {
+                    modGroup.classList.toggle('collapsed');
+                });
+                titleBar.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        modGroup.classList.toggle('collapsed');
+                    }
+                });
+
                 const lessonList = document.createElement('ul');
-                lessonList.className = 'lesson-list';
+                lessonList.className = 'lesson-list-compact';
 
                 mod.lessons.forEach(l => {
                     const isDone = !!cData.completed[l.key];
                     const isActive = currentLesson && currentLesson.key === l.key;
                     const li = document.createElement('li');
-                    li.className = `lesson-item ${isDone ? 'completed' : ''} ${isActive ? 'active' : ''}`;
+                    li.className = `lesson-item-compact ${isDone ? 'completed' : ''} ${isActive ? 'active' : ''}`;
                     li.setAttribute('data-key', l.key);
                     li.setAttribute('tabindex', '0');
 
                     const bookBadge = l.book_pages ? `
-                        <a href="${l.book_url || '#'}" target="_blank" rel="noopener noreferrer" class="lesson-book-badge" title="Abrir Livro nestas páginas" onclick="event.stopPropagation();">
-                            <span>📖</span> ${l.book_pages}
-                        </a>
+                        <span class="lesson-book-badge" title="Livro">📖 ${l.book_pages}</span>
                     ` : '';
 
                     li.innerHTML = `
-                        <div class="lesson-left">
-                            <div class="chk-box">${isDone ? '✔' : ''}</div>
-                            <div class="lesson-name-col">
-                                <span class="lesson-name" title="${l.name}">${l.name}</span>
+                        <div class="lesson-left-compact">
+                            <div class="chk-circle" title="${isDone ? 'Concluída' : 'Marcar Concluída'}">${isDone ? '✔' : '○'}</div>
+                            <div class="lesson-name-col-compact">
+                                <span class="lesson-name-compact" title="${l.name}">${l.name}</span>
                                 ${bookBadge}
                             </div>
                         </div>
-                        <div class="lesson-right">
-                            <span class="dur-pill">${l.dur_str || ''}</span>
-                        </div>
+                        <span class="dur-pill-compact">${l.dur_str || ''}</span>
                     `;
 
-                    li.querySelector('.chk-box').addEventListener('click', (e) => {
+                    li.querySelector('.chk-circle').addEventListener('click', (e) => {
                         e.stopPropagation();
                         toggleLessonDone(l.key);
                     });
@@ -2507,6 +2980,39 @@
         document.getElementById('btnToggleDone').addEventListener('click', () => {
             if (currentLesson) toggleLessonDone(currentLesson.key);
         });
+        
+        // Listener Tela Cheia TV
+        const btnTvFS = document.getElementById('btnTvFullScreen');
+        if (btnTvFS) {
+            btnTvFS.addEventListener('click', () => {
+                if (currentLesson) playLessonOnTv(currentLesson);
+            });
+            btnTvFS.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    if (currentLesson) playLessonOnTv(currentLesson);
+                }
+            });
+        }
+
+        // Listener para alternar exibição de Metas & Ritmo
+        const btnToggleM = document.getElementById('btnToggleMetrics');
+        const metricsDash = document.getElementById('courseMetricsDashboard');
+        if (btnToggleM && metricsDash) {
+            btnToggleM.addEventListener('click', () => {
+                const isHidden = metricsDash.style.display === 'none';
+                metricsDash.style.display = isHidden ? 'block' : 'none';
+                if (isHidden) {
+                    metricsDash.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+        const btnCloseM = document.getElementById('btnCloseMetrics');
+        if (btnCloseM && metricsDash) {
+            btnCloseM.addEventListener('click', () => {
+                metricsDash.style.display = 'none';
+            });
+        }
+
         document.getElementById('btnNextLesson').addEventListener('click', navigateNextLesson);
         document.getElementById('btnPrevLesson').addEventListener('click', navigatePrevLesson);
 

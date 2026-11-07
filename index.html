@@ -2469,7 +2469,123 @@
         </div>
     </div>
 
-    <script>
+    <!-- TELA DE LOGIN BLOQUEADA (GATEKEEPER) -->
+    <div id="authGateOverlay" style="display: flex;">
+        <div class="auth-card">
+            <div class="auth-logo">🎓</div>
+            <h2>Portal de Estudos ITK</h2>
+            <p>Acesso exclusivo para alunos e familiares cadastrados</p>
+
+            <div class="auth-error" id="authErrorMsg"></div>
+
+            <div class="auth-field">
+                <label for="authSelectUser">Selecione o seu Usuário:</label>
+                <select id="authSelectUser" tabindex="0">
+                    <!-- Opções geradas dinamicamente -->
+                </select>
+            </div>
+
+            <div class="auth-field">
+                <label for="authInputPassword">Senha de Acesso:</label>
+                <input type="password" id="authInputPassword" placeholder="Digite sua senha..." tabindex="0" autocomplete="current-password">
+            </div>
+
+            <label class="auth-remember" tabindex="0">
+                <input type="checkbox" id="authRememberMe" checked>
+                <span>Lembrar meu login neste aparelho (TV / Celular)</span>
+            </label>
+
+            <button type="button" class="auth-btn-submit" id="btnAuthLogin" tabindex="0">
+                Entrar no Portal
+            </button>
+
+            <div class="auth-footer-help">
+                🔒 Acesso restrito. Novos usuários são criados apenas pelo professor Fábio. Esqueceu a senha? Solicite o reset ao administrador.
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE TROCA DE SENHA PELO ALUNO -->
+    <div class="modal-overlay" id="changePassModal" style="display: none;">
+        <div class="modal-card" style="max-width: 420px; text-align: left;">
+            <h3 style="text-align: center;">🔑 Alterar Minha Senha</h3>
+            <p style="text-align: center; margin-bottom: 20px;">Defina sua nova senha pessoal para este perfil</p>
+
+            <div class="auth-error" id="changePassError"></div>
+
+            <div class="auth-field">
+                <label>Senha Atual:</label>
+                <input type="password" id="inputCurrentPass" placeholder="Senha atual..." tabindex="0">
+            </div>
+
+            <div class="auth-field">
+                <label>Nova Senha:</label>
+                <input type="password" id="inputNewPass" placeholder="Nova senha (mínimo 4 caracteres)..." tabindex="0">
+            </div>
+
+            <div class="auth-field">
+                <label>Confirmar Nova Senha:</label>
+                <input type="password" id="inputConfirmNewPass" placeholder="Repita a nova senha..." tabindex="0">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="button" class="btn-action" id="btnSaveNewPass" style="flex: 1; background: var(--accent-gradient); color: #fff;" tabindex="0">
+                    Salvar Nova Senha
+                </button>
+                <button type="button" class="btn-action" id="btnCloseChangePassModal" style="flex: 1;" tabindex="0">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DO ADMINISTRADOR (CADASTRO E RESET DE ALUNOS) -->
+    <div class="modal-overlay" id="adminUsersModal" style="display: none;">
+        <div class="modal-card" style="max-width: 580px; text-align: left;">
+            <h3 style="text-align: center;">⚙️ Painel do Administrador (Fábio)</h3>
+            <p style="text-align: center; margin-bottom: 20px;">Criar novos alunos com senha padrão e resetar senhas esquecidas</p>
+
+            <div class="auth-error" id="adminErrorMsg"></div>
+
+            <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 20px;">
+                <h4 style="margin-bottom: 12px; font-size: 0.95rem; color: #a5b4fc;">➕ Criar Novo Aluno</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">ID do Usuário (sem espaços):</label>
+                        <input type="text" id="adminNewUserId" placeholder="ex: joao, maria" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nome de Exibição:</label>
+                        <input type="text" id="adminNewUserName" placeholder="ex: João Silva" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Ícone / Avatar (Emoji):</label>
+                        <input type="text" id="adminNewUserAvatar" value="👤" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Senha Padrão Inicial:</label>
+                        <input type="text" id="adminNewUserPass" value="itk123" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
+                    </div>
+                </div>
+                <button type="button" class="btn-action" id="btnAdminAddUser" style="width: 100%; margin-top: 12px; background: var(--accent-indigo); color: #fff;" tabindex="0">
+                    Cadastrar Aluno
+                </button>
+            </div>
+
+            <h4 style="margin-bottom: 10px; font-size: 0.95rem; color: #cbd5e1;">👥 Alunos Cadastrados & Ações de Reset</h4>
+            <div id="adminUsersListContainer" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
+                <!-- Lista gerada via JS -->
+            </div>
+
+            <button type="button" class="btn-action" id="btnCloseAdminModal" style="width: 100%;" tabindex="0">
+                Fechar Painel
+            </button>
+        </div>
+    </div>
+
+        <script>
         
         // ==========================================
         // SISTEMA DE SEGURANÇA E AUTH FAMILIAR v1
@@ -3771,126 +3887,12 @@
 
     <!-- Registro de Service Worker v7 -->
     
-    <!-- TELA DE LOGIN BLOQUEADA (GATEKEEPER) -->
-    <div id="authGateOverlay" style="display: flex;">
-        <div class="auth-card">
-            <div class="auth-logo">🎓</div>
-            <h2>Portal de Estudos ITK</h2>
-            <p>Acesso exclusivo para alunos e familiares cadastrados</p>
 
-            <div class="auth-error" id="authErrorMsg"></div>
-
-            <div class="auth-field">
-                <label for="authSelectUser">Selecione o seu Usuário:</label>
-                <select id="authSelectUser" tabindex="0">
-                    <!-- Opções geradas dinamicamente -->
-                </select>
-            </div>
-
-            <div class="auth-field">
-                <label for="authInputPassword">Senha de Acesso:</label>
-                <input type="password" id="authInputPassword" placeholder="Digite sua senha..." tabindex="0" autocomplete="current-password">
-            </div>
-
-            <label class="auth-remember" tabindex="0">
-                <input type="checkbox" id="authRememberMe" checked>
-                <span>Lembrar meu login neste aparelho (TV / Celular)</span>
-            </label>
-
-            <button type="button" class="auth-btn-submit" id="btnAuthLogin" tabindex="0">
-                Entrar no Portal
-            </button>
-
-            <div class="auth-footer-help">
-                🔒 Acesso restrito. Novos usuários são criados apenas pelo professor Fábio. Esqueceu a senha? Solicite o reset ao administrador.
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE TROCA DE SENHA PELO ALUNO -->
-    <div class="modal-overlay" id="changePassModal" style="display: none;">
-        <div class="modal-card" style="max-width: 420px; text-align: left;">
-            <h3 style="text-align: center;">🔑 Alterar Minha Senha</h3>
-            <p style="text-align: center; margin-bottom: 20px;">Defina sua nova senha pessoal para este perfil</p>
-
-            <div class="auth-error" id="changePassError"></div>
-
-            <div class="auth-field">
-                <label>Senha Atual:</label>
-                <input type="password" id="inputCurrentPass" placeholder="Senha atual..." tabindex="0">
-            </div>
-
-            <div class="auth-field">
-                <label>Nova Senha:</label>
-                <input type="password" id="inputNewPass" placeholder="Nova senha (mínimo 4 caracteres)..." tabindex="0">
-            </div>
-
-            <div class="auth-field">
-                <label>Confirmar Nova Senha:</label>
-                <input type="password" id="inputConfirmNewPass" placeholder="Repita a nova senha..." tabindex="0">
-            </div>
-
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button type="button" class="btn-action" id="btnSaveNewPass" style="flex: 1; background: var(--accent-gradient); color: #fff;" tabindex="0">
-                    Salvar Nova Senha
-                </button>
-                <button type="button" class="btn-action" id="btnCloseChangePassModal" style="flex: 1;" tabindex="0">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DO ADMINISTRADOR (CADASTRO E RESET DE ALUNOS) -->
-    <div class="modal-overlay" id="adminUsersModal" style="display: none;">
-        <div class="modal-card" style="max-width: 580px; text-align: left;">
-            <h3 style="text-align: center;">⚙️ Painel do Administrador (Fábio)</h3>
-            <p style="text-align: center; margin-bottom: 20px;">Criar novos alunos com senha padrão e resetar senhas esquecidas</p>
-
-            <div class="auth-error" id="adminErrorMsg"></div>
-
-            <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 20px;">
-                <h4 style="margin-bottom: 12px; font-size: 0.95rem; color: #a5b4fc;">➕ Criar Novo Aluno</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div>
-                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">ID do Usuário (sem espaços):</label>
-                        <input type="text" id="adminNewUserId" placeholder="ex: joao, maria" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nome de Exibição:</label>
-                        <input type="text" id="adminNewUserName" placeholder="ex: João Silva" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-                    <div>
-                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Ícone / Avatar (Emoji):</label>
-                        <input type="text" id="adminNewUserAvatar" value="👤" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Senha Padrão Inicial:</label>
-                        <input type="text" id="adminNewUserPass" value="itk123" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
-                    </div>
-                </div>
-                <button type="button" class="btn-action" id="btnAdminAddUser" style="width: 100%; margin-top: 12px; background: var(--accent-indigo); color: #fff;" tabindex="0">
-                    Cadastrar Aluno
-                </button>
-            </div>
-
-            <h4 style="margin-bottom: 10px; font-size: 0.95rem; color: #cbd5e1;">👥 Alunos Cadastrados & Ações de Reset</h4>
-            <div id="adminUsersListContainer" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
-                <!-- Lista gerada via JS -->
-            </div>
-
-            <button type="button" class="btn-action" id="btnCloseAdminModal" style="width: 100%;" tabindex="0">
-                Fechar Painel
-            </button>
-        </div>
-    </div>
 
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=13').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=14').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);

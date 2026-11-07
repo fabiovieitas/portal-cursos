@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portal-cursos-v13-auth';
+const CACHE_NAME = 'portal-cursos-v14-dom';
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();

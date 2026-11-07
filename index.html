@@ -2479,10 +2479,11 @@
             <div class="auth-error" id="authErrorMsg"></div>
 
             <div class="auth-field">
-                <label for="authSelectUser">Selecione o seu Usuário:</label>
-                <select id="authSelectUser" tabindex="0">
-                    <!-- Opções geradas dinamicamente -->
-                </select>
+                <label>Selecione o seu Usuário:</label>
+                <input type="hidden" id="authSelectUser" value="fabio">
+                <div id="authUsersGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
+                    <!-- Cards de Usuários renderizados via JS -->
+                </div>
             </div>
 
             <div class="auth-field">
@@ -2626,12 +2627,36 @@
         let userAccounts = getStoredAccounts();
 
         function renderAuthUserSelect() {
-            const sel = document.getElementById('authSelectUser');
-            if (!sel) return;
-            sel.innerHTML = Object.keys(userAccounts).map(uId => {
+            const grid = document.getElementById('authUsersGrid');
+            const hiddenInput = document.getElementById('authSelectUser');
+            if (!grid || !hiddenInput) return;
+
+            const uIds = Object.keys(userAccounts);
+            if (!userAccounts[hiddenInput.value] && uIds.length > 0) {
+                hiddenInput.value = uIds[0];
+            }
+
+            grid.innerHTML = uIds.map(uId => {
                 const u = userAccounts[uId];
-                return `<option value="${u.id}">${u.avatar} ${u.name}</option>`;
+                const isSelected = (u.id === hiddenInput.value);
+                const borderStyle = isSelected ? 'border: 2px solid var(--accent-indigo); background: rgba(99, 102, 241, 0.25); box-shadow: var(--glow);' : 'border: 1px solid var(--border-subtle); background: rgba(30, 41, 59, 0.7);';
+                return `
+                    <button type="button" class="user-select-card-btn" data-userid="${u.id}" tabindex="0" onclick="selectAuthUser('${u.id}')"
+                        style="cursor: pointer; padding: 12px 8px; border-radius: var(--radius-md); text-align: center; color: #fff; transition: all 0.2s ease; ${borderStyle}">
+                        <div style="font-size: 1.8rem; margin-bottom: 4px;">${u.avatar}</div>
+                        <div style="font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${u.name}</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">${u.isAdmin ? 'Administrador' : 'Aluno'}</div>
+                    </button>
+                `;
             }).join('');
+        }
+
+        function selectAuthUser(userId) {
+            const hiddenInput = document.getElementById('authSelectUser');
+            if (hiddenInput) hiddenInput.value = userId;
+            renderAuthUserSelect();
+            const passInp = document.getElementById('authInputPassword');
+            if (passInp) passInp.focus();
         }
 
         function checkAuthSession() {
@@ -3892,7 +3917,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=14').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=15').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);

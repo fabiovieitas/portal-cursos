@@ -2789,7 +2789,8 @@
             const merged = JSON.parse(JSON.stringify(localState));
             let hasNewCloudData = false;
 
-            ['fabio', 'pais'].forEach(prof => {
+            const allSyncProfiles = Array.from(new Set([...Object.keys(userAccounts), ...Object.keys(localState || {}), ...Object.keys(cloudState || {})]));
+            allSyncProfiles.forEach(prof => {
                 if (!merged[prof]) merged[prof] = {};
                 const cProf = cloudState[prof] || {};
 

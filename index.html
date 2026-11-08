@@ -2669,18 +2669,8 @@
             <h3>Quem está estudando?</h3>
             <p>Selecione seu perfil para manter seu progresso e histórico separados</p>
             
-            <div class="profiles-list">
-                <button class="profile-opt-btn active" data-profile="fabio" tabindex="0">
-                    <div class="profile-opt-avatar">👨‍💻</div>
-                    <div class="profile-opt-name">Fábio</div>
-                    <span class="profile-opt-sub">Todos os Cursos</span>
-                </button>
-
-                <button class="profile-opt-btn" data-profile="pais" tabindex="0">
-                    <div class="profile-opt-avatar">🏡</div>
-                    <div class="profile-opt-name">Pais / Família</div>
-                    <span class="profile-opt-sub">Área Espanhol</span>
-                </button>
+            <div class="profiles-list" id="modalProfilesListContainer" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <!-- Perfis renderizados dinamicamente via renderModalProfiles() -->
             </div>
 
             <button class="btn-action" id="btnCloseProfileModal" tabindex="0" style="margin-top: 10px;">
@@ -2996,6 +2986,11 @@
             const inputHash = await sha256Hex(plainPass);
             const user = userAccounts[userId];
 
+            if (user && user.isBlocked) {
+                errBox.textContent = 'Este perfil está temporariamente bloqueado pelo administrador.';
+                errBox.style.display = 'block';
+                return;
+            }
             if (user && user.passHash === inputHash) {
                 if (remember) {
                     localStorage.setItem('itk_auth_session_user', userId);
@@ -3071,24 +3066,52 @@
         }
 
         // Painel Admin: Renderizar Alunos e Opções de Reset
+        function renderModalProfiles() {
+            const container = document.getElementById('modalProfilesListContainer');
+            if (!container) return;
+            container.innerHTML = Object.keys(userAccounts).map(uId => {
+                const u = userAccounts[uId];
+                if (u.isBlocked) return ''; // Não exibe usuários bloqueados
+                const isActive = (uId === activeProfile) ? 'active' : '';
+                return `
+                    <button type="button" class="profile-opt-btn ${isActive}" onclick="setProfile('${u.id}')" tabindex="0">
+                        <div class="profile-opt-avatar">${u.avatar}</div>
+                        <div class="profile-opt-name">${u.name}</div>
+                        <span class="profile-opt-sub">${u.desc || (u.isAdmin ? 'Administrador' : 'Aluno')}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
         function renderAdminUsersList() {
             const container = document.getElementById('adminUsersListContainer');
             if (!container) return;
             container.innerHTML = Object.keys(userAccounts).map(uId => {
                 const u = userAccounts[uId];
                 const isAdminTag = u.isAdmin ? '<span style="color: #a855f7; font-size: 0.75rem; font-weight: 700;">(Admin)</span>' : '';
+                const isBlockedTag = u.isBlocked ? '<span style="color: #ef4444; font-size: 0.75rem; font-weight: 700;">[BLOQUEADO]</span>' : '';
                 const allowed = u.allowedCourses || ['espanhol', 'grego', 'hebraico'];
 
                 return `
                     <div style="background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 8px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                             <div>
-                                <strong>${u.avatar} ${u.name}</strong> ${isAdminTag}
+                                <strong>${u.avatar} ${u.name}</strong> ${isAdminTag} ${isBlockedTag}
                                 <div style="font-size: 0.72rem; color: var(--text-muted);">ID: <code>${u.id}</code></div>
                             </div>
-                            <button type="button" class="btn-auth-header" onclick="resetUserPassword('${u.id}')" style="font-size: 0.75rem; padding: 4px 10px;">
-                                Resetar Senha Padrão
-                            </button>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <button type="button" class="btn-auth-header" onclick="resetUserPassword('${u.id}')" style="font-size: 0.75rem; padding: 4px 10px;">
+                                    Resetar Senha
+                                </button>
+                                ${!u.isAdmin ? `
+                                    <button type="button" class="btn-auth-header" onclick="toggleBlockUser('${u.id}')" style="font-size: 0.75rem; padding: 4px 10px; color: ${u.isBlocked ? '#6ee7b7' : '#fde68a'};">
+                                        ${u.isBlocked ? '🔓 Desbloquear' : '🔒 Bloquear'}
+                                    </button>
+                                    <button type="button" class="btn-auth-header" onclick="deleteUserAccount('${u.id}')" style="font-size: 0.75rem; padding: 4px 10px; color: #fca5a5;">
+                                        🗑️ Excluir
+                                    </button>
+                                ` : ''}
+                            </div>
                         </div>
                         <div style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; font-size: 0.78rem;">
                             <span style="color: #a5b4fc; font-weight: 600; margin-right: 8px;">Cursos Permitidos:</span>
@@ -3099,6 +3122,32 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        function toggleBlockUser(userId) {
+            const u = userAccounts[userId];
+            if (!u || u.isAdmin) return;
+            u.isBlocked = !u.isBlocked;
+            userAccounts[userId] = u;
+            saveStoredAccounts(userAccounts);
+            renderAdminUsersList();
+            renderAuthUserSelect();
+            renderModalProfiles();
+            alert(`Status do aluno ${u.name}: ${u.isBlocked ? 'BLOQUEADO' : 'LIBERADO'}`);
+        }
+
+        function deleteUserAccount(userId) {
+            const u = userAccounts[userId];
+            if (!u || u.isAdmin) return;
+            if (confirm(`Tem certeza que deseja excluir permanentemente o aluno ${u.name}?`)) {
+                delete userAccounts[userId];
+                delete PROFILES[userId];
+                saveStoredAccounts(userAccounts);
+                renderAdminUsersList();
+                renderAuthUserSelect();
+                renderModalProfiles();
+                alert(`Aluno ${u.name} excluído com sucesso!`);
+            }
         }
 
         function toggleUserCourseAccess(userId, courseKey, isGranted) {
@@ -4536,6 +4585,7 @@
 
         // Perfil Modal
         document.getElementById('profileBadgeBtn').addEventListener('click', () => {
+            renderModalProfiles();
             document.getElementById('profileModal').style.display = 'flex';
         });
         document.getElementById('btnCloseProfileModal').addEventListener('click', () => {
@@ -4549,6 +4599,22 @@
 
         
         // Event Listeners de Autenticação e Gestão
+        
+        // Listeners: Pomodoro, Flashcards e Anotações
+        const pomBtn = document.getElementById('btnPomodoroToggle');
+        if (pomBtn) pomBtn.addEventListener('click', togglePomodoro);
+
+        const fcBtn = document.getElementById('btnOpenFlashcardsModal');
+        if (fcBtn) fcBtn.addEventListener('click', openFlashcardsModal);
+
+        const closeFcBtn = document.getElementById('btnCloseFlashcardsModal');
+        if (closeFcBtn) closeFcBtn.addEventListener('click', () => {
+            document.getElementById('flashcardsModal').style.display = 'none';
+        });
+
+        const notesInp = document.getElementById('lessonNotesInput');
+        if (notesInp) notesInp.addEventListener('input', handleNotesInput);
+
         document.getElementById('btnAuthLogin').addEventListener('click', doLogin);
         document.getElementById('authInputPassword').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') doLogin();
@@ -4591,7 +4657,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=17').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=18').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);

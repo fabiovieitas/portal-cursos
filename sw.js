@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portal-cursos-v18-fixes';
+const CACHE_NAME = 'portal-cursos-v19-theme';
 
 self.addEventListener('install', (e) => {
     self.skipWaiting();

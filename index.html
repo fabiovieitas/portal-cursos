@@ -2274,24 +2274,7 @@
         
         <!-- SEÇÃO DE GAMIFICAÇÃO E RANKING ENTRE ALUNOS -->
         
-        <!-- QUIZ DIÁRIO CONTEXTUAL (ADAPTADO AO NÍVEL E AULA DO ALUNO) -->
-        <section class="quiz-daily-box" id="quizDailySection">
-            <div class="quiz-header">
-                <div class="quiz-title">
-                    <span>⚔️</span> Duelo Diário de Fixação: <span id="quizTopicBadge" style="color: #cbd5e1; font-size: 0.92rem; font-weight: normal; margin-left: 6px;">Nível Atual</span>
-                </div>
-                <div style="font-size: 0.85rem; color: #fbbf24; font-weight: 700;">
-                    🔥 Streak: <span id="userDailyStreak">1</span> dia(s) consecutivos (+50 XP)
-                </div>
-            </div>
-            <div id="quizQuestionText" style="font-size: 1.05rem; font-weight: 600; color: #f8fafc;">
-                Carregando pergunta contextual do seu estudo...
-            </div>
-            <div class="quiz-options-grid" id="quizOptionsContainer">
-                <!-- Opções dinâmicas -->
-            </div>
-            <div id="quizFeedbackMsg" style="margin-top: 10px; font-size: 0.88rem; font-weight: 700; display: none;"></div>
-        </section>
+        
 
         <section class="ranking-section" id="rankingSection">
             <div class="ranking-header">
@@ -2840,8 +2823,16 @@
                         <input type="text" id="adminNewUserPass" value="itk123" style="width: 100%; background: rgba(30,41,59,0.8); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 6px; color: #fff;">
                     </div>
                 </div>
+                <div style="margin-top: 12px; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <label style="font-size: 0.75rem; color: #a5b4fc; display: block; margin-bottom: 6px; font-weight: 700;">Cursos Liberados para este Aluno:</label>
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.84rem;">
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;"><input type="checkbox" id="chkNewCourseEspanhol" checked> 🇪🇸 Espanhol</label>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;"><input type="checkbox" id="chkNewCourseGrego" checked> 🇬🇷 Grego Bíblico</label>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 5px;"><input type="checkbox" id="chkNewCourseHebraico" checked> 🏛️ Hebraico Bíblico</label>
+                    </div>
+                </div>
                 <button type="button" class="btn-action" id="btnAdminAddUser" style="width: 100%; margin-top: 12px; background: var(--accent-indigo); color: #fff;" tabindex="0">
-                    Cadastrar Aluno
+                    Cadastrar Aluno com Permissões
                 </button>
             </div>
 
@@ -2892,21 +2883,30 @@
         // fabio: 'admin123' (hash: 240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9)
         // pais:  'itk123'   (hash: 61736a48bc96be5c46b78b9de8ae44fbed110a598322d98c4d6b04aec3dd9b2b)
         const DEFAULT_ACCOUNTS = {
-            'fabio': { id: 'fabio', name: 'Fábio (Admin)', avatar: '👨‍💻', desc: 'Administrador / Todos os Cursos', passHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', isAdmin: true },
-            'pais':  { id: 'pais', name: 'Pais / Família', avatar: '🏡', desc: 'Área Espanhol e Devocional', passHash: '61736a48bc96be5c46b78b9de8ae44fbed110a598322d98c4d6b04aec3dd9b2b', isAdmin: false }
+            'fabio': { id: 'fabio', name: 'Fábio (Admin)', avatar: '👨‍💻', desc: 'Administrador / Todos os Cursos', passHash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', isAdmin: true, allowedCourses: ['espanhol', 'grego', 'hebraico'] },
+            'pais':  { id: 'pais', name: 'Pais / Família', avatar: '🏡', desc: 'Área Espanhol e Devocional', passHash: '61736a48bc96be5c46b78b9de8ae44fbed110a598322d98c4d6b04aec3dd9b2b', isAdmin: false, allowedCourses: ['espanhol'] }
         };
 
         function getStoredAccounts() {
+            let res = { ...DEFAULT_ACCOUNTS };
             try {
                 const stored = localStorage.getItem('itk_user_accounts_v1');
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (parsed && typeof parsed === 'object') return { ...DEFAULT_ACCOUNTS, ...parsed };
+                    if (parsed && typeof parsed === 'object') {
+                        res = { ...DEFAULT_ACCOUNTS, ...parsed };
+                    }
                 }
             } catch(e) {
                 console.warn('Erro ao ler contas locais:', e);
             }
-            return { ...DEFAULT_ACCOUNTS };
+            // Garantir campo allowedCourses
+            Object.keys(res).forEach(k => {
+                if (!res[k].allowedCourses || !Array.isArray(res[k].allowedCourses)) {
+                    res[k].allowedCourses = res[k].isAdmin ? ['espanhol', 'grego', 'hebraico'] : ['espanhol'];
+                }
+            });
+            return res;
         }
 
         function saveStoredAccounts(accounts) {
@@ -3077,18 +3077,44 @@
             container.innerHTML = Object.keys(userAccounts).map(uId => {
                 const u = userAccounts[uId];
                 const isAdminTag = u.isAdmin ? '<span style="color: #a855f7; font-size: 0.75rem; font-weight: 700;">(Admin)</span>' : '';
+                const allowed = u.allowedCourses || ['espanhol', 'grego', 'hebraico'];
+
                 return `
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                        <div>
-                            <strong>${u.avatar} ${u.name}</strong> ${isAdminTag}
-                            <div style="font-size: 0.72rem; color: var(--text-muted);">ID: <code>${u.id}</code></div>
+                    <div style="background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>${u.avatar} ${u.name}</strong> ${isAdminTag}
+                                <div style="font-size: 0.72rem; color: var(--text-muted);">ID: <code>${u.id}</code></div>
+                            </div>
+                            <button type="button" class="btn-auth-header" onclick="resetUserPassword('${u.id}')" style="font-size: 0.75rem; padding: 4px 10px;">
+                                Resetar Senha Padrão
+                            </button>
                         </div>
-                        <button type="button" class="btn-auth-header" onclick="resetUserPassword('${u.id}')" style="font-size: 0.75rem; padding: 4px 10px;">
-                            Resetar Senha Padrão
-                        </button>
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; font-size: 0.78rem;">
+                            <span style="color: #a5b4fc; font-weight: 600; margin-right: 8px;">Cursos Permitidos:</span>
+                            <label style="margin-right: 12px; cursor: pointer;"><input type="checkbox" onchange="toggleUserCourseAccess('${u.id}', 'espanhol', this.checked)" ${allowed.includes('espanhol') ? 'checked' : ''} ${u.isAdmin ? 'disabled' : ''}> 🇪🇸 Espanhol</label>
+                            <label style="margin-right: 12px; cursor: pointer;"><input type="checkbox" onchange="toggleUserCourseAccess('${u.id}', 'grego', this.checked)" ${allowed.includes('grego') ? 'checked' : ''} ${u.isAdmin ? 'disabled' : ''}> 🇬🇷 Grego</label>
+                            <label style="cursor: pointer;"><input type="checkbox" onchange="toggleUserCourseAccess('${u.id}', 'hebraico', this.checked)" ${allowed.includes('hebraico') ? 'checked' : ''} ${u.isAdmin ? 'disabled' : ''}> 🏛️ Hebraico</label>
+                        </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function toggleUserCourseAccess(userId, courseKey, isGranted) {
+            const user = userAccounts[userId];
+            if (!user) return;
+            if (!user.allowedCourses) user.allowedCourses = ['espanhol', 'grego', 'hebraico'];
+
+            if (isGranted) {
+                if (!user.allowedCourses.includes(courseKey)) user.allowedCourses.push(courseKey);
+            } else {
+                user.allowedCourses = user.allowedCourses.filter(c => c !== courseKey);
+            }
+
+            userAccounts[userId] = user;
+            saveStoredAccounts(userAccounts);
+            applyCourseVisibilityFilter();
         }
 
         async function adminAddNewUser() {
@@ -3112,6 +3138,11 @@
                 return;
             }
 
+            const allowed = [];
+            if (document.getElementById('chkNewCourseEspanhol').checked) allowed.push('espanhol');
+            if (document.getElementById('chkNewCourseGrego').checked) allowed.push('grego');
+            if (document.getElementById('chkNewCourseHebraico').checked) allowed.push('hebraico');
+
             const passHash = await sha256Hex(pass);
             userAccounts[id] = {
                 id: id,
@@ -3119,7 +3150,8 @@
                 avatar: avatar,
                 desc: 'Aluno Registrado',
                 passHash: passHash,
-                isAdmin: false
+                isAdmin: false,
+                allowedCourses: allowed
             };
 
             // Atualizar PROFILES em memória
@@ -3130,7 +3162,7 @@
 
             document.getElementById('adminNewUserId').value = '';
             document.getElementById('adminNewUserName').value = '';
-            alert(`Aluno ${name} criado com sucesso! Senha padrão inicial: ${pass}`);
+            alert(`Aluno ${name} criado com sucesso! Cursos liberados: ${allowed.join(', ')}`);
         }
 
         async function resetUserPassword(userId) {
@@ -3273,6 +3305,7 @@
                         localStorage.setItem('itk_cloud_cache_v4', JSON.stringify(globalCloudState));
                         setSyncBadge('synced');
                         updateHubProgress();
+            applyCourseVisibilityFilter();
                         if (document.getElementById('view-course').style.display === 'block') {
                             updateCourseProgress();
                             renderCourse();
@@ -3460,7 +3493,7 @@
                 localStorage.setItem(`itk_quiz_done_${activeProfile}_${todayStr}`, 'true');
 
                 renderGamificationRanking();
-            renderDailyQuiz();
+            // renderDailyQuiz();
             } else {
                 if (btn) btn.classList.add('wrong');
                 const correctBtn = document.getElementById(`quizOpt_${correctIdx}`);
@@ -4558,7 +4591,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=16').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=17').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);

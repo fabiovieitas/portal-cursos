@@ -2015,6 +2015,182 @@
             transform: scale(1.03);
         }
 
+    
+        /* MODULOS: POMODORO, QUIZ, FLASHCARDS, NOTAS E AUDIO */
+        .btn-pomodoro-timer {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .btn-pomodoro-timer.active {
+            background: rgba(239, 68, 68, 0.35);
+            border-color: #ef4444;
+            color: #fff;
+            animation: pulse-border 1.5s infinite;
+        }
+        @keyframes pulse-border {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+        }
+
+        /* Seção Quiz Diário no Hub */
+        .quiz-daily-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            border-radius: var(--radius-xl);
+            padding: 22px 26px;
+            margin-bottom: 25px;
+            box-shadow: var(--glow);
+        }
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .quiz-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quiz-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .quiz-opt-btn {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            text-align: left;
+            color: #f8fafc;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-opt-btn:hover {
+            border-color: var(--accent-indigo);
+            background: rgba(51, 65, 85, 0.9);
+            transform: translateY(-2px);
+        }
+        .quiz-opt-btn.correct {
+            border-color: #10b981 !important;
+            background: rgba(16, 185, 129, 0.25) !important;
+            color: #6ee7b7 !important;
+        }
+        .quiz-opt-btn.wrong {
+            border-color: #ef4444 !important;
+            background: rgba(239, 68, 68, 0.25) !important;
+            color: #fca5a5 !important;
+        }
+
+        /* Caderno de Anotações por Aula */
+        .notes-container {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            margin-top: 20px;
+        }
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .notes-textarea {
+            width: 100%;
+            height: 90px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            color: #f8fafc;
+            font-size: 0.9rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+        .notes-textarea:focus {
+            border-color: var(--accent-indigo);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Modal Flashcards SRS */
+        .flashcard-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 2px solid var(--accent-indigo);
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: var(--glow);
+            transition: transform 0.2s ease;
+        }
+        .flashcard-box:hover {
+            transform: scale(1.02);
+        }
+        .flashcard-word {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #a5b4fc;
+        }
+        .flashcard-meaning {
+            font-size: 1.25rem;
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        /* Player Flutuante de Audio & Velocidade */
+        .audio-suite-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 14px 18px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .audio-speed-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .audio-speed-btn.active {
+            background: var(--accent-indigo);
+            border-color: #a5b4fc;
+        }
+
     </style>
 </head>
 <body>
@@ -2048,6 +2224,17 @@
 
             
             <!-- Trocar Senha Aluno -->
+            
+            <!-- Modo Pomodoro 25min -->
+            <button type="button" class="btn-pomodoro-timer" id="btnPomodoroToggle" tabindex="0" title="Iniciar ciclo de foco Pomodoro 25 minutos">
+                <span>⏱️</span> <span id="pomodoroTimerDisplay">Pomodoro 25m</span>
+            </button>
+
+            <!-- Praticar Flashcards SRS -->
+            <button type="button" class="btn-auth-header" id="btnOpenFlashcardsModal" tabindex="0" title="Praticar vocabulário com Flashcards">
+                <span>🗂️</span> Flashcards
+            </button>
+
             <button type="button" class="btn-auth-header" id="btnOpenChangePassModal" tabindex="0" title="Mudar minha senha de acesso">
                 <span>🔑</span> Mudar Senha
             </button>
@@ -2086,6 +2273,26 @@
         <!-- As 3 Colunas dos Cursos -->
         
         <!-- SEÇÃO DE GAMIFICAÇÃO E RANKING ENTRE ALUNOS -->
+        
+        <!-- QUIZ DIÁRIO CONTEXTUAL (ADAPTADO AO NÍVEL E AULA DO ALUNO) -->
+        <section class="quiz-daily-box" id="quizDailySection">
+            <div class="quiz-header">
+                <div class="quiz-title">
+                    <span>⚔️</span> Duelo Diário de Fixação: <span id="quizTopicBadge" style="color: #cbd5e1; font-size: 0.92rem; font-weight: normal; margin-left: 6px;">Nível Atual</span>
+                </div>
+                <div style="font-size: 0.85rem; color: #fbbf24; font-weight: 700;">
+                    🔥 Streak: <span id="userDailyStreak">1</span> dia(s) consecutivos (+50 XP)
+                </div>
+            </div>
+            <div id="quizQuestionText" style="font-size: 1.05rem; font-weight: 600; color: #f8fafc;">
+                Carregando pergunta contextual do seu estudo...
+            </div>
+            <div class="quiz-options-grid" id="quizOptionsContainer">
+                <!-- Opções dinâmicas -->
+            </div>
+            <div id="quizFeedbackMsg" style="margin-top: 10px; font-size: 0.88rem; font-weight: 700; display: none;"></div>
+        </section>
+
         <section class="ranking-section" id="rankingSection">
             <div class="ranking-header">
                 <div class="ranking-title-group">
@@ -2339,6 +2546,36 @@
                 </div>
 
                 <!-- MATERIAIS DE APOIO DO MÓDULO (DIRETAMENTE EMBAIXO DO VÍDEO) -->
+                
+                <!-- AUDIO SUITE: CONTROLE DE VELOCIDADE & AUDIOBOOK -->
+                <div class="audio-suite-card" id="audioSuiteCard">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">🎙️</span>
+                        <div>
+                            <strong style="font-size: 0.9rem; color: #fff;">Áudio & Pronúncia da Aula</strong>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Controle de velocidade de escuta</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <button type="button" class="audio-speed-btn" onclick="setLessonAudioSpeed(0.75)">0.75x</button>
+                        <button type="button" class="audio-speed-btn active" id="spd1x" onclick="setLessonAudioSpeed(1.0)">1.0x</button>
+                        <button type="button" class="audio-speed-btn" onclick="setLessonAudioSpeed(1.25)">1.25x</button>
+                        <button type="button" class="audio-speed-btn" onclick="setLessonAudioSpeed(1.5)">1.5x</button>
+                        <button type="button" class="audio-speed-btn" onclick="setLessonAudioSpeed(2.0)">2.0x</button>
+                    </div>
+                </div>
+
+                <!-- CADERNO DE NOTAS PESSOAIS SINCRONIZADO NA NUVEM -->
+                <div class="notes-container" id="lessonNotesContainer">
+                    <div class="notes-header">
+                        <strong style="font-size: 0.95rem; color: #a5b4fc; display: flex; align-items: center; gap: 6px;">
+                            <span>📝</span> Meu Caderno de Anotações desta Aula
+                        </strong>
+                        <span id="notesSaveStatus" style="font-size: 0.75rem; color: var(--text-muted);">Salvo na nuvem</span>
+                    </div>
+                    <textarea class="notes-textarea" id="lessonNotesInput" placeholder="Escreva aqui suas observações gramaticais, regras importantes ou dúvidas para consultar depois..."></textarea>
+                </div>
+
                 <div class="curriculum-container materials-box-bottom" id="currentMaterialsBox" style="display: none;">
                     <div class="curriculum-header">
                         <h3>📑 Materiais de Apoio & Apostilas do Módulo</h3>
@@ -2541,6 +2778,39 @@
     </div>
 
     <!-- MODAL DO ADMINISTRADOR (CADASTRO E RESET DE ALUNOS) -->
+    
+    <!-- MODAL FLASHCARDS SRS DE MEMORIZAÇÃO -->
+    <div class="modal-overlay" id="flashcardsModal" style="display: none;">
+        <div class="modal-card" style="max-width: 520px; text-align: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 1.25rem;">🗂️ Flashcards: <span id="fcLangTitle">Vocabulário</span></h3>
+                <span id="fcCounterBadge" style="font-size: 0.8rem; background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 999px;">1 / 10</span>
+            </div>
+
+            <div class="flashcard-box" id="flashcardBox" onclick="flipCurrentFlashcard()" tabindex="0">
+                <div class="flashcard-word" id="fcFrontWord">בְּרֵאשִׁית</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;" id="fcHintText">Toque para ver a tradução & pronúncia</div>
+                <div class="flashcard-meaning" id="fcBackMeaning" style="display: none;">No princípio (Bereshit)</div>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center;" id="fcActionButtons">
+                <button type="button" class="btn-action" onclick="answerFlashcard('hard')" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5;">
+                    ❌ Difícil
+                </button>
+                <button type="button" class="btn-action" onclick="answerFlashcard('medium')" style="background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; color: #fde68a;">
+                    ⚡ Médio (+10 XP)
+                </button>
+                <button type="button" class="btn-action" onclick="answerFlashcard('easy')" style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #6ee7b7;">
+                    ✔ Fácil (+20 XP)
+                </button>
+            </div>
+
+            <button type="button" class="btn-action" id="btnCloseFlashcardsModal" style="margin-top: 18px; width: 100%;" tabindex="0">
+                Fechar Flashcards
+            </button>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="adminUsersModal" style="display: none;">
         <div class="modal-card" style="max-width: 580px; text-align: left;">
             <h3 style="text-align: center;">⚙️ Painel do Administrador (Fábio)</h3>
@@ -2575,9 +2845,28 @@
                 </button>
             </div>
 
-            <h4 style="margin-bottom: 10px; font-size: 0.95rem; color: #cbd5e1;">👥 Alunos Cadastrados & Ações de Reset</h4>
+            
+            <div style="display: flex; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px;">
+                <button type="button" class="btn-auth-header" id="btnTabAdminUsers" onclick="switchAdminTab('users')" style="background: var(--accent-indigo);">👥 Gerenciar Alunos</button>
+                <button type="button" class="btn-auth-header" id="btnTabAdminReport" onclick="switchAdminTab('report')">📊 Relatório de Desempenho Semanal</button>
+            </div>
+
+            <!-- ABA 1: USUÁRIOS E RESET -->
+            <div id="adminTabUsersContent">
+                <h4 style="margin-bottom: 10px; font-size: 0.95rem; color: #cbd5e1;">Alunos Cadastrados & Ações de Reset</h4>
+
             <div id="adminUsersListContainer" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px;">
                 <!-- Lista gerada via JS -->
+            </div>
+
+                        </div><!-- Fim adminTabUsersContent -->
+
+            <!-- ABA 2: RELATÓRIO DO PROFESSOR FÁBIO -->
+            <div id="adminTabReportContent" style="display: none; margin-bottom: 20px;">
+                <h4 style="margin-bottom: 8px; font-size: 0.95rem; color: #cbd5e1;">Auditoria de Engajamento & Horas Estudadas</h4>
+                <div id="adminStudentsReportContainer" style="max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Preenchido via JS dinamicamente -->
+                </div>
             </div>
 
             <button type="button" class="btn-action" id="btnCloseAdminModal" style="width: 100%;" tabindex="0">
@@ -3077,6 +3366,356 @@
         // ==========================================
         // SISTEMA DE GAMIFICAÇÃO & RANKING COMPETITIVO
         // ==========================================
+        
+        // =========================================================================
+        // 1. SISTEMA DE QUIZ DIÁRIO CONTEXTUAL (ADAPTADO AO NÍVEL E AULA DO ALUNO)
+        // =========================================================================
+        const QUIZ_BANK = {
+            'grego': [
+                { q: 'No grego koinê, a letra Alfa maiúscula e minúscula é grafada como:', options: ['Α / α', 'Β / β', 'Γ / γ', 'Δ / δ'], answer: 0, topic: 'Alfabeto Grego' },
+                { q: 'Qual das alternativas apresenta um ditongo próprio no grego?', options: ['αι', 'ωι', 'ηι', 'ᾳ'], answer: 0, topic: 'Fonética e Ditongos' },
+                { q: 'O caso gramatical grego que indica o Sujeito da oração é o:', options: ['Nominativo', 'Genitivo', 'Acusativo', 'Dativo'], answer: 0, topic: 'Casos Gregos' },
+                { q: 'O artigo definido masculino singular no caso nominativo é:', options: ['ὁ', 'ἡ', 'τό', 'τοῦ'], answer: 0, topic: 'Artigos Gregos' }
+            ],
+            'hebraico': [
+                { q: 'Qual o significado bíblico do termo hebraico בְּרֵאשִׁית (Bereshit)?', options: ['No princípio', 'Deus criou', 'Os céus', 'A terra'], answer: 0, topic: 'Gênesis 1:1' },
+                { q: 'O hebraico é lido e escrito em qual direção?', options: ['Da direita para a esquerda', 'Da esquerda para a direita', 'De cima para baixo', 'Circular'], answer: 0, topic: 'Escrita Hebraica' },
+                { q: 'O termo hebraico שָׁלוֹם (Shalom) significa primariamente:', options: ['Paz, plenitude e integridade', 'Guerra santa', 'Templo sagrado', 'Lei divina'], answer: 0, topic: 'Vocabulário Essencial' },
+                { q: 'Os sinais massoréticos no hebraico servem para indicar:', options: ['As vogais e entonação', 'Números', 'Pontuação apenas', 'Gênero feminino'], answer: 0, topic: 'Gramática Massorética' }
+            ],
+            'espanhol': [
+                { q: 'Em espanhol, a frase "Muito prazer em conhecê-lo" traduz-se comumente como:', options: ['Mucho gusto en conocerte', 'Muito prazer com você', 'Gusto mucho de tú', 'Encantado de te ver'], answer: 0, topic: 'Conversação Básica' },
+                { q: 'Qual é a conjugação correta do verbo "HABLAR" no presente para "YO"?', options: ['Hablo', 'Hablas', 'Habla', 'Hablamos'], answer: 0, topic: 'Conjugação Presente' },
+                { q: 'A pronúncia da letra "J" (jota) em espanhol assemelha-se ao som de:', options: ['"RR" forte da garganta', '"J" do português', '"Z" suave', '"CH" mudo'], answer: 0, topic: 'Pronúncia Nativa' }
+            ]
+        };
+
+        function renderDailyQuiz() {
+            const container = document.getElementById('quizOptionsContainer');
+            const qText = document.getElementById('quizQuestionText');
+            const topicBadge = document.getElementById('quizTopicBadge');
+            const streakDisplay = document.getElementById('userDailyStreak');
+            if (!container || !qText) return;
+
+            // Identificar curso ativo ou o último estudado
+            const prof = globalCloudState[activeProfile] || {};
+            let cKey = currentCourseKey || 'hebraico';
+            if (prof[cKey] && prof[cKey].last_lesson) {
+                // mantém cKey
+            }
+
+            const bank = QUIZ_BANK[cKey] || QUIZ_BANK['hebraico'];
+            const todayIndex = new Date().getDate() % bank.length;
+            const currentQ = bank[todayIndex];
+
+            topicBadge.textContent = `${cKey.toUpperCase()} • ${currentQ.topic}`;
+            qText.textContent = currentQ.q;
+
+            // Calcular streak local
+            const lastStreakDate = localStorage.getItem(`itk_streak_date_${activeProfile}`);
+            const todayStr = new Date().toDateString();
+            let streakCount = parseInt(localStorage.getItem(`itk_streak_count_${activeProfile}`)) || 1;
+            if (streakDisplay) streakDisplay.textContent = streakCount;
+
+            const alreadyAnswered = localStorage.getItem(`itk_quiz_done_${activeProfile}_${todayStr}`);
+
+            container.innerHTML = currentQ.options.map((opt, idx) => {
+                return `
+                    <button type="button" class="quiz-opt-btn" id="quizOpt_${idx}" onclick="answerDailyQuiz(${idx}, ${currentQ.answer})" ${alreadyAnswered ? 'disabled' : ''}>
+                        ${String.fromCharCode(65 + idx)}) ${opt}
+                    </button>
+                `;
+            }).join('');
+
+            const fb = document.getElementById('quizFeedbackMsg');
+            if (alreadyAnswered) {
+                fb.style.display = 'block';
+                fb.style.color = '#10b981';
+                fb.textContent = '✔ Desafio diário de hoje já foi respondido! Volte amanhã para manter seu Streak.';
+            } else {
+                fb.style.display = 'none';
+            }
+        }
+
+        function answerDailyQuiz(selectedIdx, correctIdx) {
+            const todayStr = new Date().toDateString();
+            const fb = document.getElementById('quizFeedbackMsg');
+            const btn = document.getElementById(`quizOpt_${selectedIdx}`);
+
+            if (selectedIdx === correctIdx) {
+                if (btn) btn.classList.add('correct');
+                fb.style.display = 'block';
+                fb.style.color = '#10b981';
+                fb.textContent = '🎉 Resposta Exata! Você conquistou +50 XP e manteve seu Streak!';
+                
+                // Conceder XP
+                let bonus = parseInt(localStorage.getItem(`itk_xp_bonus_${activeProfile}`)) || 0;
+                localStorage.setItem(`itk_xp_bonus_${activeProfile}`, bonus + 50);
+
+                // Atualizar streak
+                let streakCount = parseInt(localStorage.getItem(`itk_streak_count_${activeProfile}`)) || 1;
+                streakCount++;
+                localStorage.setItem(`itk_streak_count_${activeProfile}`, streakCount);
+                localStorage.setItem(`itk_streak_date_${activeProfile}`, todayStr);
+                localStorage.setItem(`itk_quiz_done_${activeProfile}_${todayStr}`, 'true');
+
+                renderGamificationRanking();
+            renderDailyQuiz();
+            } else {
+                if (btn) btn.classList.add('wrong');
+                const correctBtn = document.getElementById(`quizOpt_${correctIdx}`);
+                if (correctBtn) correctBtn.classList.add('correct');
+                fb.style.display = 'block';
+                fb.style.color = '#ef4444';
+                fb.textContent = 'Quase! A resposta correta foi destacada em verde. Revise essa lição para fixar o conceito!';
+                localStorage.setItem(`itk_quiz_done_${activeProfile}_${todayStr}`, 'true');
+            }
+
+            // Desabilitar opções
+            document.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
+        }
+
+        // =========================================================================
+        // 2. SISTEMA DE FLASHCARDS COM REPETIÇÃO ESPAÇADA (SRS)
+        // =========================================================================
+        const FLASHCARD_DECKS = {
+            'grego': [
+                { front: 'λόγος (lógos)', back: 'Palavra, Verbo, Razão' },
+                { front: 'θεός (theós)', back: 'Deus, Divindade' },
+                { front: 'ἀγάπη (agápē)', back: 'Amor incondicional / sacrificial' },
+                { front: 'ζωή (zōḗ)', back: 'Vida espiritual / plena' },
+                { front: 'φῶς (phōs)', back: 'Luz' }
+            ],
+            'hebraico': [
+                { front: 'בְּרֵאשִׁית (Bereshit)', back: 'No princípio' },
+                { front: 'אֱלֹהִים (Elohim)', back: 'Deus (Criador Supremo)' },
+                { front: 'שָׁלוֹם (Shalom)', back: 'Paz, Harmonia, Plenitude' },
+                { front: 'תּוֹרָה (Torah)', back: 'Instrução, Lei, Ensino' },
+                { front: 'חֶסֶד (Hesed)', back: 'Misericórdia, Amor Leal' }
+            ],
+            'espanhol': [
+                { front: 'Hola, ¿cómo estás?', back: 'Olá, como você está?' },
+                { front: 'Mucho gusto', back: 'Muito prazer' },
+                { front: 'Por supuesto', back: 'Com certeza / Claro' },
+                { front: 'De nada', back: 'Por nada / De nada' }
+            ]
+        };
+
+        let currentFcDeck = [];
+        let currentFcIndex = 0;
+        let isFcCardFlipped = false;
+
+        function openFlashcardsModal() {
+            const cKey = currentCourseKey || 'hebraico';
+            currentFcDeck = FLASHCARD_DECKS[cKey] || FLASHCARD_DECKS['hebraico'];
+            currentFcIndex = 0;
+            isFcCardFlipped = false;
+            document.getElementById('fcLangTitle').textContent = cKey.toUpperCase();
+            renderCurrentFlashcard();
+            document.getElementById('flashcardsModal').style.display = 'flex';
+        }
+
+        function renderCurrentFlashcard() {
+            if (currentFcIndex >= currentFcDeck.length) {
+                document.getElementById('fcFrontWord').textContent = '🎉 Parabéns!';
+                document.getElementById('fcHintText').textContent = 'Você revisou todos os flashcards desta rodada!';
+                document.getElementById('fcBackMeaning').style.display = 'none';
+                document.getElementById('fcActionButtons').style.display = 'none';
+                document.getElementById('fcCounterBadge').textContent = 'Concluído';
+                return;
+            }
+
+            document.getElementById('fcActionButtons').style.display = 'flex';
+            const card = currentFcDeck[currentFcIndex];
+            document.getElementById('fcFrontWord').textContent = card.front;
+            document.getElementById('fcBackMeaning').textContent = card.back;
+            document.getElementById('fcBackMeaning').style.display = 'none';
+            document.getElementById('fcHintText').textContent = 'Toque no card para ver o significado';
+            document.getElementById('fcCounterBadge').textContent = `${currentFcIndex + 1} / ${currentFcDeck.length}`;
+            isFcCardFlipped = false;
+        }
+
+        function flipCurrentFlashcard() {
+            isFcCardFlipped = !isFcCardFlipped;
+            const meaning = document.getElementById('fcBackMeaning');
+            const hint = document.getElementById('fcHintText');
+            if (isFcCardFlipped) {
+                meaning.style.display = 'block';
+                hint.textContent = 'Como foi sua memorização? Escolha uma opção abaixo:';
+            } else {
+                meaning.style.display = 'none';
+                hint.textContent = 'Toque no card para ver o significado';
+            }
+        }
+
+        function answerFlashcard(difficulty) {
+            let xpGained = (difficulty === 'easy') ? 20 : (difficulty === 'medium' ? 10 : 0);
+            if (xpGained > 0) {
+                let bonus = parseInt(localStorage.getItem(`itk_xp_bonus_${activeProfile}`)) || 0;
+                localStorage.setItem(`itk_xp_bonus_${activeProfile}`, bonus + xpGained);
+                renderGamificationRanking();
+            }
+            currentFcIndex++;
+            renderCurrentFlashcard();
+        }
+
+        // =========================================================================
+        // 3. MODO POMODORO DE ESTUDO (25 MINUTOS DE FOCO + 75 XP)
+        // =========================================================================
+        let pomodoroTimerId = null;
+        let pomodoroSecondsLeft = 25 * 60;
+        let isPomodoroRunning = false;
+
+        function togglePomodoro() {
+            const btn = document.getElementById('btnPomodoroToggle');
+            const disp = document.getElementById('pomodoroTimerDisplay');
+
+            if (!isPomodoroRunning) {
+                isPomodoroRunning = true;
+                if (btn) btn.classList.add('active');
+                pomodoroTimerId = setInterval(() => {
+                    pomodoroSecondsLeft--;
+                    const m = Math.floor(pomodoroSecondsLeft / 60);
+                    const s = pomodoroSecondsLeft % 60;
+                    disp.textContent = `Foco: ${m}:${s < 10 ? '0' : ''}${s}`;
+
+                    if (pomodoroSecondsLeft <= 0) {
+                        clearInterval(pomodoroTimerId);
+                        isPomodoroRunning = false;
+                        pomodoroSecondsLeft = 25 * 60;
+                        btn.classList.remove('active');
+                        disp.textContent = 'Pomodoro 25m';
+                        alert('🔔 Ciclo Pomodoro concluído! Excelente foco nos estudos! Você ganhou +75 XP.');
+                        let bonus = parseInt(localStorage.getItem(`itk_xp_bonus_${activeProfile}`)) || 0;
+                        localStorage.setItem(`itk_xp_bonus_${activeProfile}`, bonus + 75);
+                        renderGamificationRanking();
+                    }
+                }, 1000);
+            } else {
+                clearInterval(pomodoroTimerId);
+                isPomodoroRunning = false;
+                pomodoroSecondsLeft = 25 * 60;
+                if (btn) btn.classList.remove('active');
+                disp.textContent = 'Pomodoro 25m';
+            }
+        }
+
+        // =========================================================================
+        // 4. CADERNO DE ANOTAÇÕES POR AULA (SALVO EM NUVEM NO GIST)
+        // =========================================================================
+        let notesSaveTimeout = null;
+
+        function loadLessonNotes() {
+            const input = document.getElementById('lessonNotesInput');
+            const status = document.getElementById('notesSaveStatus');
+            if (!input || !currentLesson) return;
+
+            const prof = globalCloudState[activeProfile] || {};
+            const cData = prof[currentCourseKey] || {};
+            const notes = cData.notes || {};
+            input.value = notes[currentLesson.key] || '';
+            if (status) status.textContent = 'Sincronizado';
+        }
+
+        function handleNotesInput() {
+            const input = document.getElementById('lessonNotesInput');
+            const status = document.getElementById('notesSaveStatus');
+            if (!input || !currentLesson) return;
+
+            if (status) status.textContent = 'Salvando...';
+            clearTimeout(notesSaveTimeout);
+
+            notesSaveTimeout = setTimeout(() => {
+                if (!globalCloudState[activeProfile]) globalCloudState[activeProfile] = {};
+                if (!globalCloudState[activeProfile][currentCourseKey]) globalCloudState[activeProfile][currentCourseKey] = {};
+                if (!globalCloudState[activeProfile][currentCourseKey].notes) globalCloudState[activeProfile][currentCourseKey].notes = {};
+
+                globalCloudState[activeProfile][currentCourseKey].notes[currentLesson.key] = input.value;
+                localStorage.setItem('itk_cloud_cache_v4', JSON.stringify(globalCloudState));
+                pushCloudState(false);
+                if (status) status.textContent = 'Salvo na nuvem ✔';
+            }, 1200);
+        }
+
+        // =========================================================================
+        // 5. CONTROLE DE VELOCIDADE DO ÁUDIO DA AULA
+        // =========================================================================
+        function setLessonAudioSpeed(spd) {
+            document.querySelectorAll('.audio-speed-btn').forEach(b => b.classList.remove('active'));
+            const clicked = event.target;
+            if (clicked) clicked.classList.add('active');
+
+            // Se houver iframe ou audio tag no documento, tenta ajustar o playbackRate
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(f => {
+                try {
+                    if (f.contentWindow && f.contentWindow.document) {
+                        const vid = f.contentWindow.document.querySelector('video, audio');
+                        if (vid) vid.playbackRate = spd;
+                    }
+                } catch(e) {}
+            });
+        }
+
+        // =========================================================================
+        // 6. RELATÓRIO DO PROFESSOR FÁBIO (AUDITORIA DE ALUNOS)
+        // =========================================================================
+        function switchAdminTab(tab) {
+            const uTab = document.getElementById('adminTabUsersContent');
+            const rTab = document.getElementById('adminTabReportContent');
+            const btnU = document.getElementById('btnTabAdminUsers');
+            const btnR = document.getElementById('btnTabAdminReport');
+
+            if (tab === 'users') {
+                uTab.style.display = 'block';
+                rTab.style.display = 'none';
+                btnU.style.background = 'var(--accent-indigo)';
+                btnR.style.background = 'rgba(255,255,255,0.06)';
+            } else {
+                uTab.style.display = 'none';
+                rTab.style.display = 'block';
+                btnR.style.background = 'var(--accent-indigo)';
+                btnU.style.background = 'rgba(255,255,255,0.06)';
+                renderAdminStudentsReport();
+            }
+        }
+
+        function renderAdminStudentsReport() {
+            const container = document.getElementById('adminStudentsReportContainer');
+            if (!container) return;
+
+            container.innerHTML = Object.keys(userAccounts).map(uId => {
+                const u = userAccounts[uId];
+                const stats = calculateUserXP(uId);
+                const prof = globalCloudState[uId] || {};
+                
+                let lastActivityText = 'Nenhuma aula iniciada ainda';
+                ['hebraico', 'grego', 'espanhol'].forEach(ck => {
+                    const l = prof[ck] && prof[ck].last_lesson;
+                    if (l) {
+                        lastActivityText = `${ck.toUpperCase()}: ${l.name} (${l.time_str || 'em andamento'})`;
+                    }
+                });
+
+                const hours = (stats.totalSeconds / 3600).toFixed(1);
+
+                return `
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <strong>${u.avatar} ${u.name}</strong>
+                            <span style="font-size: 0.8rem; color: #fbbf24; font-weight: 700;">⚡ ${stats.xp} XP • ${stats.totalLessons} Aulas</span>
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px;">
+                            ⏱️ Tempo total dedicado: <strong style="color: #fff;">${hours} horas</strong>
+                        </div>
+                        <div style="font-size: 0.75rem; color: #a5b4fc;">
+                            📍 Último acesso: ${lastActivityText}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function calculateUserXP(profileId) {
             const prof = globalCloudState[profileId] || {};
             let totalLessons = 0;
@@ -3091,8 +3730,9 @@
                 });
             });
 
-            // Regra de XP: 100 XP por aula concluída + 1 XP por cada minuto estudado
-            const xp = (totalLessons * 100) + Math.floor(totalSeconds / 60);
+            // Regra de XP: 100 XP por aula concluída + 1 XP por minuto + Bônus Quiz/Flashcards/Pomodoro
+            const bonusXP = parseInt(localStorage.getItem(`itk_xp_bonus_${profileId}`)) || 0;
+            const xp = (totalLessons * 100) + Math.floor(totalSeconds / 60) + bonusXP;
             return { xp, totalLessons, totalSeconds };
         }
 
@@ -3431,6 +4071,7 @@
                     // A cada 5 segundos grava localmente
                     if (currentLessonSeconds % 5 === 0) {
                         recordCurrentProgress(false);
+            loadLessonNotes();
                     }
 
                     // A cada 30 segundos sincroniza na nuvem
@@ -3917,7 +4558,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=15').then(reg => {
+                navigator.serviceWorker.register('./sw.js?v=16').then(reg => {
                     console.log('SW registrado com sucesso:', reg.scope);
                 }).catch(err => {
                     console.error('Falha ao registrar SW:', err);
